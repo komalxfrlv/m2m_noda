@@ -10,11 +10,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model City {
+  id    String @id @unique @default(uuid())
+  name  String @db.VarChar(99)
+  users User[]
+}
+
+enum UserStatus {
+  active
+  inactive
+}
+
+enum UserClient {
+  bussiness
+  person
+  local
+}
+
+enum UserRole {
+  administrator
+  developer
+  manager
+  support
+  user
+}
+
 model User {
   id            String         @id @unique @default(uuid())
+  name          String         @db.VarChar(255)
+  surname       String         @db.VarChar(255)
+  patronymic    String         @db.VarChar(255)
   email         String         @unique
   password      String
+  auto_updating Boolean        @default(true)
+  auto_paying   Boolean        @default(true)
+  hash_rst      String         @db.VarChar(255)
+  hash_vrf      String         @db.VarChar(255)
+  token         String         @db.Text
+  phone         BigInt         @db.BigInt
+  stations      Station[]
   refreshTokens RefreshToken[]
+  status        UserStatus
+  client        UserClient
+  role          UserRole
+  cityId        String
+  city          City           @relation(fields: [cityId], references: [id])
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 }
@@ -23,8 +63,83 @@ model RefreshToken {
   id          String   @id @unique @default(uuid())
   hashedToken String
   userId      String
-  User        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   revoked     Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model DeviceType {
+  id       String    @id @unique @default(uuid())
+  name     String    @db.VarChar(255)
+  stations Station[]
+  sensors  Sensor[]
+  versions Version[]
+}
+
+model Version {
+  id          String            @id @unique @default(uuid())
+  fileUrl     String            @db.Text
+  description String            @db.Text
+  version     String            @db.VarChar(255)
+  deviceId    String
+  device      DeviceType        @relation(fields: [deviceId], references: [id])
+  stations    StationSettings[]
+  sensors     SensorSettings[]
+}
+
+model Station {
+  id       String           @id @unique @default(uuid())
+  mac      String           @db.VarChar(99)
+  userId   String
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deviceId String
+  device   DeviceType       @relation(fields: [deviceId], references: [id])
+  settings StationSettings?
+  sensors  Sensor[]
+}
+
+model StationSettings {
+  id        String  @id @unique @default(uuid())
+  name      String  @db.VarChar(255)
+  stationId String  @unique
+  station   Station @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  versionId String
+  version   Version @relation(fields: [versionId], references: [id])
+}
+
+model Sensor {
+  id        String          @id @unique @default(uuid())
+  mac       String          @db.VarChar(99)
+  uptime    BigInt          @db.BigInt
+  charge    Int             @db.TinyInt
+  deviceId  String
+  device    DeviceType      @relation(fields: [deviceId], references: [id])
+  settings  SensorSettings?
+  stationId String
+  station   Station         @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  data      Data[]
+}
+
+model SensorSettings {
+  id         String   @id @unique @default(uuid())
+  name       String   @db.VarChar(255)
+  sleep      BigInt   @db.BigInt
+  pushStart  DateTime @db.DateTime()
+  pushEnd    DateTime @db.DateTime()
+  triggerMin Int      @db.Int
+  triggerMax Int      @db.Int
+  sensorId   String   @unique
+  sensor     Sensor   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  versionId  String
+  version    Version  @relation(fields: [versionId], references: [id])
+  alert      Boolean  @default(false)
+  lost       Boolean  @default(false)
+}
+
+model Data {
+  id       String @id @unique @default(uuid())
+  value    Json
+  sensorId String
+  sensor   Sensor @relation(fields: [sensorId], references: [id], onDelete: Cascade)
 }
