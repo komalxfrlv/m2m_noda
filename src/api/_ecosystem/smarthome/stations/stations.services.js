@@ -4,6 +4,8 @@ const md5 = require('md5');
 async function createStation(station, settings) {
     let mac = md5(station.mac + Date.now().toString());
     
+    station.mac = mac;
+
     let created_station = await db.station.create({
         data: station,
     });

@@ -57,6 +57,7 @@ model User {
   city          City           @relation(fields: [cityId], references: [id])
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  Metric        Metric[]
 }
 
 model RefreshToken {
@@ -142,4 +143,12 @@ model Data {
   value    Json
   sensorId String
   sensor   Sensor @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+}
+
+model Metric {
+  id       String   @id @unique @default(uuid())
+  activity String
+  datetime DateTime @default(now())
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

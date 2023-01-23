@@ -5,7 +5,7 @@ const ajv = new Ajv();
     STATION VALIDATION
 */
 
-async function stationCreating(data) {
+async function sensorCreating(data) {
     const schema = {
         type: "object",
         properties: {
@@ -24,7 +24,7 @@ async function stationCreating(data) {
     return valid;
 }
 
-exports.stationCreating = stationCreating
+exports.sensorCreating = sensorCreating
 
 /*
     SETTINGS VALIDATION

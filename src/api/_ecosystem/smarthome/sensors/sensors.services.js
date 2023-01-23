@@ -1,20 +1,25 @@
 const { db } = require('../../../../utils/db');
+const md5 = require('md5');
 
-async function create(sensor, settings) {
+async function createSensor(sensor, settings) {
+    let mac = md5(station.mac + Date.now().toString());
+
+    sensor.mac = mac;
+
     let created_sensor = await db.sensor.create({
         data: sensor,
     });
 
-    settings.sensor = created_sensor;
+    settings.sensorId = created_sensor.id;
 
     let created_settings = await db.sensorSettings.create({
         data: settings,
     });
 
-    return {created_sensor, created_settings};
+    return {created_sensor, created_settings, mac};
 }
 
-async function findById(id) {
+async function findSensorById(id) {
     return await db.sensor.findUnique({
         where: { 
             id,
@@ -22,7 +27,7 @@ async function findById(id) {
     });
 }
 
-async function updateById(id, sensor) {
+async function updateSensorById(id, sensor) {
     return await db.sensor.update({
         where: {
             id,
@@ -31,7 +36,7 @@ async function updateById(id, sensor) {
     });
 }
 
-async function deleteById(id) {
+async function deleteSensorById(id) {
     return await db.sensor.delete({
         where: {
             id,
@@ -40,8 +45,8 @@ async function deleteById(id) {
 }
 
 module.exports = {
-    create,
-    findById,
-    updateById,
-    deleteById,
+    createSensor,
+    findSensorById,
+    updateSensorById,
+    deleteSensorById,
 }
