@@ -1,10 +1,12 @@
-const { db } = require('../../../../utils/db');
+const { db } = require('../../../utils/db');
 const md5 = require('md5');
 
-async function createStation(station, settings) {
+async function createStation(station, settings, user) {
     let mac = md5(station.mac + Date.now().toString());
     
     station.mac = mac;
+
+    station.userId = user.id
 
     let created_station = await db.station.create({
         data: station,

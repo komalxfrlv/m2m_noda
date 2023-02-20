@@ -1,12 +1,16 @@
 const stationValidator = require('./stations.validators');
+const currentUser = require('../../../utils/getUser');
 const {
     createStation,
 } = require('./stations.services');
 
-async function create(req, res, next) {
+async function createNewStation(req, res, next) {
     try {
+        
         let newStation = req.body.station;
         let newSettings = req.body.settings;
+
+        let user = currentUser.getCurrentUser(req.headers)
 
         if (await stationValidator.stationCreating(newStation)) {
             res.status(400);
@@ -18,7 +22,7 @@ async function create(req, res, next) {
             throw new Error('You must provide all fields of settings.');
         }
 
-        let station = await createStation(newStation, newSettings);
+        let station = await createStation(newStation, newSettings, user);
         
         res.json(station.mac);
         
@@ -27,4 +31,6 @@ async function create(req, res, next) {
     }
 }
 
-exports.create = create;
+module.exports = {
+    createNewStation
+}

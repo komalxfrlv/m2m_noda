@@ -1,10 +1,9 @@
-const { db } = require('../../../../utils/db');
-const md5 = require('md5');
+const { db } = require('../../../utils/db');
 
-async function createSensor(sensor, settings) {
-    let mac = md5(station.mac + Date.now().toString());
 
-    sensor.mac = mac;
+async function createSensor(sensor, settings, stationId) {
+    
+    sensor.stationId = stationId;
 
     let created_sensor = await db.sensor.create({
         data: sensor,
@@ -16,7 +15,9 @@ async function createSensor(sensor, settings) {
         data: settings,
     });
 
-    return {created_sensor, created_settings, mac};
+    unique_identen = created_sensor.id;
+
+    return {created_sensor, created_settings, unique_identen};
 }
 
 async function findSensorById(id) {

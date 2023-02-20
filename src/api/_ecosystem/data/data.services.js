@@ -1,4 +1,4 @@
-const { db } = require('../../utils/db');
+const { db } = require('../../../utils/db');
 
 async function createData(data) {
     return await db.data.create({

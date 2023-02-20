@@ -10,12 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model City {
-  id    String @id @unique @default(uuid())
-  name  String @db.VarChar(99)
-  users User[]
-}
-
 enum UserStatus {
   active
   inactive
@@ -33,6 +27,12 @@ enum UserRole {
   manager
   support
   user
+}
+
+model City {
+  id    String @id @unique @default(uuid())
+  name  String @db.VarChar(99)
+  users User[]
 }
 
 model User {
@@ -57,7 +57,7 @@ model User {
   city          City           @relation(fields: [cityId], references: [id])
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  Metric        Metric[]
+  metrics       Metric[]
 }
 
 model RefreshToken {

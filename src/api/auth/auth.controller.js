@@ -20,8 +20,9 @@ const {
 } = require('./auth.services');
 
 async function register(req, res, next) {
-    try {
+    try { 
         let newUser = req.body;
+        
         if (!userValidator.validateUserCreating(newUser)) {
             res.status(400);
             throw new Error('You must provide all fields.');
