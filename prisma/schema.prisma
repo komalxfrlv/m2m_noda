@@ -44,8 +44,8 @@ model User {
   password      String
   auto_updating Boolean        @default(true)
   auto_paying   Boolean        @default(true)
-  hash_rst      String         @db.VarChar(255)
-  hash_vrf      String         @db.VarChar(255)
+  hash_rst      String?        @db.VarChar(255) 
+  hash_vrf      String?        @db.VarChar(255)
   token         String         @db.Text
   phone         BigInt         @db.BigInt
   stations      Station[]

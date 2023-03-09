@@ -15,11 +15,11 @@ async function validateUserCreating(data) {
             email: { type: "string" },
             password: { type: "string"},
             phone: { type: "integer" },
-            cityId: { type: "string" },
+            city: { type: "string" },
         },
         required: [
             "name", "surname", "patronymic", 
-            "email", "password", "phone", "cityId"
+            "email", "password", "phone", "city"
         ],
         additionalProperties: false
     };

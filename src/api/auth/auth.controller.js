@@ -23,11 +23,11 @@ async function register(req, res, next) {
     try { 
         let newUser = req.body;
         
-        if (!userValidator.validateUserCreating(newUser)) {
+        if (! await userValidator.validateUserCreating(newUser)) {
             res.status(400);
             throw new Error('You must provide all fields.');
         }
-
+        console.log(req.body);
         const existingUser = await findUserByEmail(newUser.email);
 
         if (existingUser) {
