@@ -22,12 +22,12 @@ const {
 async function register(req, res, next) {
     try { 
         let newUser = req.body;
-        
+
         if (! await userValidator.validateUserCreating(newUser)) {
             res.status(400);
-            throw new Error('You must provide all fields.');
+            throw new Error('You must provide all fields of User.');
         }
-        console.log(req.body);
+
         const existingUser = await findUserByEmail(newUser.email);
 
         if (existingUser) {
@@ -39,7 +39,7 @@ async function register(req, res, next) {
         const jti = uuidv4();
         const { accessToken, refreshToken } = generateTokens(user, jti);
         await addRefreshTokenToWhitelist({ jti, refreshToken, userId: user.id });
-
+        
         res.json({
             accessToken,
             refreshToken

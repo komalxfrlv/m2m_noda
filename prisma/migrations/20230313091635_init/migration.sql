@@ -17,8 +17,8 @@ CREATE TABLE `User` (
     `password` VARCHAR(191) NOT NULL,
     `auto_updating` BOOLEAN NOT NULL DEFAULT true,
     `auto_paying` BOOLEAN NOT NULL DEFAULT true,
-    `hash_rst` VARCHAR(255) NOT NULL,
-    `hash_vrf` VARCHAR(255) NOT NULL,
+    `hash_rst` VARCHAR(255) NULL,
+    `hash_vrf` VARCHAR(255) NULL,
     `token` TEXT NOT NULL,
     `phone` BIGINT NOT NULL,
     `status` ENUM('active', 'inactive') NOT NULL,
@@ -133,9 +133,18 @@ CREATE TABLE `Data` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Activity` (
+    `id` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+
+    UNIQUE INDEX `Activity_id_key`(`id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `Metric` (
     `id` VARCHAR(191) NOT NULL,
-    `activity` VARCHAR(191) NOT NULL,
+    `activityId` VARCHAR(191) NOT NULL,
     `datetime` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `userId` VARCHAR(191) NOT NULL,
 
@@ -178,6 +187,9 @@ ALTER TABLE `SensorSettings` ADD CONSTRAINT `SensorSettings_versionId_fkey` FORE
 
 -- AddForeignKey
 ALTER TABLE `Data` ADD CONSTRAINT `Data_sensorId_fkey` FOREIGN KEY (`sensorId`) REFERENCES `Sensor`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Metric` ADD CONSTRAINT `Metric_activityId_fkey` FOREIGN KEY (`activityId`) REFERENCES `Activity`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Metric` ADD CONSTRAINT `Metric_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

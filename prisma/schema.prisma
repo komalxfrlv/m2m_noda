@@ -46,7 +46,7 @@ model User {
   auto_paying   Boolean        @default(true)
   hash_rst      String?        @db.VarChar(255) 
   hash_vrf      String?        @db.VarChar(255)
-  token         String         @db.Text
+  token         String?         @db.Text
   phone         BigInt         @db.BigInt
   stations      Station[]
   refreshTokens RefreshToken[]
@@ -145,10 +145,17 @@ model Data {
   sensor   Sensor @relation(fields: [sensorId], references: [id], onDelete: Cascade)
 }
 
+model Activity {
+  id      String   @id @unique @default(uuid())
+  name    String
+  metric  Metric[]
+}
+
 model Metric {
-  id       String   @id @unique @default(uuid())
-  activity String
-  datetime DateTime @default(now())
-  userId   String
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String   @id @unique @default(uuid())
+  activityId  String
+  activity    Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  datetime    DateTime @default(now())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
