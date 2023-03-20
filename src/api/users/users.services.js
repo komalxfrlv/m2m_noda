@@ -8,6 +8,7 @@ const UserRole = {
   support: 'support',
   user: 'user',
 }
+
 const UserStatus = {
   active: "active",
   inactive: "inactive"

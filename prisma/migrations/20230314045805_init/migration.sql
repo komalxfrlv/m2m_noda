@@ -19,7 +19,7 @@ CREATE TABLE `User` (
     `auto_paying` BOOLEAN NOT NULL DEFAULT true,
     `hash_rst` VARCHAR(255) NULL,
     `hash_vrf` VARCHAR(255) NULL,
-    `token` TEXT NOT NULL,
+    `token` TEXT NULL,
     `phone` BIGINT NOT NULL,
     `status` ENUM('active', 'inactive') NOT NULL,
     `client` ENUM('bussiness', 'person', 'local') NOT NULL,

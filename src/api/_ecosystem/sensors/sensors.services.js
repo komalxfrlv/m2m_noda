@@ -1,6 +1,5 @@
 const { db } = require('../../../utils/db');
 
-
 async function createSensor(sensor, settings, stationId) {
     
     sensor.stationId = stationId;
@@ -11,13 +10,13 @@ async function createSensor(sensor, settings, stationId) {
 
     settings.sensorId = created_sensor.id;
 
+    let sensor_id = created_sensor.id
+
     let created_settings = await db.sensorSettings.create({
         data: settings,
     });
 
-    unique_identen = created_sensor.id;
-
-    return {created_sensor, created_settings, unique_identen};
+    return { sensor_id, created_sensor, created_settings };
 }
 
 async function findSensorById(id) {

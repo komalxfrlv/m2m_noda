@@ -1,12 +1,8 @@
 const { db } = require('../../../utils/db');
-const md5 = require('md5');
 
-async function createStation(station, settings, user) {
-    let mac = md5(station.mac + Date.now().toString());
-    
-    station.mac = mac;
+async function createStation(station, settings, userId) {
 
-    station.userId = user.id
+    station.userId = userId
 
     let created_station = await db.station.create({
         data: station,
@@ -14,11 +10,13 @@ async function createStation(station, settings, user) {
 
     settings.stationId = created_station.id;
 
+    let station_id = created_station.id
+
     let created_settings = await db.stationSettings.create({
         data: settings,
     });
 
-    return {created_station, created_settings, mac}
+    return { station_id, created_station, created_settings };
 }
 
 async function findStationById(id) {
