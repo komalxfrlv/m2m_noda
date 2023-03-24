@@ -14,8 +14,8 @@ const UserStatus = {
   inactive: "inactive"
 }
 
-function findUserByEmail(email) {
-  return db.user.findUnique({
+async function findUserByEmail(email) {
+  return await db.user.findUnique({
     where: {
       email,
     },
@@ -27,13 +27,13 @@ async function createUser(user) {
   user.role = UserRole.user;
   user.status = UserStatus.active;
 
-  return db.user.create({
+  return await db.user.create({
     data: user,
   });
 }
 
-function findUserById(id) {
-  return db.user.findUnique({
+async function findUserById(id) {
+  return await db.user.findUnique({
     where: {
       id,
     },

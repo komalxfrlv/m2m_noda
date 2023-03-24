@@ -6,26 +6,25 @@ const {
 
 async function createNewStation(req, res, next) {
     try {
-        
+        const { userId } = req.payload;
+
+
         let newStation = req.body.station;
         let newSettings = req.body.settings;
-
-        let user = currentUser.getCurrentUser(req.headers)
-
+        
         if (await stationValidator.stationCreating(newStation)) {
             res.status(400);
             throw new Error('You must provide all fields of station.');
         }
-
+    
         if (await stationValidator.settingsCreating(newSettings)) {
             res.status(400);
             throw new Error('You must provide all fields of settings.');
         }
-
-        let station = await createStation(newStation, newSettings, user);
-        
-        res.json(station.mac);
-        
+    
+        let station = await createStation(newStation, newSettings, userId);
+            
+        res.json(station.id);
     } catch (err) {
         next(err);
     }

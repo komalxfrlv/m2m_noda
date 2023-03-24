@@ -13,6 +13,8 @@ async function getCurrentUser(headers) {
 
     var user = await findUserById(userId)
 
+    delete user.password;
+    
     return user;
 }
 
