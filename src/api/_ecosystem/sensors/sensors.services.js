@@ -10,13 +10,11 @@ async function createSensor(sensor, settings, stationId) {
 
     settings.sensorId = created_sensor.id;
 
-    let sensor_id = created_sensor.id
-
-    let created_settings = await db.sensorSettings.create({
+    await db.sensorSettings.create({
         data: settings,
     });
 
-    return { sensor_id, created_sensor, created_settings };
+    return created_sensor.id;
 }
 
 async function findSensorById(id) {

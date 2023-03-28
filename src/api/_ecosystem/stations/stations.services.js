@@ -12,11 +12,11 @@ async function createStation(station, settings, userId) {
 
     let station_id = created_station.id
 
-    let created_settings = await db.stationSettings.create({
+    await db.stationSettings.create({
         data: settings,
     });
 
-    return { station_id, created_station, created_settings };
+    return station_id;
 }
 
 async function findStationById(id) {

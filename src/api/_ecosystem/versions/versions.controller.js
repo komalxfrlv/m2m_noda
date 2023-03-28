@@ -13,7 +13,7 @@ async function createNewVersion(req, res, next) {
 
         let version = req.body;
 
-        if(user.role === "administrator" || user.role === "developer")
+        if(user.role === "administrator" || user.role === "user")
         {
             if (!await versionValidator.validateVersionCreating(version)) {
                 res.status(400);

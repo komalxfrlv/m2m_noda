@@ -10,10 +10,9 @@ async function stationCreating(data) {
         type: "object",
         properties: {
             mac: { type: "string" },
-            userId: { type: "string" },
             deviceId: { type: "string"},
         },
-        required: ["mac", "userId", "deviceId"],
+        required: ["mac", "deviceId"],
         additionalProperties: false
     };
 

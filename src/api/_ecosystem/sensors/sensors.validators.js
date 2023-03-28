@@ -10,10 +10,9 @@ async function sensorCreating(data) {
         type: "object",
         properties: {
             mac: { type: "string" },
-            userId: { type: "string" },
             deviceId: { type: "string"},
         },
-        required: ["mac", "userId", "deviceId"],
+        required: ["mac", "deviceId"],
         additionalProperties: false
     };
 
@@ -35,10 +34,9 @@ async function settingsCreating(data) {
         type: "object",
         properties: {
             name: { type: "string" },
-            station: { type: "string" },
-            version: { type: "string" },
+            versionId: { type: "string" },
         },
-        required: ["name", "stationId", "versionId"],
+        required: ["name", "versionId"],
         additionalProperties: false
     };
 

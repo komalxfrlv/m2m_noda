@@ -32,9 +32,11 @@ async function createNewSensor(req, res, next) {
             throw new Error('You must provide all fields of settings.');
         }
 
-        let sensor = await createSensor(newSensor, newSettings, stationId);
+        let a = await createSensor(newSensor, newSettings, stationId);
         
-        res.json(sensor.created_sensor);
+        console.log(a);
+
+        res.json(a);
     } catch (err) {
         next(err);
     }
