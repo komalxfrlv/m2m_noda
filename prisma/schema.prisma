@@ -46,7 +46,7 @@ model User {
   auto_paying   Boolean        @default(true)
   hash_rst      String?        @db.VarChar(255) 
   hash_vrf      String?        @db.VarChar(255)
-  token         String?         @db.Text
+  token         String?        @db.Text
   phone         BigInt         @db.BigInt
   stations      Station[]
   refreshTokens RefreshToken[]
@@ -107,12 +107,13 @@ model StationSettings {
   station   Station @relation(fields: [stationId], references: [id], onDelete: Cascade)
   versionId String
   version   Version @relation(fields: [versionId], references: [id])
+  options   Json?
 }
 
 model Sensor {
   id        String          @id @unique @default(uuid())
   mac       String          @db.VarChar(99)
-  uptime    BigInt          @db.BigInt
+  uptime    BigInt?         @db.BigInt
   charge    Int             @db.TinyInt
   deviceId  String
   device    DeviceType      @relation(fields: [deviceId], references: [id])
@@ -123,19 +124,21 @@ model Sensor {
 }
 
 model SensorSettings {
-  id         String   @id @unique @default(uuid())
-  name       String   @db.VarChar(255)
-  sleep      BigInt   @db.BigInt
-  pushStart  DateTime @db.DateTime()
-  pushEnd    DateTime @db.DateTime()
-  triggerMin Int      @db.Int
-  triggerMax Int      @db.Int
-  sensorId   String   @unique
-  sensor     Sensor   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  id         String     @id @unique @default(uuid())
+  name       String     @db.VarChar(255)
+  sleep      BigInt     @db.BigInt
+  alert      Boolean    @default(false)
+  lost       Boolean    @default(false)
+  sensorId   String     @unique
+  sensor     Sensor     @relation(fields: [sensorId], references: [id], onDelete: Cascade)
   versionId  String
-  version    Version  @relation(fields: [versionId], references: [id])
-  alert      Boolean  @default(false)
-  lost       Boolean  @default(false)
+  version    Version    @relation(fields: [versionId], references: [id])
+  pushStart  DateTime?  @db.Time()
+  pushEnd    DateTime?  @db.Time()
+  triggerMin Int?       @db.Int
+  triggerMax Int?       @db.Int
+  schedule   Json?
+  options    Json?
 }
 
 model Data {
