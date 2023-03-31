@@ -1,3 +1,5 @@
+cp example.env .env
+
 npm install
 
 npm install prisma --save-dev
