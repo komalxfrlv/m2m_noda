@@ -1,4 +1,4 @@
-cp example.env .env
+cp .example.env .env
 
 npm install
 
