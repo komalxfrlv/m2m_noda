@@ -12,23 +12,25 @@ async function createNewSensor(req, res, next) {
         let newSensor = req.body.sensor;
         let newSettings = req.body.settings;
         let stationId = req.body.stationId;
-        
-        let user = await currentUser.getCurrentUser(req.headers);
-        
-        let station = findStationById(stationId);
 
-        if ((station.id !== stationId) || (station.userId !== user.id)) {
+        const { userId } = req.payload
+
+        const station = await findStationById(stationId)
+        console.log(station)
+        if ((station.id !== stationId) || (station.userId !== userId)) {
             res.status(400);
-            throw new Error('Not your station');
+            throw new Error('Not your station. ');
         }
 
         if (await sensorValidator.sensorCreating(newSensor)) {
             res.status(400);
-            throw new Error('You must provide all fields of station.');
+            console.log(newSensor)
+            throw new Error('You must provide all fields of sensor.');
         }
         
         if (await sensorValidator.settingsCreating(newSettings)) {
             res.status(400);
+            console.log(newSettings)
             throw new Error('You must provide all fields of settings.');
         }
 

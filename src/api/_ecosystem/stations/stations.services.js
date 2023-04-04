@@ -22,7 +22,7 @@ async function createStation(station, settings, userId) {
 async function findStationById(id) {
     return await db.station.findUnique({
         where: { 
-            id,
+            id:id,
         },
     });
 }

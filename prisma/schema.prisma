@@ -114,7 +114,7 @@ model Sensor {
   id        String          @id @unique @default(uuid())
   mac       String          @db.VarChar(99)
   uptime    BigInt?         @db.BigInt
-  charge    Int             @db.TinyInt
+  charge    Int?             @db.TinyInt
   deviceId  String
   device    DeviceType      @relation(fields: [deviceId], references: [id])
   settings  SensorSettings?
@@ -126,7 +126,7 @@ model Sensor {
 model SensorSettings {
   id         String     @id @unique @default(uuid())
   name       String     @db.VarChar(255)
-  sleep      BigInt     @db.BigInt
+  sleep      BigInt?     @db.BigInt @default(10)
   alert      Boolean    @default(false)
   lost       Boolean    @default(false)
   sensorId   String     @unique
