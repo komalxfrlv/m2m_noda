@@ -2,6 +2,7 @@ const stationValidator = require('./stations.validators');
 const currentUser = require('../../../utils/getUser');
 const {
     createStation,
+    findStationById
 } = require('./stations.services');
 
 async function createNewStation(req, res, next) {
@@ -30,6 +31,31 @@ async function createNewStation(req, res, next) {
     }
 }
 
+async function getStationById(req, res, next) {
+        try {
+            const stattionId = req.params.id
+            const station = await findStationById(stattionId)
+            if(!station){
+                res.status(400);
+                console.log(station)
+                throw new Error("Can't find station with this id");
+            }
+    
+            const { userId } = req.payload
+            
+            if (station.userId !== userId){
+                res.status(400);
+                console.log(station+" "+userId)
+                throw new Error('Not your sensor. ');
+            }
+            res.json(station);
+        } catch (err) {
+            next(err);
+        }
+}
+
+
 module.exports = {
-    createNewStation
+    createNewStation,
+    getStationById
 }

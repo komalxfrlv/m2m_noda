@@ -24,6 +24,9 @@ async function findStationById(id) {
         where: { 
             id:id,
         },
+        include:{
+            sensors:true
+        }
     });
 }
 

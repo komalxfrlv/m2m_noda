@@ -56,7 +56,7 @@ async function getSensorById(req, res, next) {
     if(!sensor){
         res.status(400);
         console.log(sensor)
-        throw new Error("Can't find sensor with this mac");
+        throw new Error("Can't find sensor with this id");
     }
 
 
