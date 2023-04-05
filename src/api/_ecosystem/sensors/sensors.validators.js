@@ -2,7 +2,7 @@ const Ajv = require("ajv");
 const ajv = new Ajv();
 
 /*
-    STATION VALIDATION
+    SENSOR VALIDATION
 */
 
 async function sensorCreating(data) {

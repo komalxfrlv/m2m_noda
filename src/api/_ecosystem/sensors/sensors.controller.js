@@ -2,6 +2,7 @@ const sensorValidator = require('./sensors.validators');
 const currentUser = require('../../../utils/getUser')
 const {
     createSensor,
+    findSensorById,
 } = require('./sensors.services');
 const {
     findStationById
@@ -16,7 +17,7 @@ async function createNewSensor(req, res, next) {
         const { userId } = req.payload
 
         const station = await findStationById(stationId)
-        console.log(station)
+        console.log(station.userId)
         if ((station.id !== stationId) || (station.userId !== userId)) {
             res.status(400);
             throw new Error('Not your station. ');
@@ -28,11 +29,11 @@ async function createNewSensor(req, res, next) {
             throw new Error('You must provide all fields of sensor.');
         }
         
-        if (await sensorValidator.settingsCreating(newSettings)) {
+ if (await sensorValidator.settingsCreating(newSettings)) {
             res.status(400);
             console.log(newSettings)
             throw new Error('You must provide all fields of settings.');
-        }
+        }       
 
         let a = await createSensor(newSensor, newSettings, stationId);
         
@@ -44,6 +45,41 @@ async function createNewSensor(req, res, next) {
     }
 }
 
+
+async function getSensorById(req, res, next) {
+    try{
+    const sensorId = req.params.id
+    console.log(sensorId)
+    const sensor = await findSensorById(sensorId)
+
+    
+    if(!sensor){
+        res.status(400);
+        console.log(sensor)
+        throw new Error("Can't find sensor with this mac");
+    }
+
+
+    const { userId } = req.payload
+    const station = await findStationById(sensor.stationId)
+
+
+    if (station.userId !== userId){
+        res.status(400);
+        console.log(station+" "+userId)
+        throw new Error('Not your sensor. ');
+    }
+
+
+    res.json(sensor);
+    }
+    catch(err){
+        next(err);
+    }
+}
+
+
 module.exports = {
     createNewSensor,
+    getSensorById,
 }

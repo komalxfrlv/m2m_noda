@@ -17,11 +17,15 @@ async function createSensor(sensor, settings, stationId) {
     return created_sensor.id;
 }
 
+
 async function findSensorById(id) {
     return await db.sensor.findUnique({
         where: { 
-            id,
+            id:id
         },
+        include: {
+            data:true
+        }
     });
 }
 
