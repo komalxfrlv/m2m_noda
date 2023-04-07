@@ -1,9 +1,13 @@
-const sensorValidator = require('./sensors.validators');
-const currentUser = require('../../../utils/getUser')
+const {
+    validateSensor,
+    validateSensorSettings,
+} = require('./sensors.validators');
+
 const {
     createSensor,
     findSensorById,
 } = require('./sensors.services');
+
 const {
     findStationById
 } = require('../stations/stations.services')
@@ -22,14 +26,14 @@ async function createNewSensor(req, res, next) {
             res.status(400);
             throw new Error('Not your station. ');
         }
-
-        if (await sensorValidator.sensorCreating(newSensor)) {
+        console.log(await validateSensor(newSensor))
+        if (!await validateSensor(newSensor)) {
             res.status(400);
-            console.log(newSensor)
+            console.log(newSettings)
             throw new Error('You must provide all fields of sensor.');
         }
         
- if (await sensorValidator.settingsCreating(newSettings)) {
+        if (!await validateSensorSettings(newSettings)) {
             res.status(400);
             console.log(newSettings)
             throw new Error('You must provide all fields of settings.');

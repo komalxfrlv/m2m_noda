@@ -5,7 +5,7 @@ const ajv = new Ajv();
     SENSOR VALIDATION
 */
 
-async function sensorCreating(data) {
+async function validateSensor(data) {
     const schema = {
         type: "object",
         properties: {
@@ -23,13 +23,11 @@ async function sensorCreating(data) {
     return valid;
 }
 
-exports.sensorCreating = sensorCreating
-
 /*
     SETTINGS VALIDATION
 */
 
-async function settingsCreating(data) {
+async function validateSensorSettings(data) {
     const schema = {
         type: "object",
         properties: {
@@ -47,8 +45,6 @@ async function settingsCreating(data) {
     return valid;
 }
 
-exports.settingsCreating = settingsCreating;
-
 async function settingsUpdating(data) {
     const schema = {
         type: "object",
@@ -65,4 +61,10 @@ async function settingsUpdating(data) {
     const valid = validate(data);
 
     return valid;
+}
+
+module.exports = {
+    validateSensor,
+    validateSensorSettings,
+    settingsUpdating,
 }
