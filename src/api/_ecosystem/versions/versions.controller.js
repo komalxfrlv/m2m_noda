@@ -2,7 +2,8 @@ const versionValidator = require('./versions.validators');
 const { findUserById } = require('../../users/users.services');
 
 const {
-    createVersion
+    createVersion,
+    getAll,
 } = require('./versions.services')
 
 async function createNewVersion(req, res, next) {
@@ -31,6 +32,15 @@ async function createNewVersion(req, res, next) {
     }
 }
 
+async function getAllVersion(req, res, next) {
+    try {
+        res.json(await getAll());
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
-    createNewVersion
+    createNewVersion,
+    getAllVersion
 }

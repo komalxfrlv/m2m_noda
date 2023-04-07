@@ -1,5 +1,9 @@
 const { db } = require('../../../utils/db');
 
+async function getAll() {
+    return await db.version.findMany();
+}
+
 async function createVersion(version) {
 
     let created_version = await db.version.create({
@@ -10,5 +14,6 @@ async function createVersion(version) {
 }
 
 module.exports = {
-    createVersion
+    createVersion,
+    getAll
 }
