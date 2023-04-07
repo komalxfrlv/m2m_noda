@@ -1,4 +1,7 @@
-const stationValidator = require('./stations.validators');
+const {
+    validateStation,
+    validateStationsSettings,
+} = require('./stations.validators');
 const currentUser = require('../../../utils/getUser');
 const {
     createStation,
@@ -12,12 +15,12 @@ async function createNewStation(req, res, next) {
         let newStation = req.body.station;
         let newSettings = req.body.settings;
         
-        if (!await stationValidator.stationCreating(newStation)) {
+        if (!await validateStation(newStation)) {
             res.status(400);
             throw new Error('You must provide all fields of station.');
         }
     
-        if (!await stationValidator.settingsCreating(newSettings)) {
+        if (!await validateStationsSettings(newSettings)) {
             res.status(400);
             console.log(newSettings);
             throw new Error('You must provide all fields of settings.');
