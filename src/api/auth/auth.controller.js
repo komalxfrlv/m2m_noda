@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { sendMessage } = require('../../utils/mailer.js');
 const { v4: uuidv4 } = require('uuid');
 const { generateTokens } = require('../../utils/jwt');
 const { hashToken } = require('../../utils/hashToken');
@@ -39,7 +40,8 @@ async function register(req, res, next) {
         const jti = uuidv4();
         const { accessToken, refreshToken } = generateTokens(user, jti);
         await addRefreshTokenToWhitelist({ jti, refreshToken, userId: user.id });
-        
+        const message = "please work"
+        await sendMessage(process.env.MAIL_USER, message, newUser.email)
         res.json({
             accessToken,
             refreshToken
