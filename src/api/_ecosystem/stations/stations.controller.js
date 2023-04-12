@@ -14,17 +14,15 @@ async function createNewStation(req, res, next) {
 
         let newStation = req.body.station;
         let newSettings = req.body.settings;
-        
-        if (!await validateStation(newStation)) {
-            res.status(400);
-            throw new Error('You must provide all fields of station.');
+
+        if(! (newStation && newSettings) ){
+            console.log(`station: \n${newStation}\n\n settings:\n ${newSettings}`)
+            throw new Error('In request must be station and settings. ');
         }
-    
-        if (!await validateStationsSettings(newSettings)) {
-            res.status(400);
-            console.log(newSettings);
-            throw new Error('You must provide all fields of settings.');
-        }
+
+
+        await validateStation(newStation)
+        await validateStationsSettings(newSettings)
     
         let station = await createStation(newStation, newSettings, userId);
 
