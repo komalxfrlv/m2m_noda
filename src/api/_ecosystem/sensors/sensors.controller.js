@@ -18,27 +18,21 @@ async function createNewSensor(req, res, next) {
         let newSettings = req.body.settings;
         let stationId = req.body.stationId;
 
+        if(! (stationId && newSensor && newSettings) ){
+            console.log(`sensor: \n${newSensor}\n\n settings:\n ${newSettings}\n\n stationId: \n${stationId}\n\n`)
+            throw new Error('In request must be sensor, settings and stationId. ');
+        }
         const { userId } = req.payload
 
         const station = await findStationById(stationId)
-        console.log(station.userId)
-        if ((station.id !== stationId) || (station.userId !== userId)) {
+        //console.log(station.userId)
+        if ((station.id !== stationId) || (station.userId !== userId)) {                    //уточнить условие у саши
             res.status(400);
             throw new Error('Not your station. ');
         }
-        console.log(await validateSensor(newSensor))
-        if (!await validateSensor(newSensor)) {
-            res.status(400);
-            console.log(newSettings)
-            throw new Error('You must provide all fields of sensor.');
-        }
+        await validateSensor(newSensor);
+        await validateSensorSettings(newSettings);
         
-        if (!await validateSensorSettings(newSettings)) {
-            res.status(400);
-            console.log(newSettings)
-            throw new Error('You must provide all fields of settings.');
-        }       
-
         let a = await createSensor(newSensor, newSettings, stationId);
         
         console.log(a);

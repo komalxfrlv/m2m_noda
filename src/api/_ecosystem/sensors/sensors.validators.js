@@ -1,4 +1,5 @@
 const Ajv = require("ajv");
+const { json } = require("express");
 const ajv = new Ajv();
 
 /*
@@ -19,8 +20,10 @@ async function validateSensor(data) {
     const validate = ajv.compile(schema);
 
     const valid = validate(data);
-
-    return valid;
+    if (!valid) {
+        const valErr = validate.errors;
+        throw new Error(`${valErr[0]["instancePath"]} ${valErr[0]["message"]}`);
+}
 }
 
 /*
@@ -37,11 +40,13 @@ async function validateSensorSettings(data) {
         required: ["name", "versionId"],
         additionalProperties: false
     };
-
     const validate = ajv.compile(schema);
 
     const valid = validate(data);
-
+    if (!valid) {
+        const valErr = validate.errors;
+        throw new Error(`${valErr[0]["instancePath"]} ${valErr[0]["message"]}`);
+    }
     return valid;
 }
 
