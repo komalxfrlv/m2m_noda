@@ -6,6 +6,7 @@ const {
 const {
     createSensor,
     findSensorById,
+    updateSettingsById,
 } = require('./sensors.services');
 
 const {
@@ -35,6 +36,25 @@ async function createNewSensor(req, res, next) {
         
         let a = await createSensor(newSensor, newSettings, stationId);
         
+        console.log(a);
+
+        res.json(a);
+    } catch (err) {
+        next(err);
+    }
+}
+
+
+async function editSettings(req, res, next) {
+    try {
+        const sensor = await findSensorById(req.body.sensor.id);
+        console.log(sensor)
+        if(!sensor){
+            throw new Error(`Can't find sensor`);
+        }
+        let newSettings = req.body.settings;
+        console.log(newSettings)
+        let a = await updateSettingsById(req.params.id, newSettings);
         console.log(a);
 
         res.json(a);
@@ -80,4 +100,5 @@ async function getSensorById(req, res, next) {
 module.exports = {
     createNewSensor,
     getSensorById,
+    editSettings,
 }

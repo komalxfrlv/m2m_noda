@@ -39,6 +39,15 @@ async function updateStationById(id, station) {
     });
 }
 
+async function updateSettingsById(id, settings) {
+    return await db.StationSettings.update({
+        where: {
+            id: settings.id,
+        },
+        data: settings,
+    });
+}
+
 async function deleteStationById(id) {
     return await db.station.delete({
         where: {
@@ -52,4 +61,5 @@ module.exports = {
     findStationById,
     updateStationById,
     deleteStationById,
+    updateSettingsById,
 }

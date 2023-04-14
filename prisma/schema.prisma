@@ -61,13 +61,13 @@ model User {
 }
 
 model RefreshToken {
-  id          String   @id @unique @default(uuid())
-  hashedToken String
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  revoked     Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @unique @default(uuid())
+  hashedToken   String
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  revoked       Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model DeviceType {
@@ -124,9 +124,9 @@ model Sensor {
 }
 
 model SensorSettings {
-  id         String     @id @unique @default(uuid())
+  id         String     @id @unique         @default(uuid())
   name       String     @db.VarChar(255)
-  sleep      BigInt?     @db.BigInt @default(10)
+  sleep      BigInt?    @db.BigInt          @default(10)
   alert      Boolean    @default(false)
   lost       Boolean    @default(false)
   sensorId   String     @unique
@@ -142,14 +142,14 @@ model SensorSettings {
 }
 
 model Data {
-  id       String @id @unique @default(uuid())
+  id       String @id         @unique        @default(uuid())
   value    Json
   sensorId String
   sensor   Sensor @relation(fields: [sensorId], references: [id], onDelete: Cascade)
 }
 
 model Activity {
-  id      String   @id @unique @default(uuid())
+  id      String  @id         @unique       @default(uuid())
   name    String
   metric  Metric[]
 }

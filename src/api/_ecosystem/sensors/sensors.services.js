@@ -17,6 +17,21 @@ async function createSensor(sensor, settings, stationId) {
     return created_sensor.id;
 }
 
+async function updateSettingsById(sensorId, settings) {
+    console.log(`${settings.pushStart} ${settings.pushEnd} \n `)
+
+    settings["pushStart"] = new Date(settings.pushStart)
+    settings["pushEnd"] = new Date(settings.pushEnd)
+    console.log(`${settings["pushStart"]} ${settings["pushEnd"]} `)
+    let updated_settings = await db.SensorSettings.update({
+        where: {
+            id: settings.id,
+          },
+        data: settings
+    });
+    console.log('done')
+    return updated_settings.id;
+}
 
 async function findSensorById(id) {
     return await db.sensor.findUnique({
@@ -51,4 +66,5 @@ module.exports = {
     findSensorById,
     updateSensorById,
     deleteSensorById,
+    updateSettingsById,
 }

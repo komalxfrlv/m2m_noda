@@ -5,7 +5,8 @@ const {
 const currentUser = require('../../../utils/getUser');
 const {
     createStation,
-    findStationById
+    findStationById,
+    updateSettingsById
 } = require('./stations.services');
 
 async function createNewStation(req, res, next) {
@@ -55,8 +56,27 @@ async function getStationById(req, res, next) {
         }
 }
 
+async function editSettings(req, res, next) {
+    try {
+        const station = await findStationById(req.body.station.id);
+        let newSettings = req.body.settings;
+        console.log(station)
+        if(!station){
+            throw new Error(`Can't find station`);
+        }
+        
+        console.log(newSettings)
+        let a = await updateSettingsById(req.params.id, newSettings);
+        console.log(a);
+
+        res.json(a);
+    } catch (err) {
+        next(err);
+    }
+}
 
 module.exports = {
     createNewStation,
-    getStationById
+    getStationById,
+    editSettings
 }
