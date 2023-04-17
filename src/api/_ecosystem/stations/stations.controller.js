@@ -35,7 +35,7 @@ async function createNewStation(req, res, next) {
 
 async function getStationById(req, res, next) {
         try {
-            const stattionId = req.params.id
+            const stattionId = req.query.id
             const station = await findStationById(stattionId)
             if(!station){
                 res.status(400);
@@ -66,7 +66,7 @@ async function editSettings(req, res, next) {
         }
         
         console.log(newSettings)
-        let a = await updateSettingsById(req.params.id, newSettings);
+        let a = await updateSettingsById(station.id, newSettings);
         console.log(a);
 
         res.json(a);

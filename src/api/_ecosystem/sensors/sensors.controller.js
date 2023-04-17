@@ -48,13 +48,13 @@ async function createNewSensor(req, res, next) {
 async function editSettings(req, res, next) {
     try {
         const sensor = await findSensorById(req.body.sensor.id);
-        console.log(sensor)
+        console.log(sensor.id)
         if(!sensor){
             throw new Error(`Can't find sensor`);
         }
         let newSettings = req.body.settings;
         console.log(newSettings)
-        let a = await updateSettingsById(req.params.id, newSettings);
+        let a = await updateSettingsById(sensor.id, newSettings);
         console.log(a);
 
         res.json(a);
@@ -66,7 +66,7 @@ async function editSettings(req, res, next) {
 
 async function getSensorById(req, res, next) {
     try{
-    const sensorId = req.params.id
+    const sensorId = req.query.id
     console.log(sensorId)
     const sensor = await findSensorById(sensorId)
 

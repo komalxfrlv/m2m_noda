@@ -39,10 +39,10 @@ async function updateStationById(id, station) {
     });
 }
 
-async function updateSettingsById(id, settings) {
+async function updateSettingsById(stationId, settings) {
     return await db.StationSettings.update({
         where: {
-            id: settings.id,
+            stationId: stationId,
         },
         data: settings,
     });

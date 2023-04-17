@@ -18,14 +18,11 @@ async function createSensor(sensor, settings, stationId) {
 }
 
 async function updateSettingsById(sensorId, settings) {
-    console.log(`${settings.pushStart} ${settings.pushEnd} \n `)
-
     settings["pushStart"] = new Date(settings.pushStart)
     settings["pushEnd"] = new Date(settings.pushEnd)
-    console.log(`${settings["pushStart"]} ${settings["pushEnd"]} `)
     let updated_settings = await db.SensorSettings.update({
         where: {
-            id: settings.id,
+            sensorId: sensorId,
           },
         data: settings
     });
