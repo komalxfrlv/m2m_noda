@@ -9,11 +9,12 @@ const stations = require('./stations/stations.routes');
 const data = require('./data/data.routes');
 
 const { isAuthenticated } = require('../../middlewares/auth.middleware');
+const { isAdmin } = require('../../middlewares/admin.middleware');
 
 router.use('/cities', cities);
 router.use('/metrics', isAuthenticated, metrics);
 router.use('/devices', isAuthenticated, devices);
-router.use('/versions', isAuthenticated, versions);
+router.use('/versions', isAuthenticated, isAdmin, versions);
 router.use('/sensors', isAuthenticated, sensors);
 router.use('/stations', isAuthenticated, stations);
 router.use('/data', data);
