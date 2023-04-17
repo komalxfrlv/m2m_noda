@@ -18,7 +18,7 @@ const {
 
 router.use('/cities', cities);
 router.use('/metrics', isAuthenticated, metrics);
-router.use('/devices', isAuthenticated, devices);
+router.use('/devices', isAuthenticated, isDeveloper, devices);
 router.use('/versions', isAuthenticated, isDeveloper, versions);
 router.use('/sensors', isAuthenticated, sensors);
 router.use('/stations', isAuthenticated, stations);

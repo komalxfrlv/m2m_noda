@@ -9,10 +9,11 @@ async function checkRole(req, res, next, role) {
                 id: userId,
             }
         });
-        if(user.role != role || user.role != "administrator"){
+        if(user.role!==role && user.role !== "administrator"){
             console.log(user)
+            console.log(`${user.role} must be ${role}`)
             res.status(401);
-            throw new Error("This user can't add versions");
+            throw new Error(`${user.role} can't add versions`);
         }
     }
     catch(err){
