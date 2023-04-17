@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { db } = require('../utils/db');
 
-async function isAdmin(req, res, next) {
+async function checkRole(req, res, next, role) {
     try{
         const userId = req.payload.userId
         let user = await db.user.findFirst({
@@ -9,7 +9,7 @@ async function isAdmin(req, res, next) {
                 id: userId,
             }
         });
-        if(user.role != "administrator"){
+        if(user.role != role || user.role != "administrator"){
             console.log(user)
             res.status(401);
             throw new Error("This user can't add versions");
@@ -25,7 +25,25 @@ async function isAdmin(req, res, next) {
     return next();
 }
 
+async function isAdmin(req, res, next){
+    checkRole(req, res, next, "administrator")
+}
+
+async function isManager(req, res, next){
+    checkRole(req, res, next, "manager")
+}
+
+async function isDeveloper(req, res, next){
+    checkRole(req, res, next, "developer")
+}
+
+async function isSupport(req, res, next){
+    checkRole(req, res, next, "support")
+}
 
 module.exports = {
-    isAdmin
+    isAdmin,
+    isManager,
+    isDeveloper,
+    isSupport
   }
