@@ -9,7 +9,7 @@ const stations = require('./stations/stations.routes');
 const data = require('./data/data.routes');
 
 const { isAuthenticated } = require('../../middlewares/auth.middleware');
-const { isAdmin } = require('../../middlewares/admin.middleware');
+const { isAdmin } = require('../../middlewares/role.middleware');
 
 router.use('/cities', cities);
 router.use('/metrics', isAuthenticated, metrics);
