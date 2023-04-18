@@ -51,7 +51,7 @@ async function updateSettingsById(stationId, settings) {
 async function deleteStationById(id) {
     return await db.station.delete({
         where: {
-            id,
+            id:id,
         },
     });
 }

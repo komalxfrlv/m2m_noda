@@ -6,7 +6,8 @@ const currentUser = require('../../../utils/getUser');
 const {
     createStation,
     findStationById,
-    updateSettingsById
+    updateSettingsById,
+    deleteStationById
 } = require('./stations.services');
 
 async function createNewStation(req, res, next) {
@@ -75,8 +76,35 @@ async function editSettings(req, res, next) {
     }
 }
 
+async function deleteStation(req, res, next) {
+    try{
+    const { userId } = req.payload
+    const stationId = req.body.station.id
+    console.log(stationId)
+    const station = await findStationById(stationId)
+    
+    if(!station){
+        res.status(400);
+        console.log(station)
+        throw new Error("Can't find sensor with this id");
+    }
+
+    if (station.userId !== userId){
+        res.status(400);
+        console.log(`${station} ${userId}`)
+        throw new Error('Not your station. ');
+    }
+    await deleteStationById(station.id);
+    res.json(station);
+    }
+    catch(err){
+        next(err);
+    }
+}
+
 module.exports = {
     createNewStation,
     getStationById,
-    editSettings
+    editSettings,
+    deleteStation
 }
