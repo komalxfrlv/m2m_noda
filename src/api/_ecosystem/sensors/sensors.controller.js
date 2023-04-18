@@ -105,7 +105,7 @@ async function getSensorById(req, res, next) {
 
 async function deleteSensor(req, res, next) {
     try{
-    const sensorId = req.query.id
+    const sensorId = req.body.sensor.id
     const sensor = await findSensorById(sensorId)
 
     if(!sensor){
