@@ -1,10 +1,13 @@
-const versionValidator = require('./versions.validators');
+const {
+    validateVersionCreating
+} = require('./versions.validators');
 const { findUserById } = require('../../users/users.services');
 
 const {
     createVersion,
     getAll,
 } = require('./versions.services')
+
 
 async function createNewVersion(req, res, next) {
     try {
@@ -13,24 +16,16 @@ async function createNewVersion(req, res, next) {
         const user = await findUserById(userId);
 
         let version = req.body;
+        await validateVersionCreating(version)
 
-        if(user.role === "administrator" || user.role === "developer")
-        {
-            if (!await versionValidator.validateVersionCreating(version)) {
-                res.status(400);
-                throw new Error('You must provide all fields of version.');
-            }
+        let created_version = await createVersion(version);
 
-            let created_version = await createVersion(version);
-
-            res.json(created_version);
-        } else {
-            throw new Error('No permissions');
-        }
+        res.json(created_version);
     } catch (err) {
         next(err);
     }
 }
+
 
 async function getAllVersion(req, res, next) {
     try {

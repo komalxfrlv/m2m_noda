@@ -23,7 +23,12 @@ async function validateVersionCreating(data) {
     const validate = ajv.compile(schema);
 
     const valid = validate(data);
-
+    if (!valid) {
+        const valErr = validate.errors;
+        throw new Error(`${valErr[0]["instancePath"]} ${valErr[0]["message"]}`);
+    }
     return valid;
 }
-exports.validateVersionCreating = validateVersionCreating;
+module.exports = {
+    validateVersionCreating,
+}
