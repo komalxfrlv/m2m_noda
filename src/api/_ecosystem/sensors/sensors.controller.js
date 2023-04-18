@@ -7,6 +7,7 @@ const {
     createSensor,
     findSensorById,
     updateSettingsById,
+    deleteSensorById,
 } = require('./sensors.services');
 
 const {
@@ -26,8 +27,14 @@ async function createNewSensor(req, res, next) {
         const { userId } = req.payload
 
         const station = await findStationById(stationId)
+        
+        if(!station){
+            res.status(400);
+            console.log(station)
+            throw new Error("Can't find station with this id");
+        }
         //console.log(station.userId)
-        if ((station.id !== stationId) || (station.userId !== userId)) {                    //уточнить условие у саши
+        if (station.userId !== userId) { 
             res.status(400);
             throw new Error('Not your station. ');
         }
@@ -70,7 +77,6 @@ async function getSensorById(req, res, next) {
     console.log(sensorId)
     const sensor = await findSensorById(sensorId)
 
-    
     if(!sensor){
         res.status(400);
         console.log(sensor)
@@ -97,8 +103,38 @@ async function getSensorById(req, res, next) {
 }
 
 
+async function deleteSensor(req, res, next) {
+    try{
+    const sensorId = req.query.id
+    const sensor = await findSensorById(sensorId)
+
+    if(!sensor){
+        res.status(400);
+        console.log(sensor)
+        throw new Error("Can't find sensor with this id");
+    }
+
+    const { userId } = req.payload
+    const station = await findStationById(sensor.stationId)
+
+    if (station.userId !== userId){
+        res.status(400);
+        console.log(`${station} ${userId}`)
+        throw new Error('Not your sensor. ');
+    }
+    await deleteSensorById(sensorId);
+    res.json(sensor.id);
+    }
+    catch(err){
+        next(err);
+    }
+}
+
+
+
 module.exports = {
     createNewSensor,
     getSensorById,
     editSettings,
+    deleteSensor
 }

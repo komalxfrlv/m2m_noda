@@ -53,7 +53,7 @@ async function updateSensorById(id, sensor) {
 async function deleteSensorById(id) {
     return await db.sensor.delete({
         where: {
-            id,
+            id:id,
         },
     });
 }
