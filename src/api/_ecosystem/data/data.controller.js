@@ -1,4 +1,4 @@
-const dataValidator = require('./data.validators');
+const {validateDataCreating} = require('./data.validators');
 const { createData } = require('./data.services');
 
 async function create(req, res, next) {
@@ -11,6 +11,7 @@ async function create(req, res, next) {
             throw new Error('You must provide all fields of station.');
         }
         */
+        await validateDataCreating(data)
         res.json(await createData(data));
 
     } catch (err) {

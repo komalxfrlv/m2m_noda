@@ -51,7 +51,7 @@ async function getStationById(req, res, next) {
                 console.log(station+" "+userId)
                 throw new Error('Not your sensor. ');
             }
-            res.json(station);
+            res.json(station); 
         } catch (err) {
             next(err);
         }

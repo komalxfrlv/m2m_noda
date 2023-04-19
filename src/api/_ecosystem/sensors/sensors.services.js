@@ -36,7 +36,8 @@ async function findSensorById(id) {
             id:id
         },
         include: {
-            data:true
+            data:true,
+            settings:true
         }
     });
 }
