@@ -14,6 +14,12 @@ const {
     findStationById
 } = require('../stations/stations.services')
 
+
+
+
+/*
+    SENSOR CONTROLLERS
+*/
 async function createNewSensor(req, res, next) {
     try {
         let newSensor = req.body.sensor;
@@ -51,26 +57,6 @@ async function createNewSensor(req, res, next) {
     }
 }
 
-
-async function editSettings(req, res, next) {
-    try {
-        const sensor = await findSensorById(req.body.sensor.id);
-        console.log(sensor.id)
-        if(!sensor){
-            throw new Error(`Can't find sensor`);
-        }
-        let newSettings = req.body.settings;
-        console.log(newSettings)
-        let a = await updateSettingsById(sensor.id, newSettings);
-        console.log(a);
-
-        res.json(a);
-    } catch (err) {
-        next(err);
-    }
-}
-
-
 async function getSensorById(req, res, next) {
     try{
     const sensorId = req.query.id
@@ -102,7 +88,6 @@ async function getSensorById(req, res, next) {
     }
 }
 
-
 async function deleteSensor(req, res, next) {
     try{
     const sensorId = req.body.sensor.id
@@ -130,7 +115,27 @@ async function deleteSensor(req, res, next) {
     }
 }
 
+/*
+    SETTINGS CONTROLLERS
+*/
 
+async function editSettings(req, res, next) {
+    try {
+        const sensor = await findSensorById(req.body.sensor.id);
+        console.log(sensor.id)
+        if(!sensor){
+            throw new Error(`Can't find sensor`);
+        }
+        let newSettings = req.body.settings;
+        console.log(newSettings)
+        let a = await updateSettingsById(sensor.id, newSettings);
+        console.log(a);
+
+        res.json(a);
+    } catch (err) {
+        next(err);
+    }
+}
 
 module.exports = {
     createNewSensor,

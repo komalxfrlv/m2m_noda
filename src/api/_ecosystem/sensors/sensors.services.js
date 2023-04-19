@@ -1,5 +1,10 @@
 const { db } = require('../../../utils/db');
 
+
+
+/*
+    SENSOR SERVICES
+*/
 async function createSensor(sensor, settings, stationId) {
     
     sensor.stationId = stationId;
@@ -15,19 +20,6 @@ async function createSensor(sensor, settings, stationId) {
     });
 
     return created_sensor.id;
-}
-
-async function updateSettingsById(sensorId, settings) {
-    settings["pushStart"] = new Date(settings.pushStart)
-    settings["pushEnd"] = new Date(settings.pushEnd)
-    let updated_settings = await db.SensorSettings.update({
-        where: {
-            sensorId: sensorId,
-          },
-        data: settings
-    });
-    console.log('done')
-    return updated_settings.id;
 }
 
 async function findSensorById(id) {
@@ -58,6 +50,25 @@ async function deleteSensorById(id) {
         },
     });
 }
+
+
+/*
+    SETTINGS SERVICES
+*/
+async function updateSettingsById(sensorId, settings) {
+    settings["pushStart"] = new Date(settings.pushStart)
+    settings["pushEnd"] = new Date(settings.pushEnd)
+    let updated_settings = await db.SensorSettings.update({
+        where: {
+            sensorId: sensorId,
+          },
+        data: settings
+    });
+    console.log('done')
+    return updated_settings.id;
+}
+
+
 
 module.exports = {
     createSensor,
