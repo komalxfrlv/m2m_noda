@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -44,7 +44,7 @@ model User {
   password      String
   auto_updating Boolean        @default(true)
   auto_paying   Boolean        @default(true)
-  hash_rst      String?        @db.VarChar(255) 
+  hash_rst      String?        @db.VarChar(255)
   hash_vrf      String?        @db.VarChar(255)
   token         String?        @db.Text
   phone         BigInt         @db.BigInt
@@ -61,13 +61,13 @@ model User {
 }
 
 model RefreshToken {
-  id            String   @id @unique @default(uuid())
-  hashedToken   String
-  userId        String
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  revoked       Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id          String   @id @unique @default(uuid())
+  hashedToken String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  revoked     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model DeviceType {
@@ -114,7 +114,7 @@ model Sensor {
   id        String          @id @unique @default(uuid())
   mac       String          @db.VarChar(99)
   uptime    BigInt?         @db.BigInt
-  charge    Int?             @db.TinyInt
+  charge    Int?            @db.SmallInt
   deviceId  String
   device    DeviceType      @relation(fields: [deviceId], references: [id])
   settings  SensorSettings?
@@ -124,41 +124,41 @@ model Sensor {
 }
 
 model SensorSettings {
-  id         String     @id @unique         @default(uuid())
-  name       String     @db.VarChar(255)
-  sleep      BigInt?    @db.BigInt          @default(10)
-  alert      Boolean    @default(false)
-  lost       Boolean    @default(false)
-  sensorId   String     @unique
-  sensor     Sensor     @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  id         String    @id @unique @default(uuid())
+  name       String    @db.VarChar(255)
+  sleep      BigInt?   @default(10) @db.BigInt
+  alert      Boolean   @default(false)
+  lost       Boolean   @default(false)
+  sensorId   String    @unique
+  sensor     Sensor    @relation(fields: [sensorId], references: [id], onDelete: Cascade)
   versionId  String
-  version    Version    @relation(fields: [versionId], references: [id])
-  pushStart  DateTime?  @db.Time()
-  pushEnd    DateTime?  @db.Time()
-  triggerMin Int?       @db.Int
-  triggerMax Int?       @db.Int
+  version    Version   @relation(fields: [versionId], references: [id])
+  pushStart  DateTime? @db.Time()
+  pushEnd    DateTime? @db.Time()
+  triggerMin Float?      @db.DoublePrecision
+  triggerMax Float?      @db.DoublePrecision
   schedule   Json?
   options    Json?
 }
 
 model Data {
-  id       String @id         @unique        @default(uuid())
+  id       String @id @unique @default(uuid())
   value    Json
   sensorId String
   sensor   Sensor @relation(fields: [sensorId], references: [id], onDelete: Cascade)
 }
 
 model Activity {
-  id      String  @id         @unique       @default(uuid())
-  name    String
-  metric  Metric[]
+  id     String   @id @unique @default(uuid())
+  name   String
+  metric Metric[]
 }
 
 model Metric {
-  id          String   @id @unique @default(uuid())
-  activityId  String
-  activity    Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
-  datetime    DateTime @default(now())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String   @id @unique @default(uuid())
+  activityId String
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  datetime   DateTime @default(now())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
