@@ -6,7 +6,7 @@ COPY package*.json ./
 COPY prisma ./prisma/
 
 RUN npm install
-
+RUN npm install prisma --save-dev
 COPY . .
 
 EXPOSE 3000
