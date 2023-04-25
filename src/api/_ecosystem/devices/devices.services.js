@@ -12,7 +12,15 @@ async function createDevice(device) {
     return newDevice.id;
 }
 
+async function findDevicebyId(id) {
+    return await db.DeviceType.findUnique({
+        where: { 
+            id:id,
+        }});
+}
+
 module.exports = {
     getAll,
+    findDevicebyId,
     createDevice,
 };

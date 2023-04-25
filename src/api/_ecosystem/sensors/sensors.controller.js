@@ -14,7 +14,8 @@ const {
     findStationById
 } = require('../stations/stations.services')
 
-
+const { findVersionById } = require('../versions/versions.services');
+const { findDevicebyId } = require('../devices/devices.services');
 
 
 /*
@@ -27,7 +28,10 @@ async function createNewSensor(req, res, next) {
         let stationId = req.body.stationId;
 
         if(! (stationId && newSensor && newSettings) ){
-            console.log(`sensor: \n${newSensor}\n\n settings:\n ${newSettings}\n\n stationId: \n${stationId}\n\n`)
+            console.log(`
+            sensor: \n${JSON.stringify(newSensor)}\n\n 
+            settings:\n ${JSON.stringify(newSettings)}\n\n 
+            stationId: \n${JSON.stringify(stationId)}\n\n`)
             throw new Error('In request must be sensor, settings and stationId. ');
         }
         const { userId } = req.payload
@@ -39,6 +43,23 @@ async function createNewSensor(req, res, next) {
             console.log(station)
             throw new Error("Can't find station with this id");
         }
+        let version = await findVersionById(newSettings.versionId)
+
+        if(!version){
+            console.log(`version: \n${JSON.stringify(version)}\n`)
+            throw new Error(`Can't find version`);
+        }
+
+
+        if (version.deviceId != newSensor.deviceId){
+            let versionDeviceType = await findDevicebyId(version.deviceId)
+            let sensorDeviceType = await findDevicebyId(newSensor.deviceId)
+            console.log(`
+            version: \n${JSON.stringify(version)}\n\n 
+            station:\n${JSON.stringify(newSensor)}\n\n`)
+            throw new Error(`This version for ${versionDeviceType.name}, not for ${sensorDeviceType.name}`);
+        }
+
         //console.log(station.userId)
         if (station.userId !== userId) { 
             res.status(400);

@@ -13,7 +13,16 @@ async function createVersion(version) {
     return created_version;
 }
 
+async function findVersionById(id) {
+    console.log(id)
+    return await db.version.findUnique({
+        where: { 
+            id:id,
+        }});
+}
+
 module.exports = {
     createVersion,
+    findVersionById,
     getAll
 }
