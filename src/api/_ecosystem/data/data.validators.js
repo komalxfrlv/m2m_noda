@@ -6,9 +6,32 @@ async function validateDataCreating(data) {
         type: "object",
         properties: {
             value: { type: "object" },
-            sensorId: { type: "string" },
         },
-        required: ["value", "sensorId"],
+        required: ["value"],
+        additionalProperties: false
+    };
+
+    const validate = ajv.compile(schema);
+
+    const valid = validate(data);
+
+    if (!valid) {
+        const valErr = validate.errors;
+        throw new Error(`${valErr[0]["instancePath"]} ${valErr[0]["message"]}`);
+    }
+
+    return valid;
+}
+
+async function validateSensorUpdating(data) {
+    const schema = {
+        type: "object",
+        properties: {
+            charge: { type: "number" },
+            id: { type: "string" },
+            uptime: { type: "number" },
+        },
+        required: ["charge", "id", "uptime"],
         additionalProperties: false
     };
 
@@ -26,4 +49,5 @@ async function validateDataCreating(data) {
 
 module.exports = {
     validateDataCreating,
+    validateSensorUpdating
 }

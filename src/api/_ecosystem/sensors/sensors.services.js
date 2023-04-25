@@ -34,10 +34,10 @@ async function findSensorById(id) {
     });
 }
 
-async function updateSensorById(id, sensor) {
+async function updateSensorById(sensor) {
     return await db.sensor.update({
         where: {
-            id,
+            id: sensor.id,
         },
         data: sensor,
     });
