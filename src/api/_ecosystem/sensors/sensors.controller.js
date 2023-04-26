@@ -81,8 +81,10 @@ async function createNewSensor(req, res, next) {
 async function getSensorById(req, res, next) {
     try{
     const sensorId = req.query.id
-    console.log(sensorId)
-    const sensor = await findSensorById(sensorId)
+    var withData = req.query.withData == "true" ? true : false
+    var withSettings = req.query.withSettings == "true" ? true : false
+    console.log(sensorId, withData, withSettings)
+    const sensor = await findSensorById(sensorId, withData, withSettings)
 
     if(!sensor){
         res.status(400);
@@ -92,7 +94,7 @@ async function getSensorById(req, res, next) {
 
 
     const { userId } = req.payload
-    const station = await findStationById(sensor.stationId)
+    const station = await findStationById(sensor.stationId, withData, withSettings)
 
 
     if (station.userId !== userId){

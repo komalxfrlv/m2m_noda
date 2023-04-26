@@ -7,7 +7,7 @@ async function create(req, res, next) {
     try {
         const data = req.body.data
         const sensor = req.body.sensor  
-        console.log(`${JSON.stringify(data)}`)
+        console.log(`${JSON.stringify(data)}\n${JSON.stringify(sensor)}\n\n`)
         /*
         if (! await dataValidator.dataCreating(data)) {
             res.status(400);
