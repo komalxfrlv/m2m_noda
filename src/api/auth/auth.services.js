@@ -1,7 +1,6 @@
 const { db } = require('../../utils/db');
 const { hashToken } = require('../../utils/hashToken');
-var http = require('http');
-var querystring = require('querystring');
+
 
 
 // used when we create a refresh token.
@@ -47,42 +46,7 @@ function revokeTokens(userId) {
   });
 }
 
-function postEmailReq(email, content) {
-  // Build the post string from an object
-  var post_data = querystring.stringify({
-      'email' : email,
-      'content': content
-  });
-
-  // An object of options to indicate where to post to
-  var post_options = {
-      host: 'localhost',
-      port: process.env.MAIL_PORT,
-      path: '/api/mail',
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Content-Length': Buffer.byteLength(post_data)
-      }
-  };
-
-  // Set up the request
-  var post_req = http.request(post_options, function(res) {
-      res.setEncoding('utf8');
-      res.on('data', function (chunk) {
-          console.log('Response: ' + chunk);
-      });
-  });
-console.log(post_data)
-  // post the data
-  post_req.write(post_data);
-  post_req.end();
-
-}
-
-
 module.exports = {
-  postEmailReq,
   addRefreshTokenToWhitelist,
   findRefreshTokenById,
   deleteRefreshToken,

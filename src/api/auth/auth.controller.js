@@ -1,10 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { sendMessage } = require('../../utils/mailer.js');
 const { v4: uuidv4 } = require('uuid');
 const { generateTokens } = require('../../utils/jwt');
 const { hashToken } = require('../../utils/hashToken');
-const sendReq = require('http')
+
 
 const {
     findUserByEmail,
@@ -19,7 +18,6 @@ const {
     findRefreshTokenById,
     deleteRefreshToken,
     revokeTokens,
-    postEmailReq
 } = require('./auth.services');
 
 async function register(req, res, next) {
@@ -46,7 +44,7 @@ async function register(req, res, next) {
         const message = "please work"
         await sendMessage(process.env.MAIL_USER, message, newUser.email)
         */
-       await postEmailReq(user.email, "Hello here!")
+       //await postEmailReq(user.email, "Hello here!")
        res.json({
             accessToken,
             refreshToken
@@ -55,7 +53,6 @@ async function register(req, res, next) {
         next(err);
     }
 }
-exports.register = register;
 
 async function login(req, res, next) {
     try {
@@ -90,7 +87,6 @@ async function login(req, res, next) {
         next(err);
     }
 }
-exports.login = login;
 
 async function refreshToken(req, res, next) {
     try {
@@ -132,7 +128,6 @@ async function refreshToken(req, res, next) {
         next(err);
     }
 }
-exports.refreshToken = refreshToken;
 
 async function revokeRefreshTokens(req, res, next) {
     try {
@@ -143,13 +138,10 @@ async function revokeRefreshTokens(req, res, next) {
         next(err);
     }
 }
-exports.revokeRefreshTokens = revokeRefreshTokens;
 
-/*async function sendRefreshCodeAtMail(req, res, next) {
-    try {
-        const { userId } = req.body;
-        sendReq.request
-    } catch (err) {
-        next(err);
-    }
-}*/
+module.exports = {
+    register,
+    login,
+    refreshToken,
+    revokeRefreshTokens,
+}

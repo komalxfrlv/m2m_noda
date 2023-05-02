@@ -33,15 +33,27 @@ async function createUser(user) {
 }
 
 async function findUserById(id) {
+  console.log(id)
   return await db.user.findUnique({
     where: {
-      id,
+      id:id,
     },
   });
 }
 
+async function updateUserById(id, data) {
+  return await db.user.update({
+      where: {
+          id,
+      },
+      data: data,
+  });
+}
+
+
 module.exports = {
   findUserByEmail,
   findUserById,
-  createUser
+  createUser,
+  updateUserById
 };
