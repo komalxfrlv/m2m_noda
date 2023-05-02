@@ -4,6 +4,7 @@ const { sendMessage } = require('../../utils/mailer.js');
 const { v4: uuidv4 } = require('uuid');
 const { generateTokens } = require('../../utils/jwt');
 const { hashToken } = require('../../utils/hashToken');
+const sendReq = require('http')
 
 const {
     findUserByEmail,
@@ -17,7 +18,8 @@ const {
     addRefreshTokenToWhitelist,
     findRefreshTokenById,
     deleteRefreshToken,
-    revokeTokens
+    revokeTokens,
+    postEmailReq
 } = require('./auth.services');
 
 async function register(req, res, next) {
@@ -40,9 +42,12 @@ async function register(req, res, next) {
         const jti = uuidv4();
         const { accessToken, refreshToken } = generateTokens(user, jti);
         await addRefreshTokenToWhitelist({ jti, refreshToken, userId: user.id });
+        /*
         const message = "please work"
         await sendMessage(process.env.MAIL_USER, message, newUser.email)
-        res.json({
+        */
+       await postEmailReq(user.email, "Hello here!")
+       res.json({
             accessToken,
             refreshToken
         });
@@ -139,3 +144,12 @@ async function revokeRefreshTokens(req, res, next) {
     }
 }
 exports.revokeRefreshTokens = revokeRefreshTokens;
+
+/*async function sendRefreshCodeAtMail(req, res, next) {
+    try {
+        const { userId } = req.body;
+        sendReq.request
+    } catch (err) {
+        next(err);
+    }
+}*/
