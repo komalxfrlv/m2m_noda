@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 
 async function profile(req, res, next) {
     try {
+        console.log(req)
         const { userId } = req.payload;
         
         const user = await findUserById(userId);
@@ -19,7 +20,8 @@ async function profile(req, res, next) {
 
 async function sendRefreshCodeAtMail(req, res, next) {
     try {
-        const { userId } = req.body
+        console.log(req)
+        const { userId } = req.payload
         const user = await findUserById(userId)
         const code = Math.floor(Math.random()*8999)+1000
         console.log(code)
@@ -34,14 +36,14 @@ async function sendRefreshCodeAtMail(req, res, next) {
 
 async function ChangePasswordByResetCode(req, res, next) {
     try {
-        const { userId } = req.body
+        const { userId } = req.payload
         const user = await findUserById(userId)
         const code = req.body.code
         const code_hash = crypto.createHash('sha512').update(''+code).digest('hex')
         console.log(code)
         if (code_hash == user.hash_rst){
             user.password = bcrypt.hashSync(req.body.password, 12)
-            user.hash_rst = ""
+            user.hash_rst = null
             await updateUserById(userId, user)
         }
         else{
