@@ -6,6 +6,8 @@ const { isAuthenticated } = require('../../middlewares/auth.middleware');
 
 router.get('/profile', isAuthenticated, users.profile);
 
-router.post('/resetPassword', users.sendRefreshCodeAtMail);
+router.post('/sendCode', users.sendRefreshCodeAtMail);
+
+router.post('/resetPassword', users.ChangePasswordByResetCode);
 
 module.exports = router;
