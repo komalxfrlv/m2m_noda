@@ -80,7 +80,9 @@ async function resetForgotenPassword(req, res, next) {
             newPass+=String.fromCharCode(randomChar)
         }
         // отправляем на почту пароль
-        await postEmailReq(user.email, `Ваш новый пароль - ${newPass}\nМы рекомендуем его сменить как можно раньше`)
+        const message = `Ваш новый пароль - <br><br>${newPass}
+        <br>>Мы рекомендуем его сменить как можно раньше`
+        await postEmailReq(user.email, message)
         console.log(newPass)
         //меняем пароль на сгенерированный
         user.password = bcrypt.hashSync(newPass, 12)
