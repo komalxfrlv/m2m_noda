@@ -19,16 +19,18 @@ async function profile(req, res, next) {
     }
 }
 
-async function sendRefreshCodeAtMail(req, res, next) {
+async function sendRefreshCodeAtMail(req, res, next) {                  //Тут генерируется код для замены пароля и отправляется по почте
     try {
         //console.log(req)
         const { userId } = req.payload
-        const user = await findUserById(userId)
-        const code = Math.floor(Math.random()*8999)+1000
-        console.log(code)
-        await postEmailReq(user.email, code)
+        const user = await findUserById(userId) // ищем юзера по токену
+
+        const code = Math.floor(Math.random()*8999)+1000 //случайное число от 1000 до 9999
+
+        console.log(code) //логируем в консоль
+        await postEmailReq(user.email, code)    //Отправка на почтовый сервер
         const hash_rst = {"hash_rst":crypto.createHash('sha512').update(''+code).digest('hex')}
-        await updateUserById(userId, hash_rst)
+        await updateUserById(userId, hash_rst)  //код преобразуем в хэш, после записываем специальное поле юзера
         res.json("code send on your email")
     } catch (err) {
         next(err);
@@ -38,19 +40,23 @@ async function sendRefreshCodeAtMail(req, res, next) {
 async function ChangePasswordByResetCode(req, res, next) {
     try {
         const { userId } = req.payload
-        const user = await findUserById(userId)
+        const user = await findUserById(userId)         //Ищем юзера по токену
         const code = req.body.code
-        const code_hash = crypto.createHash('sha512').update(''+code).digest('hex')
+        const password = req.body.password
+        if (!password || !code) {
+            throw new Error('You must provide an code and a password');
+        }
+        const code_hash = crypto.createHash('sha512').update(''+code).digest('hex') // Присланный код преобразуем в хэш
         console.log(code)
-        if (code_hash == user.hash_rst){
-            user.password = bcrypt.hashSync(req.body.password, 12)
-            user.hash_rst = null
-            await updateUserById(userId, user)
+        if (code_hash == user.hash_rst){        //Если совпадает, то
+            user.password = bcrypt.hashSync(password, 12)  //меняем пароль на присланный
+            user.hash_rst = null        //Обнуляем ресет код
+            await updateUserById(userId, user) 
         }
         else{
             throw new Error('Wrong code');
         }
-        res.json("done!")
+        res.json("DONE!")
     } catch (err) {
         next(err);
     }
@@ -58,7 +64,14 @@ async function ChangePasswordByResetCode(req, res, next) {
 
 async function resetForgotenPassword(req, res, next) {
     try {
-        const user = await findUserByEmail(req.body.email)
+        const email = req.body.email
+        if(!email){
+            throw new Error("You must provide all field");
+        }
+        const user = await findUserByEmail(email)
+        if(!user){
+            throw new Error("Can't find user");
+        }
         var newPass = ''
         for (let i = 0; i < 10; i++) {
             const randomChar = Math.floor(Math.random()*89)+33;
@@ -68,7 +81,7 @@ async function resetForgotenPassword(req, res, next) {
         console.log(newPass)
         user.password = bcrypt.hashSync(newPass, 12)
         await updateUserById(user.id, user)
-        res.json("done!")
+        res.json("DONE!")
     } catch (err) {
         next(err);
     }

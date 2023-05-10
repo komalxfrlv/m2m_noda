@@ -38,7 +38,7 @@ function postEmailReq(email, content) {
   
     // An object of options to indicate where to post to
     var post_options = {
-        host: 'localhost',
+        host: process.env.MAIL_HOST,
         port: process.env.MAIL_PORT,
         path: '/api/mail',
         method: 'POST',
