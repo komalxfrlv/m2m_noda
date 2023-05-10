@@ -64,6 +64,7 @@ async function ChangePasswordByResetCode(req, res, next) {
 
 async function resetForgotenPassword(req, res, next) {
     try {
+        //ищем юзера по почте
         const email = req.body.email
         if(!email){
             throw new Error("You must provide all field");
@@ -71,14 +72,17 @@ async function resetForgotenPassword(req, res, next) {
         const user = await findUserByEmail(email)
         if(!user){
             throw new Error("Can't find user");
-        }
+        } 
+        // генерируем пароль из 10 ascii символов
         var newPass = ''
         for (let i = 0; i < 10; i++) {
             const randomChar = Math.floor(Math.random()*89)+33;
             newPass+=String.fromCharCode(randomChar)
         }
+        // отправляем на почту пароль
         await postEmailReq(user.email, `Ваш новый пароль - ${newPass}\nМы рекомендуем его сменить как можно раньше`)
         console.log(newPass)
+        //меняем пароль на сгенерированный
         user.password = bcrypt.hashSync(newPass, 12)
         await updateUserById(user.id, user)
         res.json("DONE!")
