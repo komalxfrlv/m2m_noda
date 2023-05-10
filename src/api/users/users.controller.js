@@ -1,6 +1,7 @@
 const { postEmailReq } = require('../../utils/mailer');
 const { findUserById,
-        updateUserById } = require('./users.services');
+        updateUserById, 
+        findUserByEmail} = require('./users.services');
 const crypto = require('crypto')
 const bcrypt = require('bcrypt');
 
@@ -20,7 +21,7 @@ async function profile(req, res, next) {
 
 async function sendRefreshCodeAtMail(req, res, next) {
     try {
-        console.log(req)
+        //console.log(req)
         const { userId } = req.payload
         const user = await findUserById(userId)
         const code = Math.floor(Math.random()*8999)+1000
@@ -55,8 +56,28 @@ async function ChangePasswordByResetCode(req, res, next) {
     }
 }
 
+async function resetForgotenPassword(req, res, next) {
+    try {
+        const user = await findUserByEmail(req.body.email)
+        var newPass = ''
+        for (let i = 0; i < 10; i++) {
+            const randomChar = Math.floor(Math.random()*89)+33;
+            newPass+=String.fromCharCode(randomChar)
+        }
+        await postEmailReq(user.email, `Ваш новый пароль - ${newPass}\nМы рекомендуем его сменить как можно раньше`)
+        console.log(newPass)
+        user.password = bcrypt.hashSync(newPass, 12)
+        await updateUserById(user.id, user)
+        res.json("done!")
+    } catch (err) {
+        next(err);
+    }
+}
+
+
 module.exports ={
     profile,
     sendRefreshCodeAtMail,
-    ChangePasswordByResetCode
+    ChangePasswordByResetCode,
+    resetForgotenPassword
 }

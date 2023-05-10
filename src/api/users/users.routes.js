@@ -10,4 +10,6 @@ router.post('/sendCode', isAuthenticated, users.sendRefreshCodeAtMail);
 
 router.post('/resetPassword',isAuthenticated, users.ChangePasswordByResetCode);
 
+router.post('/forgotenPassword', users.resetForgotenPassword);
+
 module.exports = router;
