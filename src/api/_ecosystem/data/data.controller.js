@@ -1,6 +1,7 @@
 const {validateDataCreating,
         validateSensorUpdating} = require('./data.validators');
-const { createData } = require('./data.services');
+const { createData,
+    getDataInterval } = require('./data.services');
 const { updateSensorById } = require('../sensors/sensors.services');
 
 async function create(req, res, next) {
@@ -8,12 +9,7 @@ async function create(req, res, next) {
         const data = req.body.data
         const sensor = req.body.sensor  
         console.log(`${JSON.stringify(data)}\n${JSON.stringify(sensor)}\n\n`)
-        /*
-        if (! await dataValidator.dataCreating(data)) {
-            res.status(400);
-            throw new Error('You must provide all fields of station.');
-        }
-        */
+
         await validateDataCreating(data)
         await validateSensorUpdating(sensor)
         data.sensorId = req.body.sensor.id 
@@ -25,4 +21,6 @@ async function create(req, res, next) {
     }
 }
 
-exports.create = create;
+module.exports = {
+    create,
+}
