@@ -30,6 +30,17 @@ async function findStationById(id) {
     });
 }
 
+async function findAllStation(userId) {
+    return await db.station.findUnique({
+        where: { 
+            userId: userId,
+        },
+        include:{
+            sensors:true
+        }
+    });
+}
+
 async function updateStationById(id, station) {
     return await db.station.update({
         where: {
@@ -59,6 +70,7 @@ async function deleteStationById(id) {
 module.exports = {
     createStation,
     findStationById,
+    findAllStation,
     updateStationById,
     deleteStationById,
     updateSettingsById,
