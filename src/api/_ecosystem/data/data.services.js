@@ -6,6 +6,19 @@ async function createData(data) {
     });
 }
 
+async function getDataInterval(dateFrom, dateTo, sensorId) {
+    return await db.data.findMany({
+        where:{
+                createdAt:{
+                        gte: dateFrom,
+                        lte: dateTo
+            },
+            sensorId: sensorId
+    }
+    });
+}
+
 module.exports = {
     createData,
+    getDataInterval
 }

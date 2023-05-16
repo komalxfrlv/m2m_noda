@@ -1,8 +1,11 @@
 const {validateDataCreating,
         validateSensorUpdating} = require('./data.validators');
 const { createData,
-    getDataInterval } = require('./data.services');
-const { updateSensorById } = require('../sensors/sensors.services');
+        getDataInterval } = require('./data.services');
+const { updateSensorById,
+        findSensorById } = require('../sensors/sensors.services');
+
+const { findStationById } = require('../stations/stations.services');
 
 async function create(req, res, next) {
     try {
@@ -21,6 +24,37 @@ async function create(req, res, next) {
     }
 }
 
+async function getInterval(req, res, next) {
+    try {
+        const dateFrom = req.query.dateFrom
+        const dateTo = req.query.dateTo
+        const sensorId = req.query.sensorId
+        if(!(dateFrom && dateTo && sensorId)){
+            throw new Error(`here must be dateFrom, dateTo and sensorId. Check your data`);
+        }
+
+
+        const { userId } = req.payload
+
+        const sensor = await findSensorById(sensorId)
+        if(!sensor) throw new Error(`Can't find sensor`); 
+        
+        const station = await findStationById(sensor.stationId)
+        if(!station) throw new Error(`Can't find station`); 
+        
+        if (userId != station.userId){
+            console.log(station)
+            console.log(userId)
+            throw new Error(`Not your device`);
+        }
+        res.json(await getDataInterval(dateFrom, dateTo, sensorId));
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     create,
+    getInterval
 }
