@@ -31,8 +31,8 @@ async function findStationById(id) {
 }
 
 async function findAllStation(userId) {
-    return await db.station.findUnique({
-        where: { 
+    return await db.station.findMany({
+        where: {
             userId: userId,
         },
         include:{
