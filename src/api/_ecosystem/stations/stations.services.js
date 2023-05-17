@@ -21,11 +21,11 @@ async function createStation(station, settings, userId) {
 
 async function findStationById(id) {
     return await db.station.findUnique({
-        where: { 
-            id:id,
+        where: {
+            id: id,
         },
-        include:{
-            sensors:true
+        include: {
+            sensors: true
         }
     });
 }
@@ -35,20 +35,41 @@ async function findAllStation(userId) {
         where: {
             userId: userId,
         },
-        include:{
+
+        select: {
+            settings: {
+                
+            },
+            sensors: {
+                select: {
+                    settings: {
+
+                    },
+                    data: {
+                        orderBy: {
+                            createdAt: 'desc',
+                        },
+                        take: 1,
+                    }
+                }
+            },
+        },
+        /*
+        include: {
             sensors: {
                 include: {
                     settings: true,
                     data: {
-                        take: -1
+
                     }
                 },
                 select: {
-                    
+
                 }
             },
             settings: true
         }
+        */
     });
 }
 
@@ -73,7 +94,7 @@ async function updateSettingsById(stationId, settings) {
 async function deleteStationById(id) {
     return await db.station.delete({
         where: {
-            id:id,
+            id: id,
         },
     });
 }
