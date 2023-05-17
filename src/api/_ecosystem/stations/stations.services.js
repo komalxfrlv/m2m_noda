@@ -46,7 +46,10 @@ async function findAllStation(userId) {
 
                     },
                     data: {
-                        take: -1,
+                        orderBy: {
+                            createdAt: 'desc',
+                        },
+                        take: 1,
                     }
                 }
             },
