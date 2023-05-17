@@ -36,7 +36,11 @@ async function findAllStation(userId) {
             userId: userId,
         },
         include:{
-            sensors:true,
+            sensors: {
+                include: {
+                    settings: true
+                }
+            },
             settings: true
         }
     });
