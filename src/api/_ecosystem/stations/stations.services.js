@@ -38,7 +38,13 @@ async function findAllStation(userId) {
         include:{
             sensors: {
                 include: {
-                    settings: true
+                    settings: true,
+                    data: {
+                        orderBy: {
+                            createdAt: 'desc'
+                        },
+                        take: 1,
+                    }
                 }
             },
             settings: true
