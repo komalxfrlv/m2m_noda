@@ -11,10 +11,6 @@ const {
 
 async function createNewVersion(req, res, next) {
     try {
-        const { userId } = req.payload;
-
-        const user = await findUserById(userId);
-
         let version = req.body;
         await validateVersionCreating(version)
 

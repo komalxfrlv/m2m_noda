@@ -38,7 +38,7 @@ async function createNewStation(req, res, next) {
         let newStation = req.body.station;
         let newSettings = req.body.settings;
 
-
+        /*
         if (!(newStation && newSettings)) {
             console.dir(`
             station: \n${JSON.stringify(newStation)}\n\n 
@@ -46,16 +46,15 @@ async function createNewStation(req, res, next) {
             throw new Error('In request must be station and settings. ');
         }
 
-
         let version = await findVersionById(newSettings.versionId);
-
 
         if (!version) {
             console.log(`version: \n${JSON.stringify(version)}\n`)
             throw new Error(`Can't find version`);
         }
-
-
+        */
+       
+        /*
         if (version.deviceId != newStation.deviceId) {
             let versionDeviceType = await findDevicebyId(version.deviceId)
             let stationDeviceType = await findDevicebyId(newStation.deviceId)
@@ -64,6 +63,7 @@ async function createNewStation(req, res, next) {
             station:\n${JSON.stringify(newStation)}\n\n`)
             throw new Error(`This version for ${versionDeviceType.name}, not for ${stationDeviceType.name}`);
         }
+        */
 
         await validateStation(newStation)
         await validateStationsSettings(newSettings)
