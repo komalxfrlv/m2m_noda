@@ -38,7 +38,7 @@ async function findAllStation(userId) {
 
         select: {
             settings: {
-
+                
             },
             sensors: {
                 select: {
@@ -46,8 +46,7 @@ async function findAllStation(userId) {
 
                     },
                     data: {
-                        orderBy: 'createdAt DESC',
-                        take: 1,
+                        take: -1,
                     }
                 }
             },
