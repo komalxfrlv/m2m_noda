@@ -40,11 +40,12 @@ async function findAllStation(userId) {
                 include: {
                     settings: true,
                     data: {
-                        orderBy: {
-                            createdAt: 'desc'
-                        },
+                        orderBy: 'createdAt DESC',
                         take: 1,
                     }
+                },
+                select: {
+                    
                 }
             },
             settings: true
