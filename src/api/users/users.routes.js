@@ -6,6 +6,8 @@ const { isAuthenticated } = require('../../middlewares/auth.middleware');
 
 router.get('/profile', isAuthenticated, users.profile);
 
+router.post('/profile', isAuthenticated, users.changeUserSettings);
+
 router.post('/sendCode', isAuthenticated, users.sendRefreshCodeAtMail);
 
 router.post('/resetPassword',isAuthenticated, users.ChangePasswordByResetCode);

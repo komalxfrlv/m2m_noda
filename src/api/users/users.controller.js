@@ -2,6 +2,7 @@ const { postEmailReq } = require('../../utils/mailer');
 const { findUserById,
         updateUserById, 
         findUserByEmail} = require('./users.services');
+const {validateUserSettingsChanging} = require('./users.validators')
 const crypto = require('crypto')
 const bcrypt = require('bcrypt');
 
@@ -30,7 +31,8 @@ async function sendRefreshCodeAtMail(req, res, next) {                  //Тут
         console.log(code) //логируем в консоль
         await postEmailReq(user.email, code)    //Отправка на почтовый сервер
         const hash_rst = {"hash_rst":crypto.createHash('sha512').update(''+code).digest('hex')}
-        await updateUserById(userId, hash_rst)  //код преобразуем в хэш, после записываем специальное поле юзера
+        user.hash_rst = hash_rst
+        await updateUserById(user)  //код преобразуем в хэш, после записываем специальное поле юзера
         res.json("code send on your email")
     } catch (err) {
         next(err);
@@ -51,7 +53,7 @@ async function ChangePasswordByResetCode(req, res, next) {
         if (code_hash == user.hash_rst){        //Если совпадает, то
             user.password = bcrypt.hashSync(password, 12)  //меняем пароль на присланный
             user.hash_rst = null        //Обнуляем ресет код
-            await updateUserById(userId, user) 
+            await updateUserById(user) 
         }
         else{
             throw new Error('Wrong code');
@@ -86,17 +88,44 @@ async function resetForgotenPassword(req, res, next) {
         console.log(newPass)
         //меняем пароль на сгенерированный
         user.password = bcrypt.hashSync(newPass, 12)
-        await updateUserById(user.id, user)
+        await updateUserById(user)
         res.json("DONE!")
     } catch (err) {
         next(err);
     }
 }
 
+async function changeUserSettings(req, res, next) {
+    try {
+        const { userId } = req.payload
+        const user = await findUserById(userId)
+
+        //Чекаем все. Если не нул, меняем на пришедшее в запросе
+        if(req.body.name) user.name = req.body.name
+        if(req.body.surname) user.surname = req.body.surname
+        if(req.body.patronymic) user.patronymic = req.body.patronymic
+        if(req.body.email) user.email = req.body.email
+        if(req.body.auto_updating) user.auto_updating = req.body.auto_updating
+        if(req.body.auto_paying) user.auto_paying = req.body.auto_paying
+        if(req.body.phone) user.phone = req.body.phone
+        if(req.body.cityId) user.cityId = req.body.cityId
+
+        await validateUserSettingsChanging(user)
+        await updateUserById(user)
+        
+        console.log(user)
+        console.log()
+        res.json(user);
+
+    } catch (err) {
+        next(err);
+    }
+}
 
 module.exports ={
     profile,
     sendRefreshCodeAtMail,
     ChangePasswordByResetCode,
-    resetForgotenPassword
+    resetForgotenPassword,
+    changeUserSettings
 }

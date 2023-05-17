@@ -41,12 +41,12 @@ async function findUserById(id) {
   });
 }
 
-async function updateUserById(id, data) {
+async function updateUserById(user) {
   return await db.user.update({
       where: {
-          id,
+          id : user.id,
       },
-      data: data,
+      data: user,
   });
 }
 
