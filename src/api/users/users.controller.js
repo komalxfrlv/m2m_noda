@@ -115,6 +115,8 @@ async function changeUserSettings(req, res, next) {
         
         console.log(user)
         console.log()
+
+        delete user.password;
         res.json(user);
 
     } catch (err) {

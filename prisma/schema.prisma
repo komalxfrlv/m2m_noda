@@ -78,6 +78,7 @@ model DeviceType {
 model Version {
   id          String            @id @unique @default(uuid())
   fileUrl     String            @db.Text
+  servFileUrl String            @db.Text @default("")
   description String            @db.Text
   version     String            @db.VarChar(255)
   deviceId    String
