@@ -13,7 +13,7 @@ async function checkRole(req, res, next, role) {
             console.log(user)
             console.log(`${user.role} must be ${role}`)
             res.status(401);
-            throw new Error(`${user.role} can't add versions`);
+            throw new Error(`${user.role} can't do this rout`);
         }
     }
     catch(err){
