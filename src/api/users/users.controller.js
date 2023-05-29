@@ -124,10 +124,25 @@ async function changeUserSettings(req, res, next) {
     }
 }
 
+async function setPushToken(req, res, next){
+    try{
+        const token = req.body.token
+        if(!token) throw new Error("Can't find token")
+        let user = await findUserById(req.payload.userId)
+        user.token = token
+        await updateUserById(user)
+        res.json("DONE!")
+    }
+    catch(err){
+        next(err)
+    }
+}
+
 module.exports ={
     profile,
     sendRefreshCodeAtMail,
     ChangePasswordByResetCode,
     resetForgotenPassword,
-    changeUserSettings
+    changeUserSettings,
+    setPushToken
 }
