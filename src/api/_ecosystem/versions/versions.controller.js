@@ -36,7 +36,7 @@ async function downloadNewVersion(req, res, next) {
     try {
         let version = await findVersionById(req.query.id);
         const filePath = "../m2m_noda/storage/versions"
-        res.download(`${filePath}/${version.fileUrl}`, version.fileUrl); 
+        res.download(`${filePath}/${version.servFileUrl}`, version.servFileUrl); 
     } catch (err) {
         next(err);
     }
