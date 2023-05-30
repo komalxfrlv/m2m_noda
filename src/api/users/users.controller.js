@@ -30,7 +30,7 @@ async function sendRefreshCodeAtMail(req, res, next) {                  //Тут
 
         console.log(code) //логируем в консоль
         await postEmailReq(user.email, code)    //Отправка на почтовый сервер
-        const hash_rst = {"hash_rst":crypto.createHash('sha512').update(''+code).digest('hex')}
+        const hash_rst = crypto.createHash('sha512').update(''+code).digest('hex')
         user.hash_rst = hash_rst
         await updateUserById(user)  //код преобразуем в хэш, после записываем специальное поле юзера
         res.json("code send on your email")

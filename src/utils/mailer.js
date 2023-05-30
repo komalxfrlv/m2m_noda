@@ -29,7 +29,8 @@ var querystring = require('querystring');
     });
 }*/
 
-function postEmailReq(email, content) {
+function postEmailReq(email, content, next) {
+    try{
     // Build the post string from an object
     var post_data = querystring.stringify({
         'email' : email,
@@ -59,6 +60,10 @@ function postEmailReq(email, content) {
     // post the data
     post_req.write(post_data);
     post_req.end();
+}
+catch(err){
+    next(err)
+}
   
   }
 
