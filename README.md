@@ -903,7 +903,8 @@ POST api/e/data/
 
 
 ```
-POST /api/e/data/?dateFrom=(yourDate)&dateTo=(yourSecondDate)&sensorId=(yourSensorId)
+GET /api/e/data/?dateFrom=(yourDate)&dateTo=(yourSecondDate)&sensorId=(yourSensorId)
+*bearer token*
 ```
 
 </details>
