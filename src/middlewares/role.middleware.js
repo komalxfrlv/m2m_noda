@@ -1,14 +1,11 @@
 const jwt = require('jsonwebtoken');
 const { db } = require('../utils/db');
+const {findUserById} = require("../api/users/users.services")
 
 async function checkRole(req, res, next, role) {
     try{
         const userId = req.payload.userId
-        let user = await db.user.findFirst({
-            where: { 
-                id: userId,
-            }
-        });
+        let user = await findUserById(userId)
         if(user.role!==role && user.role !== "administrator"){
             console.log(user)
             console.log(`${user.role} must be ${role}`)
