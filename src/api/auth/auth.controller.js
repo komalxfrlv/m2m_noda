@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const { generateTokens } = require('../../utils/jwt');
 const { hashToken } = require('../../utils/hashToken');
-
+const { postPushReq } = require("../../utils/pusher")
 
 const {
     findUserByEmail,
@@ -78,7 +78,6 @@ async function login(req, res, next) {
         const jti = uuidv4();
         const { accessToken, refreshToken } = generateTokens(existingUser, jti);
         await addRefreshTokenToWhitelist({ jti, refreshToken, userId: existingUser.id });
-
         res.json({
             accessToken,
             refreshToken
