@@ -50,10 +50,17 @@ async function updateUserById(user) {
   });
 }
 
+async function getAllUsersToken() {
+  return await db.user.findMany({
+    select: {token:true}
+  });
+}
+
 
 module.exports = {
   findUserByEmail,
   findUserById,
   createUser,
-  updateUserById
+  updateUserById,
+  getAllUsersToken
 };
