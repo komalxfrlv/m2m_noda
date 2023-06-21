@@ -55,6 +55,7 @@ model User {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   metrics       Metric[]
+  userGroups    UserToUserGroups[]
 }
 
 model RefreshToken {
@@ -160,4 +161,19 @@ model Metric {
   datetime   DateTime @default(now())
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserGroups{
+  id          String   @id @unique @default(uuid())
+  name        String
+  pushGroupes UserToUserGroups []
+}
+
+model UserToUserGroups{
+  userGroupId   String
+  userGroup     UserGroups  @relation(fields: [userGroupId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User?     @relation(fields: [userId], references: [id])
+
+  @@id([userGroupId, userId])
 }
