@@ -104,7 +104,12 @@ async function changeUserSettings(req, res, next) {
         if(req.body.name) user.name = req.body.name
         if(req.body.surname) user.surname = req.body.surname
         if(req.body.patronymic) user.patronymic = req.body.patronymic
-        if(req.body.email) user.email = req.body.email
+        if(req.body.email) {
+            if(!findUserByEmail(req.body.email)){
+                user.email = req.body.email}
+            else{
+                throw new Error("User with this email already exist")
+            }
         if(req.body.auto_updating) user.auto_updating = req.body.auto_updating
         if(req.body.auto_paying) user.auto_paying = req.body.auto_paying
         if(req.body.phone) user.phone = req.body.phone
@@ -118,7 +123,7 @@ async function changeUserSettings(req, res, next) {
 
         delete user.password;
         res.json(user);
-
+        }
     } catch (err) {
         next(err);
     }
