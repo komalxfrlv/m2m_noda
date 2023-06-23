@@ -22,8 +22,18 @@ async function addUserToGroup(groupId, userId){
     return users_at_groups.id
 }
 
+async function getAllUsersTokenInGroup(groupId) {
+    return await db.UserGroups.findMany({
+    where:{
+        id: groupId,
+    },
+    select: {pushGroupes:true}
+    });
+  }  
+
 module.exports = {
     createGroup,
     getAllGroups,
-    addUserToGroup
+    addUserToGroup,
+    getAllUsersTokenInGroup
 }

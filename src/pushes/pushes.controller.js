@@ -5,8 +5,12 @@ const {
 } = require("../api/users/users.services")
 
 const {
-    sendPushRequest
-} = require("./pushes.utils")
+    sendPushRequest,
+} = require("./pushes.services")
+
+const {
+    getAllUsersTokenInGroup
+} = require("../api/_ecosystem/userGroups/userGroups.services")
 
 
 async function sendOnePush(req, res, next) {
@@ -46,9 +50,32 @@ async function sendPushForAll(req, res, next){
     
 }
 
+async function sendPushForFroup(req, res, next){
+    try{
+        let push = req.body.push
+        let usersTokens = await getAllUsersTokenInGroup(req.body.groupId)
+        let tokenArr = []
+        usersTokens.forEach(async user => {
+            user.token ? tokenArr.push(user.token):'';
+            if (tokenArr.length == 100){
+                await sendPushRequest(tokenArr, push.title, push.content)
+                tokenArr = []
+            }
+        } )
+        if(tokenArr){
+            console.log(tokenArr)
+            await sendPushRequest(tokenArr, push.title, push.content)
+        }
+        res.json("DONE!")
+    }
+    catch(err){
+        next(err)
+    }
+}
 
 
 module.exports = {
     sendOnePush,
-    sendPushForAll
+    sendPushForAll,
+    sendPushForFroup
 };
