@@ -27,7 +27,7 @@ async function getAllUsersTokenInGroup(groupId) {
     where:{
         id: groupId,
     },
-    select: {pushGroupes:true}
+    select: {pushGroups:true}
     });
   }  
 

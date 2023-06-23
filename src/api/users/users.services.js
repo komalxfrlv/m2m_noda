@@ -33,7 +33,7 @@ async function createUser(user) {
 }
 
 async function findUserById(id) {
-  console.log(id)
+  //console.log(id)
   return await db.user.findUnique({
     where: {
       id:id,

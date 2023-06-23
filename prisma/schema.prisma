@@ -166,7 +166,7 @@ model Metric {
 model UserGroups{
   id          String   @id @unique @default(uuid())
   name        String
-  pushGroupes UserToUserGroups []
+  pushGroups UserToUserGroups []
 }
 
 model UserToUserGroups{

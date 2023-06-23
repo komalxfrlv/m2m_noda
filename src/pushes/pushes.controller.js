@@ -1,7 +1,7 @@
 const { Expo } = require('expo-server-sdk')
 
 const {
-    getAllUsersToken: getAllUsersToken
+    getAllUsersToken: getAllUsersToken, findUserById
 } = require("../api/users/users.services")
 
 const {
@@ -50,23 +50,25 @@ async function sendPushForAll(req, res, next){
     
 }
 
-async function sendPushForFroup(req, res, next){
+async function sendPushForGroup(req, res, next){
     try{
         let push = req.body.push
-        let usersTokens = await getAllUsersTokenInGroup(req.body.groupId)
         let tokenArr = []
-        usersTokens.forEach(async user => {
+        const groupTokens = await getAllUsersTokenInGroup(req.body.groupId)
+        for (let i= 0; i < groupTokens[0].pushGroups.length; i ++) {
+            const userId = groupTokens[0].pushGroups[i].userId
+            const user = await findUserById(userId) 
             user.token ? tokenArr.push(user.token):'';
             if (tokenArr.length == 100){
                 await sendPushRequest(tokenArr, push.title, push.content)
                 tokenArr = []
             }
-        } )
-        if(tokenArr){
+        }
+        if(tokenArr.length > 0){
             console.log(tokenArr)
             await sendPushRequest(tokenArr, push.title, push.content)
         }
-        res.json("DONE!")
+        res.json('DONE!')
     }
     catch(err){
         next(err)
@@ -77,5 +79,5 @@ async function sendPushForFroup(req, res, next){
 module.exports = {
     sendOnePush,
     sendPushForAll,
-    sendPushForFroup
+    sendPushForFroup: sendPushForGroup
 };
