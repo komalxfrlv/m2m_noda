@@ -11,6 +11,93 @@ npm run dev
 
 # API
 
+## <br>
+<details><summary>Пуш уведомления</summary>
+
+## Одному пользователю
+
+<details>
+<summary>Запрос</summary>
+Пользователь должен быть администратором
+
+```
+POST /pushes
+
+{
+    "push":{
+        "token":"ExponentPushToken[JIMNXTC3gVhgNbQO4WSvNs]",
+        "title":"title", 
+        "content":"content"
+    }
+}
+```
+</details>
+
+<details>
+<summary>Ответ</summary>
+```
+DONE!
+```
+
+</details>
+
+## Всем пользователям 
+
+<details><summary>Запрос</summary>
+Пользователь должен быть администратором
+
+```
+POST /pushes/all
+
+{
+    "push":{
+        "title":"title", 
+        "content":"content"
+    }
+}
+```
+
+</details>
+
+<details>
+<summary>Ответ</summary>
+```
+DONE!
+```
+
+</details>
+
+## Группе пользователей пользователей 
+
+<details><summary>Запрос</summary>
+Пользователь должен быть администратором
+
+```
+POST /pushes/group
+
+{
+    "push":{
+        "title":"title", 
+        "content":"content"
+    }
+    groupId:"d53ebdd4-2daa-482e-8f2b-e2d854532bf4"
+}
+```
+
+</details>
+
+<details>
+<summary>Ответ</summary>
+
+```
+DONE!
+```
+
+</details>
+
+</details>
+<br><br>
+
 <details><summary>Аутентификация</summary>
 
 ## **Регистрация**

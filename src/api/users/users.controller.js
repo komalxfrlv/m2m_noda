@@ -118,9 +118,6 @@ async function changeUserSettings(req, res, next) {
         await validateUserSettingsChanging(user)
         await updateUserById(user)
         
-        console.log(user)
-        console.log()
-
         delete user.password;
         res.json(user);
         }

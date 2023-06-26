@@ -21,8 +21,6 @@ app.get('/', async (req, res, next) => {
 
 app.use('/api', require('./src/api'));
 
-app.use('/pushes', require('./src/pushes/pushes.routes'));
-
 app.use((req, res, next) => {
   next(createError.NotFound());
 });
