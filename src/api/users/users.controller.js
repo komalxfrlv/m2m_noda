@@ -1,3 +1,7 @@
+/*
+TODO
+Добавить лимит неправильно введенного пароля, кода восстановления
+*/
 const { postEmailReq } = require('../../utils/mailer');
 const { findUserById,
         updateUserById, 

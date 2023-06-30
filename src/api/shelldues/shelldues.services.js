@@ -1,7 +1,7 @@
 const { db } = require('../../utils/db');
 const { findUserById,
     updateUserById, 
-    findUserByEmail} = require('./users.services');
+    findUserByEmail} = require('../users/users.services');
 
 async function getShelldueByStation(id) {
     return await db.shelldue.findUnique({
