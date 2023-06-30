@@ -56,6 +56,7 @@ model User {
   updatedAt     DateTime       @updatedAt
   metrics       Metric[]
   userGroups    UserToUserGroups[]
+  shelldues     Shelldue[]
 }
 
 model RefreshToken {
@@ -89,14 +90,15 @@ model Version {
 }
 
 model Station {
-  id       String           @id @unique @default(uuid())
-  mac      String           @db.VarChar(99)
-  userId   String
-  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  deviceId String
-  device   DeviceType       @relation(fields: [deviceId], references: [id])
-  settings StationSettings?
-  sensors  Sensor[]
+  id        String           @id @unique @default(uuid())
+  mac       String           @db.VarChar(99)
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deviceId  String
+  device    DeviceType       @relation(fields: [deviceId], references: [id])
+  settings  StationSettings?
+  sensors   Sensor[]
+  shelldues Shelldue[]
 }
 
 model StationSettings {
@@ -176,4 +178,17 @@ model UserToUserGroups{
   user          User?     @relation(fields: [userId], references: [id])
 
   @@id([userGroupId, userId])
+}
+
+model Shelldue {
+  id              String    @id @unique @default(uuid())
+  name            String
+  hash            String?
+  shelldueScript  Json?
+
+  userId          String
+  user            User?     @relation(fields: [userId], references: [id])
+
+  stationId       String    @unique
+  station         Station   @relation(fields: [stationId], references: [id], onDelete: Cascade)
 }

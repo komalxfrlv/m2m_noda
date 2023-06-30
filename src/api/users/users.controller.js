@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 
 async function profile(req, res, next) {
     try {
-        console.log(req)
+        //console.log(req)
         const { userId } = req.payload;
         
         const user = await findUserById(userId);
