@@ -35,10 +35,10 @@ async function getInterval(req, res, next) {
         const { userId } = req.payload
 
         const sensor = await findSensorById(sensorId)
-        if(!sensor) throw new Error(`Can't find sensor`); 
+        if(!sensor) throw new Error(`Can't find sensor with this id`); 
         
         const station = await findStationById(sensor.stationId)
-        if(!station) throw new Error(`Can't find station`); 
+        if(!station) throw new Error(`Can't find station with this id`); 
         
         if (userId != station.userId){
             console.log(station)
