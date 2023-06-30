@@ -5,7 +5,7 @@ function isAuthenticated(req, res, next) {
 
   if (!authorization) {
     res.status(401);
-    res.json({ error: 'Unauthorized' });
+    return res.json({ error: 'Unauthorized' });
   }
 
   try {
