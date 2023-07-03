@@ -102,12 +102,16 @@ async function resetForgotenPassword(req, res, next) {
 async function changeUserSettings(req, res, next) {
     try {
         const { userId } = req.payload
-        let user = await findUserById(userId)
-
+        const user = await findUserById(userId)
+        console.log(req.body)
         //Чекаем все. Если не нул, меняем на пришедшее в запросе
         if(req.body.name) user.name = req.body.name
         if(req.body.surname) user.surname = req.body.surname
         if(req.body.patronymic) user.patronymic = req.body.patronymic
+        if(req.body.auto_updating) user.auto_updating = req.body.auto_updating
+        if(req.body.auto_paying) user.auto_paying = req.body.auto_paying
+        if(req.body.phone) user.phone = req.body.phone
+        if(req.body.cityId) user.cityId = req.body.cityId
         if(req.body.email) {
             let userWithExistedEmail = await findUserByEmail(req.body.email)
             if(userWithExistedEmail.id == user.id || !userWithExistedEmail){
@@ -116,17 +120,12 @@ async function changeUserSettings(req, res, next) {
             else{
                 throw new Error("User with this email already exist")
             }
-        if(req.body.auto_updating) user.auto_updating = req.body.auto_updating
-        if(req.body.auto_paying) user.auto_paying = req.body.auto_paying
-        if(req.body.phone) user.phone = req.body.phone
-        if(req.body.cityId) user.cityId = req.body.cityId
-//*/
+        }
         await validateUserSettingsChanging(user)
         await updateUserById(user)
         
         delete user.password;
         res.json(user);
-        }
     }
     catch (err) {
         next(err);
