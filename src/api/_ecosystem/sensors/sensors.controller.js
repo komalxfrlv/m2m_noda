@@ -28,10 +28,11 @@ async function createNewSensor(req, res, next) {
         let stationId = req.body.stationId;
 
         if(! (stationId && newSensor && newSettings) ){
-            console.log(`
+            /*console.log(`
             sensor: \n${JSON.stringify(newSensor)}\n\n 
             settings:\n ${JSON.stringify(newSettings)}\n\n 
-            stationId: \n${JSON.stringify(stationId)}\n\n`)
+            stationId: \n${JSON.stringify(stationId)}\n\n`)*/
+            console.log('there must be sensor, settings and stationId')
             throw new Error('In request must be sensor, settings and stationId. ');
         }
         const { userId } = req.payload
@@ -70,7 +71,7 @@ async function createNewSensor(req, res, next) {
         
         let a = await createSensor(newSensor, newSettings, stationId);
         
-        console.log(a);
+        //console.log(a);
 
         res.json(a);
     } catch (err) {
@@ -83,12 +84,12 @@ async function getSensorById(req, res, next) {
     const sensorId = req.query.id
     var withData = req.query.withData == "true" ? true : false
     var withSettings = req.query.withSettings == "true" ? true : false
-    console.log(sensorId, withData, withSettings)
+    //console.log(sensorId, withData, withSettings)
     const sensor = await findSensorById(sensorId, withData, withSettings)
 
     if(!sensor){
         res.status(400);
-        console.log(sensor)
+        //console.log(sensor)
         throw new Error("Can't find sensor with this id");
     }
 
@@ -99,7 +100,7 @@ async function getSensorById(req, res, next) {
 
     if (station.userId !== userId){
         res.status(400);
-        console.log(station+" "+userId)
+        //console.log(station+" "+userId)
         throw new Error('Not your sensor. ');
     }
 
@@ -118,7 +119,7 @@ async function deleteSensor(req, res, next) {
 
     if(!sensor){
         res.status(400);
-        console.log(sensor)
+        //console.log(sensor)
         throw new Error("Can't find sensor with this id");
     }
 
@@ -127,7 +128,7 @@ async function deleteSensor(req, res, next) {
 
     if (station.userId !== userId){
         res.status(400);
-        console.log(`${station} ${userId}`)
+        //console.log(`${station.id} ${userId}`)
         throw new Error('Not your sensor. ');
     }
     await deleteSensorById(sensorId);
@@ -150,9 +151,9 @@ async function editSettings(req, res, next) {
             throw new Error(`Can't find sensor`);
         }
         let newSettings = req.body.settings;
-        console.log(newSettings)
+        //console.log(newSettings)
         let a = await updateSettingsById(sensor.id, newSettings);
-        console.log(a);
+        //console.log(a);
 
         res.json(a);
     } catch (err) {

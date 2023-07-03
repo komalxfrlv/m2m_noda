@@ -21,7 +21,7 @@ async function getAllStations(req, res, next) {
 
         if (!stations) {
             res.status(400);
-            console.log(stations)
+            //console.log(stations)
             throw new Error("Can't find station with this id");
         }
 
@@ -90,7 +90,7 @@ async function getStationById(req, res, next) {
 
         if (station.userId !== userId) {
             res.status(400);
-            console.log(station + " " + userId)
+            //console.log(station + " " + userId)
             throw new Error('Not your sensor. ');
         }
         res.json(station);

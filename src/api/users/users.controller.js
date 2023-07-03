@@ -102,15 +102,17 @@ async function resetForgotenPassword(req, res, next) {
 async function changeUserSettings(req, res, next) {
     try {
         const { userId } = req.payload
-        const user = await findUserById(userId)
+        let user = await findUserById(userId)
 
         //Чекаем все. Если не нул, меняем на пришедшее в запросе
         if(req.body.name) user.name = req.body.name
         if(req.body.surname) user.surname = req.body.surname
         if(req.body.patronymic) user.patronymic = req.body.patronymic
         if(req.body.email) {
-            if(!findUserByEmail(req.body.email)){
-                user.email = req.body.email}
+            let userWithExistedEmail = await findUserByEmail(req.body.email)
+            if(userWithExistedEmail.id == user.id || !userWithExistedEmail){
+                user.email = req.body.email
+            }
             else{
                 throw new Error("User with this email already exist")
             }
@@ -118,14 +120,15 @@ async function changeUserSettings(req, res, next) {
         if(req.body.auto_paying) user.auto_paying = req.body.auto_paying
         if(req.body.phone) user.phone = req.body.phone
         if(req.body.cityId) user.cityId = req.body.cityId
-
+//*/
         await validateUserSettingsChanging(user)
         await updateUserById(user)
         
         delete user.password;
         res.json(user);
         }
-    } catch (err) {
+    }
+    catch (err) {
         next(err);
     }
 }
