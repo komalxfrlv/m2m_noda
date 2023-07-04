@@ -8,7 +8,7 @@ const {
 
 async function getShelldueForStation(req, res, next) {
     try {
-        const { stationId } = req.payload;
+        const { stationId } = req.body;
         
         let shelldue = await getShelldueByStation(stationId)
 
@@ -32,7 +32,7 @@ async function getAllShellduesOfUser(req, res, next) {
 
 async function getShelldue(req, res, next) {
     try {
-        const { shelldueId } = req.payload;
+        const { shelldueId } = req.body;
         
         let shelldue = await getShelldueById(shelldueId)
 
@@ -44,7 +44,7 @@ async function getShelldue(req, res, next) {
 
 async function addNewShelldue(req, res, next) {
     try {
-        const { shelldue } = req.payload;
+        const { shelldue } = req.body;
         
         let newShelldue = await createNewShelldue(shelldue)
         
@@ -56,8 +56,8 @@ async function addNewShelldue(req, res, next) {
 
 async function updateShelldue(req, res, next) {
     try {
-        const { shelldue } = req.payload;
-        const { shelldueId } = req.payload;
+        const { shelldue } = req.body;
+        const { shelldueId } = req.body;
         
         let updatedShelldue = await updateSheldueById(shelldueId, shelldue)
         
