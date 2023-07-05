@@ -56,13 +56,14 @@ async function sendPushForAll(req, res, next){
         let push = req.body.push
         let tokenArr = []
         const usersTokens = await getAllUsersToken()
-        usersTokens.forEach(async user => {
+        for (let i = 0; i < usersTokens.length; i++) {
             user.token ? tokenArr.push(user.token):'';
             if (tokenArr.length == 100){
                 await sendPushRequest(tokenArr, push.title, push.content)
                 tokenArr = []
             }
-        } )
+            
+        }
         if(tokenArr){
             console.log(tokenArr)
             await sendPushRequest(tokenArr, push.title, push.content)
