@@ -58,7 +58,7 @@ async function sendPushForAll(req, res, next){
         const usersTokens = await getAllUsersToken()
         for (let i = 0; i < usersTokens.length; i++) {
             const userToken = usersTokens[i]
-            userToken.token && !tokenArr.find(userToken.token) ? tokenArr.push(userToken.token):'';
+            userToken.token && !tokenArr.find(() => userToken.token === tokenArr ) ? tokenArr.push(userToken.token):'';
             if (tokenArr.length == 100){
                 await sendPushRequest(tokenArr, push.title, push.content)
                 tokenArr = []
