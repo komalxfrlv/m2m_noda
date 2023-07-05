@@ -1,7 +1,7 @@
 const { Expo } = require('expo-server-sdk')
 
 const {
-    getAllUsersToken: getAllUsersToken, findUserById
+    getAllUsersToken: getAllUsersToken, findUserById, findUserByEmail
 } = require("../api/users/users.services")
 
 const {
@@ -15,9 +15,34 @@ const {
 
 async function sendOnePush(req, res, next) {
     try{
-    console.log(req.body)
     const push = req.body.push
     await sendPushRequest(push.token, push.title, push.content)
+    res.json('DONE!')
+    }
+    catch(err){
+        console.log(err)
+        next(err)
+    }
+}
+
+async function sendOnePushByUserId(req, res, next) {
+    try{
+    const push = req.body.push
+    const user = await findUserById(req.body.userId)
+    await sendPushRequest(user.token, push.title, push.content)
+    res.json('DONE!')
+    }
+    catch(err){
+        console.log(err)
+        next(err)
+    }
+}
+
+async function sendOnePushByUserEmail(req, res, next) {
+    try{
+    const push = req.body.push
+    const user = await findUserByEmail(req.body.email)
+    await sendPushRequest(user.token, push.title, push.content)
     res.json('DONE!')
     }
     catch(err){
@@ -79,5 +104,7 @@ async function sendPushForGroup(req, res, next){
 module.exports = {
     sendOnePush,
     sendPushForAll,
-    sendPushForFroup: sendPushForGroup
+    sendPushForFroup: sendPushForGroup,
+    sendOnePushByUserEmail,
+    sendOnePushByUserId
 };

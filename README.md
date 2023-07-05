@@ -21,7 +21,7 @@ npm run dev
 Пользователь должен быть администратором
 
 ```
-POST /pushes
+POST /pushes/pushToken
 
 {
     "push":{
@@ -29,6 +29,44 @@ POST /pushes
         "title":"title", 
         "content":"content"
     }
+}
+```
+</details>
+
+## Одному пользователю(email)
+
+<details>
+<summary>Запрос</summary>
+Пользователь должен быть администратором
+
+```
+POST /pushes/email
+
+{
+    "push":{
+        "title":"title", 
+        "content":"content"
+    },
+    "email":"your@email.com"
+}
+```
+</details>
+
+## Одному пользователю(userId)
+
+<details>
+<summary>Запрос</summary>
+Пользователь должен быть администратором
+
+```
+POST /pushes/userId
+
+{
+    "push":{
+        "title":"title", 
+        "content":"content"
+    },
+    "userId":"userId"
 }
 ```
 </details>
