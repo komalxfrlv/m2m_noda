@@ -1100,3 +1100,76 @@ GET api/e/devices/
 </details>
 
 </details>
+</details>
+
+
+<details><summary>сценарии</summary>
+
+## **Получить сценарий**
+<details>
+<summary>Запрос</summary>
+
+```
+GET api/shelldues/
+```
+
+</details>
+
+## **Получить сценарии станции**
+<details>
+<summary>Запрос</summary>
+
+```
+GET api/shelldues/station
+```
+
+</details>
+
+
+## **Получить сценарии пользователя**
+<details>
+<summary>Запрос</summary>
+
+```
+GET api/shelldues/user
+```
+
+</details>
+
+## **Отправить сценарий**
+<details>
+<summary>Запрос</summary>
+
+```
+POST api/shelldues
+
+{
+    name            String
+    hash            String?
+    shelldueScript  Json?
+    userId          String
+    stationId       String    @unique
+}
+```
+
+</details>
+
+## **Изменить сценарий**
+<details>
+<summary>Запрос</summary>
+
+```
+PUT api/shelldues
+
+{
+    name            String
+    hash            String?
+    shelldueScript  Json?
+    userId          String
+    stationId       String    @unique
+}
+```
+
+</details>
+
+</details>
