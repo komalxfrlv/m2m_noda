@@ -35,6 +35,17 @@ function deleteRefreshToken(id) {
   });
 }
 
+async function logout(userId){
+  return db.user.update({
+    where:{
+      id:userId
+    },
+    data:{
+      token:""
+    }
+  })
+}
+
 function revokeTokens(userId) {
   return db.refreshToken.updateMany({
     where: {
@@ -50,5 +61,6 @@ module.exports = {
   addRefreshTokenToWhitelist,
   findRefreshTokenById,
   deleteRefreshToken,
-  revokeTokens
+  revokeTokens,
+  logout
 };

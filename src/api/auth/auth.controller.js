@@ -18,6 +18,7 @@ const {
     findRefreshTokenById,
     deleteRefreshToken,
     revokeTokens,
+    logout
 } = require('./auth.services');
 
 async function register(req, res, next) {
@@ -87,6 +88,17 @@ async function login(req, res, next) {
     }
 }
 
+async function logoutUser(req, res, next){
+    try{
+        const { userId } = req.payload
+        await logout(userId)
+        res.json('DONE!')
+    }
+    catch(err){
+        next(err)
+    }
+}
+
 async function refreshToken(req, res, next) {
     try {
         const { refreshToken } = req.body;
@@ -143,4 +155,5 @@ module.exports = {
     login,
     refreshToken,
     revokeRefreshTokens,
+    logoutUser
 }
