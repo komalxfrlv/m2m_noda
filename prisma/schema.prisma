@@ -24,6 +24,7 @@ model User {
   auto_paying   Boolean            @default(true)
   hash_rst      String?            @db.VarChar(255)
   remainingTries  Int              @default(0)
+  verified      Boolean            @default(false)
   hash_vrf      String?            @db.VarChar(255)
   token         String?
   phone         BigInt

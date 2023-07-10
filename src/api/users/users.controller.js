@@ -159,11 +159,25 @@ async function setPushToken(req, res, next){
     }
 }
 
+async function confirmUserEmail(req, res, next){
+    try{
+        const {userEmail} = req.params
+        const user = await findUserByEmail(userEmail)
+        user.verified = true
+        await updateUserById(user) 
+        res.json('DONE!')
+    }
+    catch(err){
+        next(err)
+    }
+}
+
 module.exports ={
     profile,
     sendRefreshCodeAtMail,
     ChangePasswordByResetCode,
     resetForgotenPassword,
     changeUserSettings,
-    setPushToken
+    setPushToken,
+    confirmUserEmail
 }

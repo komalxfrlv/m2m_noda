@@ -33,4 +33,5 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.APP_PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 @ http://localhost:${PORT}`));
+const HOST = process.env.APP_HOST || "localhost"
+app.listen(PORT, HOST, () => console.log(`🚀 @ http://${HOST}:${PORT}`));

@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const { generateTokens } = require('../../utils/jwt');
 const { hashToken } = require('../../utils/hashToken');
-const { postPushReq } = require("../../utils/pusher")
+const { postPushReq } = require("../../utils/pusher");
+const { postEmailReq } = require('../../utils/mailer')
 
 const {
     findUserByEmail,
@@ -45,7 +46,9 @@ async function register(req, res, next) {
         const message = "please work"
         await sendMessage(process.env.MAIL_USER, message, newUser.email)
         */
-       //await postEmailReq(user.email, "Hello here!")
+       const link = `http://${process.env.APP_HOST}:${process.env.APP_PORT}/api/users/verify/${user.email}`
+       const content = `<a href=${link}>Hello there!</a>`
+       await postEmailReq(user.email, link)
        res.json({
             accessToken,
             refreshToken

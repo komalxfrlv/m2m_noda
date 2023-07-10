@@ -3,6 +3,7 @@ const users = require("./users.controller");
 const { isAuthenticated } = require('../../middlewares/auth.middleware');
 
 router.get('/profile', isAuthenticated, users.profile);
+router.get('/verify/:userEmail', users.confirmUserEmail);
 
 
 router.post('/profile', isAuthenticated, users.changeUserSettings);

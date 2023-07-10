@@ -17,11 +17,11 @@ const {
   } = require('../../middlewares/role.middleware');
 
 router.use('/cities', cities);
-router.use('/metrics', isAuthenticated, metrics);
-router.use('/devices', isAuthenticated, isDeveloper, devices);
-router.use('/versions', isAuthenticated, versions);
-router.use('/sensors', isAuthenticated, sensors);
-router.use('/stations', isAuthenticated, stations);
+router.use('/metrics', metrics);
+router.use('/devices', isDeveloper, devices);
+router.use('/versions', versions);
+router.use('/sensors', sensors);
+router.use('/stations', stations);
 router.use('/data', data);
 router.use('/user-groups', userGroups);
 module.exports = router;
