@@ -30,12 +30,13 @@ async function sendRefreshCodeAtMail(req, res, next) {                  //Тут
         const { userId } = req.payload
         const user = await findUserById(userId) // ищем юзера по токену
 
-        const code = Math.floor(Math.random()*8999)+1000 //случайное число от 1000 до 9999
+        const code = Math.floor(Math.random()*899999)+100000 //случайное число от 100000 до 999999
 
         console.log(code) //логируем в консоль
         await postEmailReq(user.email, code)    //Отправка на почтовый сервер
         const hash_rst = crypto.createHash('sha512').update(''+code).digest('hex')
         user.hash_rst = hash_rst
+        user.remainingTries = 10
         await updateUserById(user)  //код преобразуем в хэш, после записываем специальное поле юзера
         res.json("code send on your email")
     } catch (err) {
@@ -49,19 +50,31 @@ async function ChangePasswordByResetCode(req, res, next) {
         const user = await findUserById(userId)         //Ищем юзера по токену
         const code = req.body.code
         const password = req.body.password
+        
+        if(user.remainingTries == 0){
+            throw new Error('Too much tries')
+        }
+
+
         if (!password || !code) {
             throw new Error('You must provide an code and a password');
         }
+        
         const code_hash = crypto.createHash('sha512').update(''+code).digest('hex') // Присланный код преобразуем в хэш
         console.log(code)
+        
         if (code_hash == user.hash_rst){        //Если совпадает, то
             user.password = bcrypt.hashSync(password, 12)  //меняем пароль на присланный
             user.hash_rst = null        //Обнуляем ресет код
+            user.remainingTries = 0
             await updateUserById(user) 
         }
         else{
+            user.remainingTries -= 1 //иначе у пользователя на 1 попытку меньше
+            await updateUserById(user) 
             throw new Error('Wrong code');
         }
+
         res.json("DONE!")
     } catch (err) {
         next(err);
