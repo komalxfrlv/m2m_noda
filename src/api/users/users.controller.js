@@ -64,7 +64,7 @@ async function ChangePasswordByResetCode(req, res, next) {
         console.log(code)
         
         if (code_hash == user.hash_rst){        //Если совпадает, то
-            user.password = bcrypt.hashSync(password, 12)  //меняем пароль на присланный
+            user.password = bcrypt.hashSync(password, 12)  //меняем пароль на присланный 
             user.hash_rst = null        //Обнуляем ресет код
             user.remainingTries = 0
             await updateUserById(user) 
