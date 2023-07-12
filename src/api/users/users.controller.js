@@ -125,15 +125,6 @@ async function changeUserSettings(req, res, next) {
         if(req.body.auto_paying) user.auto_paying = req.body.auto_paying
         if(req.body.phone) user.phone = req.body.phone
         if(req.body.cityId) user.cityId = req.body.cityId
-        if(req.body.email) {
-            let userWithExistedEmail = await findUserByEmail(req.body.email)
-            if(userWithExistedEmail.id == user.id || !userWithExistedEmail){
-                user.email = req.body.email
-            }
-            else{
-                throw new Error("User with this email already exist")
-            }
-        }
         await validateUserSettingsChanging(user)
         await updateUserById(user)
         
