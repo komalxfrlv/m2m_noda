@@ -14,32 +14,32 @@ model City {
 }
 
 model User {
-  id            String             @id @unique @default(uuid())
-  name          String             @db.VarChar(255)
-  surname       String             @db.VarChar(255)
-  patronymic    String             @db.VarChar(255)
-  email         String             @unique
-  password      String
-  auto_updating Boolean            @default(true)
-  auto_paying   Boolean            @default(true)
-  hash_rst      String?            @db.VarChar(255)
-  remainingTries  Int              @default(0)
-  verified      Boolean            @default(false)
-  hash_vrf      String?            @db.VarChar(255)
-  token         String?
-  phone         BigInt
-  status        UserStatus
-  client        UserClient
-  role          UserRole
-  cityId        String
-  createdAt     DateTime           @default(now())
-  updatedAt     DateTime           @updatedAt
-  metrics       Metric[]
-  refreshTokens RefreshToken[]
-  shelldues     Shelldue[]
-  stations      Station[]
-  city          City               @relation(fields: [cityId], references: [id])
-  userGroups    UserToUserGroups[]
+  id             String             @id @unique @default(uuid())
+  name           String             @db.VarChar(255)
+  surname        String             @db.VarChar(255)
+  patronymic     String             @db.VarChar(255)
+  email          String             @unique
+  password       String
+  auto_updating  Boolean            @default(true)
+  auto_paying    Boolean            @default(true)
+  hash_rst       String?            @db.VarChar(255)
+  remainingTries Int                @default(0)
+  verified       Boolean            @default(false)
+  hash_vrf       String?            @db.VarChar(255)
+  token          String?
+  phone          BigInt
+  status         UserStatus
+  client         UserClient
+  role           UserRole
+  cityId         String
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  metrics        Metric[]
+  refreshTokens  RefreshToken[]
+  shelldues      Shelldue[]
+  stations       Station[]
+  city           City               @relation(fields: [cityId], references: [id])
+  userGroups     UserToUserGroups[]
 }
 
 model RefreshToken {
@@ -53,11 +53,11 @@ model RefreshToken {
 }
 
 model DeviceType {
-  id       String    @id @unique @default(uuid())
-  name     String    @db.VarChar(255)
-  sensors  Sensor[]
-  stations Station[]
-  versions Version[]
+  id         String    @id @unique @default(uuid())
+  name       String    @db.VarChar(255)
+  sensors    Sensor[]
+  stations   Station[]
+  versions   Version[]
 }
 
 model Version {
@@ -73,15 +73,15 @@ model Version {
 }
 
 model Station {
-  id        String           @id @unique @default(uuid())
-  mac       String           @db.VarChar(99)
+  id        String                @id @unique @default(uuid())
+  mac       String                @db.VarChar(99)
   userId    String
   deviceId  String
   sensors   Sensor[]
-  shelldues Shelldue?
-  device    DeviceType       @relation(fields: [deviceId], references: [id])
-  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  device    DeviceType            @relation(fields: [deviceId], references: [id])
+  user      User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   settings  StationSettings?
+  shelldues ShellduesOnStations[]
 }
 
 model StationSettings {
@@ -164,14 +164,23 @@ model UserToUserGroups {
 }
 
 model Shelldue {
-  id             String  @id @unique @default(uuid())
+  id             String                   @id @unique @default(uuid())
+  active         Boolean
   name           String
   hash           String?
-  shelldueScript Json?
+  shelldueScript Json
   userId         String
-  stationId      String  @unique
-  station        Station @relation(fields: [stationId], references: [id], onDelete: Cascade)
-  user           User    @relation(fields: [userId], references: [id])
+  deviceTypes    String[]
+  stations       ShellduesOnStations[]
+  user           User                     @relation(fields: [userId], references: [id])
+}
+
+model ShellduesOnStations {
+  id         String   @id @unique @default(uuid())
+  shelldue   Shelldue @relation(fields: [shelldueId], references: [id])
+  shelldueId String
+  station    Station  @relation(fields: [stationId], references: [id])
+  stationId  String
 }
 
 enum UserStatus {

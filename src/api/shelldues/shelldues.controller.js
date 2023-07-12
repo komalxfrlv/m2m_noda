@@ -3,7 +3,8 @@ const {
     getShellduesByUser,
     getShelldueById,
     updateSheldueById,
-    createNewShelldue
+    createNewShelldue,
+    createShellduesForStations
 } = require('./shelldues.services');
 
 async function getShelldueForStation(req, res, next) {
@@ -34,7 +35,7 @@ async function getShelldue(req, res, next) {
     try {
         const { shelldueId } = req.body;
         
-        let shelldue = await getShelldueById(shelldueId)
+        let shelldue = await getShelldueById(shelldueId);
 
         res.json(shelldue);
     } catch (err) {
@@ -45,10 +46,12 @@ async function getShelldue(req, res, next) {
 async function addNewShelldue(req, res, next) {
     try {
         const { shelldue } = req.body;
-        console.log(req.body);
-        let newShelldue = await createNewShelldue(shelldue)
+
+        let newShelldue = await createNewShelldue(shelldue);
+
+        await createShellduesForStations(shelldue.stations, newShelldue.id);
         
-        res.json(newShelldue);
+        res.json(newShelldue.id);
     } catch (err) {
         next(err);
     }
@@ -59,7 +62,7 @@ async function updateShelldue(req, res, next) {
         const { shelldue } = req.body;
         const { shelldueId } = req.body;
         
-        let updatedShelldue = await updateSheldueById(shelldueId, shelldue)
+        let updatedShelldue = await updateSheldueById(shelldueId, shelldue);
         
         res.json(updatedShelldue);
     } catch (err) {
