@@ -2,6 +2,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const createError = require('http-errors');
 const morgan = require('morgan');
+const router = require('./src/api');
 require('dotenv').config();
 
 const app = express();
