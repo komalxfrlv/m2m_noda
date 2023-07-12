@@ -45,7 +45,7 @@ async function getShelldue(req, res, next) {
 async function addNewShelldue(req, res, next) {
     try {
         const { shelldue } = req.body;
-        
+        console.log(req.body);
         let newShelldue = await createNewShelldue(shelldue)
         
         res.json(newShelldue);

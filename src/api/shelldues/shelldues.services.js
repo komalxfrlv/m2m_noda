@@ -1,12 +1,9 @@
 const { db } = require('../../utils/db');
-const { findUserById,
-    updateUserById, 
-    findUserByEmail} = require('../users/users.services');
 
 async function getShelldueByStation(id) {
     return await db.shelldue.findUnique({
       where: {
-        stationId: id,
+        stationId: id
       },
     });
 }
@@ -14,7 +11,7 @@ async function getShelldueByStation(id) {
 async function getShellduesByUser(id) {
     return await db.shelldue.findMany({
       where: {
-        userId: id,
+        userId: id
       },
     });
 }
@@ -22,7 +19,7 @@ async function getShellduesByUser(id) {
 async function getShelldueById(id) {
     return await db.shelldue.findUnique({
       where: {
-        id: id,
+        id: id
       },
     });
 }
@@ -32,13 +29,13 @@ async function updateSheldueById(id, shelldue) {
         where: {
             id: id,
           },
-        data: shelldue,
+        data: shelldue
     });
 }
 
 async function createNewShelldue(shelldue) {
     return await db.shelldue.create({
-        data: shelldue,
+        data: shelldue
     });
 }
 
