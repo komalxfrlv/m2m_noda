@@ -9,65 +9,68 @@ const {
 
 async function getShelldueForStation(req, res, next) {
     try {
-        const { stationId } = req.params;
+        const { stationId } = req.params
         
         let shelldue = await getShelldueByStation(stationId)
 
-        res.json(shelldue);
+        res.json(shelldue)
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
 async function getAllShellduesOfUser(req, res, next) {
     try {
-        const { userId } = req.payload;
-        
+        const { userId } = req.payload
+
+        console.log(req.payload)
+        console.log("USerIDsheLLduE: " + userId)
+
         let shelldues = await getShellduesByUser(userId)
-        console.log("USerIDsheLLduE: " + userId);
-        res.json(shelldues);
+
+        res.json(shelldues)
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
 async function getShelldue(req, res, next) {
     try {
-        const { shelldueId } = req.params;
+        const { shelldueId } = req.params
         
-        let shelldue = await getShelldueById(shelldueId);
+        let shelldue = await getShelldueById(shelldueId)
 
-        res.json(shelldue);
+        res.json(shelldue)
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
 async function addNewShelldue(req, res, next) {
     try {
-        const { shelldue } = req.body;
-        const { userId } = req.payload;
+        const { shelldue } = req.body
+        const { userId } = req.payload
 
-        let newShelldue = await createNewShelldue(shelldue, userId);
+        let newShelldue = await createNewShelldue(shelldue, userId)
 
-        await createShellduesForStations(shelldue.stations, newShelldue.id);
+        await createShellduesForStations(shelldue.stations, newShelldue.id)
         
-        res.json(newShelldue.id);
+        res.json(newShelldue.id)
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
 async function updateShelldue(req, res, next) {
     try {
-        const { shelldue } = req.body;
-        const { shelldueId } = req.body;
+        const { shelldue } = req.body
+        const { shelldueId } = req.body
         
-        let updatedShelldue = await updateSheldueById(shelldueId, shelldue);
+        let updatedShelldue = await updateSheldueById(shelldueId, shelldue)
         
-        res.json(updatedShelldue);
+        res.json(updatedShelldue)
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
