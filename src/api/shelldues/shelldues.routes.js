@@ -1,5 +1,3 @@
-//TODO: миша ебани роуты по братски // Если норм, то удали этот коммент 
-
 const router = require('express').Router();
 const shelldues = require('./shelldues.controller')
 const { isAuthenticated } = require('../../middlewares/auth.middleware')
@@ -7,7 +5,7 @@ const { isAuthenticated } = require('../../middlewares/auth.middleware')
 router.get('/station/:stationId', shelldues.getShelldueForStation);
 
 router.get('/:shelldueId', isAuthenticated, shelldues.getShelldue);
-router.get('/user', isAuthenticated, shelldues.getAllShellduesOfUser);
+router.get('/user', shelldues.getAllShellduesOfUser);
 
 router.post('/', isAuthenticated, shelldues.addNewShelldue);
 
