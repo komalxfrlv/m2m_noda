@@ -3,7 +3,9 @@ const { db } = require('../../utils/db');
 async function getShelldueByStation(id) {
   return await db.shelldue.findUnique({
     where: {
-      stationId: id
+      stations: {
+        stationId: id
+      }
     },
   });
 }
@@ -47,7 +49,7 @@ async function createNewShelldue(shelldue, userId) {
 
 async function createShellduesForStations(stations, shelldueId) {
   stations.forEach(async (station) => {
-    await db.shellduesOnStations.create( {
+    await db.shellduesOnStations.create({
       data: {
         shelldueId: shelldueId,
         stationId: station,
