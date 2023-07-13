@@ -171,7 +171,7 @@ model Shelldue {
   shelldueScript Json
   userId         String
   deviceTypes    String[]
-  stations       ShellduesOnStations[]
+  stations       ShellduesOnStations[]?
   user           User                     @relation(fields: [userId], references: [id])
 }
 

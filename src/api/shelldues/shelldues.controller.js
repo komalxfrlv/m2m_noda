@@ -46,8 +46,9 @@ async function getShelldue(req, res, next) {
 async function addNewShelldue(req, res, next) {
     try {
         const { shelldue } = req.body;
+        const { userId } = req.payload;
 
-        let newShelldue = await createNewShelldue(shelldue);
+        let newShelldue = await createNewShelldue(shelldue, userId);
 
         await createShellduesForStations(shelldue.stations, newShelldue.id);
         
