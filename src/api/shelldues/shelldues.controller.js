@@ -9,7 +9,7 @@ const {
 
 async function getShelldueForStation(req, res, next) {
     try {
-        const { stationId } = req.body;
+        const { stationId } = req.params;
         
         let shelldue = await getShelldueByStation(stationId)
 
@@ -33,7 +33,7 @@ async function getAllShellduesOfUser(req, res, next) {
 
 async function getShelldue(req, res, next) {
     try {
-        const { shelldueId } = req.body;
+        const { shelldueId } = req.params;
         
         let shelldue = await getShelldueById(shelldueId);
 
