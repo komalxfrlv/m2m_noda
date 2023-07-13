@@ -53,11 +53,11 @@ model RefreshToken {
 }
 
 model DeviceType {
-  id         String    @id @unique @default(uuid())
-  name       String    @db.VarChar(255)
-  sensors    Sensor[]
-  stations   Station[]
-  versions   Version[]
+  id       String    @id @unique @default(uuid())
+  name     String    @db.VarChar(255)
+  sensors  Sensor[]
+  stations Station[]
+  versions Version[]
 }
 
 model Version {
@@ -164,15 +164,15 @@ model UserToUserGroups {
 }
 
 model Shelldue {
-  id             String                   @id @unique @default(uuid())
+  id             String                @id @unique @default(uuid())
   active         Boolean
   name           String
   hash           String?
   shelldueScript Json
-  userId         String
   deviceTypes    String[]
   stations       ShellduesOnStations[]
-  user           User                     @relation(fields: [userId], references: [id])
+  userId         String
+  user           User                  @relation(fields: [userId], references: [id])
 }
 
 model ShellduesOnStations {
