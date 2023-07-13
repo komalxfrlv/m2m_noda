@@ -24,7 +24,7 @@ async function getAllShellduesOfUser(req, res, next) {
         const { userId } = req.payload;
         
         let shelldues = await getShellduesByUser(userId)
-        console.log(userId);
+        console.log("USerIDsheLLduE: " + userId);
         res.json(shelldues);
     } catch (err) {
         next(err);
