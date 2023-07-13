@@ -1,7 +1,7 @@
 const { db } = require('../../utils/db');
 
 async function getShelldueByStation(id) {
-  return await db.shelldue.findUnique({
+  return await db.shelldue.findMany({
     where: {
       stations: {
         stationId: id
