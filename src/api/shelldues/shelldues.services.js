@@ -4,7 +4,11 @@ async function getShelldueByStation(id) {
   return await db.shelldue.findMany({
     where: {
       stations: {
-        stationId: id
+        some: {
+          station: {
+            id: id
+          }
+        }
       }
     },
   });
