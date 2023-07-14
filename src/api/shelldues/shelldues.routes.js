@@ -3,7 +3,6 @@ const shelldues = require('./shelldues.controller')
 const { isAuthenticated } = require('../../middlewares/auth.middleware')
 
 router.get('/station/:stationId',isAuthenticated, shelldues.getShelldueForStation);
-
 router.get('/:shelldueId', isAuthenticated, shelldues.getShelldue);
 router.get('/user',isAuthenticated, shelldues.getAllShellduesOfUser);
 

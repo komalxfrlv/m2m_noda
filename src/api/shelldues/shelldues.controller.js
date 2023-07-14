@@ -21,6 +21,7 @@ async function getShelldueForStation(req, res, next) {
 
 async function getAllShellduesOfUser(req, res, next) {
     try {
+        console.log(1)
         console.log(`payload: \n ${req.payload}`)
         const { userId } = req.payload
 
