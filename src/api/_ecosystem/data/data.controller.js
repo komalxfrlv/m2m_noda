@@ -45,7 +45,9 @@ async function getInterval(req, res, next) {
             console.log(userId)
             throw new Error(`Not your device`);
         }
-        res.json(await getDataInterval(dateFrom, dateTo, sensorId));
+        let allData = await getDataInterval(dateFrom, dateTo, sensorId)
+
+        res.json(allData);
 
     } catch (err) {
         next(err);

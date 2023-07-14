@@ -1183,9 +1183,7 @@ POST api/shelldues
 
 {
     name            String
-    hash            String?
     shelldueScript  Json?
-    userId          String
     stationId       String    @unique
 }
 ```
@@ -1201,9 +1199,7 @@ PUT api/shelldues
 
 {
     name            String
-    hash            String?
     shelldueScript  Json?
-    userId          String
     stationId       String    @unique
 }
 ```

@@ -28,10 +28,6 @@ async function createNewSensor(req, res, next) {
         let stationId = req.body.stationId;
 
         if(! (stationId && newSensor && newSettings) ){
-            /*console.log(`
-            sensor: \n${JSON.stringify(newSensor)}\n\n 
-            settings:\n ${JSON.stringify(newSettings)}\n\n 
-            stationId: \n${JSON.stringify(stationId)}\n\n`)*/
             console.log('there must be sensor, settings and stationId')
             throw new Error('In request must be sensor, settings and stationId. ');
         }
