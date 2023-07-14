@@ -2,12 +2,12 @@ const router = require('express').Router();
 const shelldues = require('./shelldues.controller')
 const { isAuthenticated } = require('../../middlewares/auth.middleware')
 
-router.get('/station/:stationId',isAuthenticated, shelldues.getShelldueForStation);
-router.get('/:shelldueId', isAuthenticated, shelldues.getShelldue);
-router.get('/user',isAuthenticated, shelldues.getAllShellduesOfUser);
+router.get('/station/:stationId', shelldues.getShelldueForStation);
+router.get('/users', shelldues.getAllShellduesOfUser);
+router.get('/:shelldueId', shelldues.getShelldue);
 
-router.post('/', isAuthenticated, shelldues.addNewShelldue);
+router.post('/', shelldues.addNewShelldue);
 
-router.put('/', isAuthenticated, shelldues.updateShelldue);
+router.put('/', shelldues.updateShelldue);
 
 module.exports = router;
