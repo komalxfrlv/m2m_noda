@@ -22,12 +22,8 @@ async function getShelldueForStation(req, res, next) {
 async function getAllShellduesOfUser(req, res, next) {
     try {
         const { userId } = req.payload
-        console.log(`payload:\n${req.payload}`)
-
-        console.log(`USerIDsheLLduE: ${userId}`)
-
         let shelldues = await getShellduesByUser(userId)
-
+    
         res.json(shelldues)
     } catch (err) {
         next(err)
