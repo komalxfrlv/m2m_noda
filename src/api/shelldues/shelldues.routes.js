@@ -4,11 +4,11 @@ const { isAuthenticated } = require('../../middlewares/auth.middleware')
 
 router.get('/station/:stationId', shelldues.getShelldueForStation);
 
-router.get('/:shelldueId', isAuthenticated, shelldues.getShelldue);
+router.get('/:shelldueId', shelldues.getShelldue);
 router.get('/user', shelldues.getAllShellduesOfUser);
 
-router.post('/', isAuthenticated, shelldues.addNewShelldue);
+router.post('/', shelldues.addNewShelldue);
 
-router.put('/', isAuthenticated, shelldues.updateShelldue);
+router.put('/', shelldues.updateShelldue);
 
 module.exports = router;
