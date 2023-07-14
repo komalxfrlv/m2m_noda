@@ -17,6 +17,6 @@ router.use('/auth', auth);
 router.use('/users', users);
 router.use('/pushes', pushes);
 router.use('/e', isAuthenticated, ecosystem);
-router.use('/shelldues', shelldues);
+router.use('/shelldues',isAuthenticated, shelldues);
 
 module.exports = router;
