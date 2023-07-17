@@ -7,10 +7,16 @@ const {
     createShellduesForStations
 } = require('./shelldues.services');
 
+const {
+    findStationById
+} = require('../_ecosystem/stations/stations.services')
+
 async function getShelldueForStation(req, res, next) {
     try {
         const { stationId } = req.params
-        
+        if(!await findStationById(stationId)){
+            throw new Error(`Can't find station with this id`)
+        }
         let shelldue = await getShelldueByStation(stationId)
 
         res.json(shelldue)
@@ -35,6 +41,9 @@ async function getShelldue(req, res, next) {
         const { shelldueId } = req.params
         
         let shelldue = await getShelldueById(shelldueId)
+        if(!shelldue){
+            throw new Error(`Can't find shelldue`)
+        }
 
         res.json(shelldue)
     } catch (err) {
