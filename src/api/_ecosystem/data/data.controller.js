@@ -7,6 +7,10 @@ const { updateSensorById,
 
 const { findStationById } = require('../stations/stations.services');
 
+const {
+    getMainServerTime
+} = require('../../../utils/time.js')
+
 async function create(req, res, next) {
     try {
         const data = req.body.data
@@ -17,10 +21,7 @@ async function create(req, res, next) {
         await validateSensorUpdating(sensor)
 
         data.sensorId = req.body.sensor.id 
-        
-        const currentDate = new Date()
-        currentDate.setHours(currentDate.getHours()+5)
-        data.createdAt = currentDate.toISOString()
+        data.createdAt = await getMainServerTime()
         
         await updateSensorById(sensor)
         res.json(await createData(data));
