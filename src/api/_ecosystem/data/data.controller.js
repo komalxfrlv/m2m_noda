@@ -15,7 +15,13 @@ async function create(req, res, next) {
 
         await validateDataCreating(data)
         await validateSensorUpdating(sensor)
+
         data.sensorId = req.body.sensor.id 
+        
+        const currentDate = new Date()
+        currentDate.setHours(currentDate.getHours()+5)
+        data.createdAt = currentDate.toISOString()
+        
         await updateSensorById(sensor)
         res.json(await createData(data));
 

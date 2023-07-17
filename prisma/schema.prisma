@@ -126,11 +126,11 @@ model SensorSettings {
 }
 
 model Data {
-  id        String   @id @unique @default(uuid())
+  id        String    @id @unique @default(uuid())
   value     Json 
   sensorId  String
-  createdAt DateTime @default(now()) @db.Timestamptz
-  sensor    Sensor   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  sensor    Sensor    @relation(fields: [sensorId], references: [id], onDelete: Cascade)
 }
 
 model Activity {
