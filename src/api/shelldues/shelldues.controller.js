@@ -4,7 +4,8 @@ const {
     getShelldueById,
     updateSheldueById,
     createNewShelldue,
-    createShellduesForStations
+    createShellduesForStations,
+    deleteShelldueById
 } = require('./shelldues.services');
 
 const {
@@ -39,7 +40,6 @@ async function getAllShellduesOfUser(req, res, next) {
 async function getShelldue(req, res, next) {
     try {
         const { shelldueId } = req.params
-        
         let shelldue = await getShelldueById(shelldueId)
         if(!shelldue){
             throw new Error(`Can't find shelldue`)
@@ -55,7 +55,8 @@ async function addNewShelldue(req, res, next) {
     try {
         const { shelldue } = req.body
         const { userId } = req.payload
-
+        console.log(shelldue)
+        console.log(userId)
         let newShelldue = await createNewShelldue(shelldue, userId)
 
         await createShellduesForStations(shelldue.stations, newShelldue.id)
@@ -79,10 +80,30 @@ async function updateShelldue(req, res, next) {
     }
 }
 
+async function deleteShelldue(req, res, next) {
+    try {
+        const { shelldueId } = req.params
+        
+        let shelldue = await getShelldueById(shelldueId)
+        if(!shelldue){
+            throw new Error(`Can't find shelldue`)
+        }
+        if(await deleteShelldueById(shelldueId)){
+            res.json(shelldue)
+        }
+        else{
+            throw new Error('Somethink gone wrong')
+        }
+    } catch (err) {
+        next(err)
+    }
+}
+
 module.exports = {
     getShelldueForStation,
     getAllShellduesOfUser,
     getShelldue,
     addNewShelldue,
     updateShelldue,
+    deleteShelldue
 }

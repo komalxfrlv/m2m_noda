@@ -181,9 +181,9 @@ model Shelldue {
 
 model ShellduesOnStations {
   id         String   @id @unique @default(uuid())
-  shelldue   Shelldue @relation(fields: [shelldueId], references: [id])
+  shelldue   Shelldue @relation(fields: [shelldueId], references: [id], onDelete: Cascade)
   shelldueId String
-  station    Station  @relation(fields: [stationId], references: [id])
+  station    Station  @relation(fields: [stationId], references: [id], onDelete: Cascade)
   stationId  String
 }
 

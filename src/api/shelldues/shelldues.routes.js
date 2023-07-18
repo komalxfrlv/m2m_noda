@@ -10,4 +10,6 @@ router.post('/', shelldues.addNewShelldue);
 
 router.put('/', shelldues.updateShelldue);
 
+router.delete('/shelldue/:shelldueId', shelldues.deleteShelldue);
+
 module.exports = router;

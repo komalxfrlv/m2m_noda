@@ -62,6 +62,14 @@ async function createShellduesForStations(stations, shelldueId) {
   });
 }
 
+async function deleteShelldueById(shelldueId){
+  return db.shelldue.delete({
+    where:{
+      id:shelldueId
+    }
+  })
+}
+
 module.exports = {
   createShellduesForStations,
   getShelldueByStation,
@@ -69,4 +77,5 @@ module.exports = {
   getShelldueById,
   updateSheldueById,
   createNewShelldue,
+  deleteShelldueById
 };
