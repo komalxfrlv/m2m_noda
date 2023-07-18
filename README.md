@@ -573,7 +573,8 @@ PUT /api/e/stations/settings
         "versionId": "fd8ea0e0-2cbf-4635-afb1-89b696434caf",
         "options": {all: what,
                     you: want}
-        }
+        },
+        cityId:"needed city id"
 }
    ```
 

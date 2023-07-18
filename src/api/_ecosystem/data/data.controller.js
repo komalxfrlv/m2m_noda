@@ -21,7 +21,7 @@ async function create(req, res, next) {
         await validateSensorUpdating(sensor)
 
         data.sensorId = req.body.sensor.id 
-        data.createdAt = await getMainServerTime()
+        //data.createdAt = await getMainServerTime()
         
         await updateSensorById(sensor)
         res.json(await createData(data));
