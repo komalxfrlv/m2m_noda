@@ -70,7 +70,7 @@ async function addNewShelldue(req, res, next) {
 async function updateShelldue(req, res, next) {
     try {
         const { shelldue } = req.body
-        const { shelldueId } = req.body
+        const { shelldueId } = req.params
         
         let updatedShelldue = await updateSheldueById(shelldueId, shelldue)
         

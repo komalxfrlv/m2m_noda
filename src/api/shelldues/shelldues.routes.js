@@ -8,7 +8,7 @@ router.get('/shelldue/:shelldueId', shelldues.getShelldue);
 
 router.post('/', shelldues.addNewShelldue);
 
-router.put('/', shelldues.updateShelldue);
+router.put('/shelldue/:shelldueId', shelldues.updateShelldue);
 
 router.delete('/shelldue/:shelldueId', shelldues.deleteShelldue);
 
