@@ -2,7 +2,7 @@ const { Expo } = require('expo-server-sdk')
 
 const {
     getAllUsersToken: getAllUsersToken, findUserById, findUserByEmail
-} = require("../api/users/users.services")
+} = require("../users/users.services")
 
 const {
     sendPushRequest,
@@ -10,7 +10,7 @@ const {
 
 const {
     getAllUsersTokenInGroup
-} = require("../api/_ecosystem/userGroups/userGroups.services")
+} = require("../_ecosystem/userGroups/userGroups.services")
 
 
 async function sendOnePush(req, res, next) {
@@ -102,11 +102,24 @@ async function sendPushForGroup(req, res, next){
     }
 }
 
+async function sendPushForMyself(req, res, next){
+    try{
+        console.log(req.payload)
+        const user = await findUserById(req.payload.userId)
+        const push = req.body.push
+        await sendPushRequest(user.token, push.title, push.content)
+        res.json('DONE!')
+    }
+    catch(err){
+        next(err)
+    }
+}
 
 module.exports = {
     sendOnePush,
     sendPushForAll,
     sendPushForFroup: sendPushForGroup,
     sendOnePushByUserEmail,
-    sendOnePushByUserId
+    sendOnePushByUserId,
+    sendPushForMyself
 };

@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const auth = require('./auth/auth.routes');
 const users = require('./users/users.routes');
-const pushes = require('../pushes/pushes.routes');
+const pushes = require('./pushes/pushes.routes');
 const ecosystem = require('./_ecosystem');
 const shelldues = require('./shelldues/shelldues.routes');
 const { isAuthenticated } = require('../middlewares/auth.middleware');
