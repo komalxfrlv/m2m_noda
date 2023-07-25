@@ -48,7 +48,7 @@ async function register(req, res, next) {
         */
        const link = `http://${process.env.APP_HOST}:${process.env.APP_PORT}/api/users/verify/${user.email}`
         //const content = `<a href=${link}>Hello there!</a>`
-       await postEmailReq(user.email, link)
+       await postEmailReq(user.email, link, "registration")
        res.json({
             accessToken,
             refreshToken

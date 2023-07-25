@@ -2,12 +2,13 @@ const nodemailer = require("nodemailer");
 var http = require('http');
 var querystring = require('querystring');
 
-async function postEmailReq(email, content, next) {
+async function postEmailReq(email, content, next, html = undefined) {
     try{
     // Build the post string from an object
     var post_data = querystring.stringify({
-        email : email,
-        content: content
+        email   :   email,
+        content :   content,
+        html    :   html
     });
   
     // An object of options to indicate where to post to
