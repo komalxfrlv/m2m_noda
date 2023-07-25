@@ -1149,7 +1149,7 @@ GET api/e/devices/
 <summary>Запрос</summary>
 
 ```
-GET api/shelldues/
+GET api/shelldues/shelldue/:shelldueId
 ```
 
 </details>
@@ -1159,7 +1159,7 @@ GET api/shelldues/
 <summary>Запрос</summary>
 
 ```
-GET api/shelldues/station
+GET api/station/:stationId
 ```
 
 </details>
@@ -1196,13 +1196,23 @@ POST api/shelldues
 <summary>Запрос</summary>
 
 ```
-PUT api/shelldues
+PUT api/shelldues/shelldue/:shelldueId
 
 {
     name            String
     shelldueScript  Json?
     stationId       String    @unique
 }
+```
+
+</details>
+
+## **Удалить сценарий**
+<details>
+<summary>Запрос</summary>
+
+```
+DELETE api/shelldues/shelldue/:shelldueId
 ```
 
 </details>
