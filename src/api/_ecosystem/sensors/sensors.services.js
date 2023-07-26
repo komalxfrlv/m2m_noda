@@ -23,7 +23,7 @@ async function createSensor(sensor, settings, stationId) {
 }
 
 async function findSensorById(id, withData, withSettings) {
-    console.log(id, withData, withSettings)
+    //console.log(id, withData, withSettings)
     return await db.sensor.findUnique({
         where: { 
             id:id

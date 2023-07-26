@@ -91,7 +91,7 @@ async function getSensorById(req, res, next) {
 
 
     const { userId } = req.payload
-    const station = await findStationById(sensor.stationId, withData, withSettings)
+    const station = await findStationById(sensor.stationId)
 
 
     if (station.userId !== userId){

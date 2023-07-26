@@ -15,7 +15,7 @@ const {
 
 router.use('/auth', auth);
 router.use('/users', users);
-router.use('/pushes', pushes);
+router.use('/pushes', isAuthenticated, pushes);
 router.use('/e', isAuthenticated, ecosystem);
 router.use('/shelldues',isAuthenticated, shelldues);
 
