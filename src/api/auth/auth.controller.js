@@ -93,8 +93,14 @@ async function login(req, res, next) {
 
 async function logoutUser(req, res, next){
     try{
-        const { userId } = req.payload
-        await logout(userId)
+        const token = req.body.token 
+        if(!token){
+            throw new Error(`Can't find token in req`)
+        }
+        const user = await findUserById(req.payload.userId)
+        let tokensArr = user.token
+        tokensArr.splice(user.token.indexOf(token), 1)
+        await logout(user)
         res.json('DONE!')
     }
     catch(err){

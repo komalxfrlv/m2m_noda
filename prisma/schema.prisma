@@ -28,7 +28,7 @@ model User {
   remainingTries Int                @default(0)
   verified       Boolean            @default(false)
   hash_vrf       String?            @db.VarChar(255)
-  token          String?
+  token          String[]
   phone          BigInt
   status         UserStatus
   client         UserClient

@@ -35,13 +35,13 @@ function deleteRefreshToken(id) {
   });
 }
 
-async function logout(userId){
+async function logout(user){
   return db.user.update({
     where:{
-      id:userId
+      id:user.id
     },
     data:{
-      token:""
+      token: user.token
     }
   })
 }
