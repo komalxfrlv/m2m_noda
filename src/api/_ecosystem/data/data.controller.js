@@ -6,24 +6,32 @@ const { updateSensorById,
         findSensorById } = require('../sensors/sensors.services');
 
 const { findStationById } = require('../stations/stations.services');
-
+const {findUserById} = require('../../users/users.services')
 const {
     getMainServerTime
-} = require('../../../utils/time.js')
+} = require('../../../utils/time.js');
+const { sendPushRequest } = require('../../pushes/pushes.services')
 
 async function create(req, res, next) {
     try {
         const data = req.body.data
-        const sensor = req.body.sensor  
-        console.log(`${JSON.stringify(data)}\n${JSON.stringify(sensor)}\n\n`)
+        const sensorIntoData = req.body.sensor  
+        console.log(`${JSON.stringify(data)}\n${JSON.stringify(sensorIntoData)}\n\n`)
 
         await validateDataCreating(data)
-        await validateSensorUpdating(sensor)
+        await validateSensorUpdating(sensorIntoData)
 
         data.sensorId = req.body.sensor.id 
         //data.createdAt = await getMainServerTime()
         
-        await updateSensorById(sensor)
+        await updateSensorById(sensorIntoData)
+        if(req.body.data.value.sendPush){
+            const user = await findUserById(req.payload.userId)
+            console.log(req.payload.userId)
+            const content = `Датчик засора зафиксировал ${req.body.data.value.measurement}% заполненности трубы`
+            const title = `Активность датчика засора`
+            await sendPushRequest(user.token, title, content)
+        }
         res.json(await createData(data));
 
     } catch (err) {
