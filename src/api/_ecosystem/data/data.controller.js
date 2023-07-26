@@ -15,19 +15,18 @@ const { sendPushRequest } = require('../../pushes/pushes.services')
 async function create(req, res, next) {
     try {
         const data = req.body.data
-        const sensorIntoData = req.body.sensor  
-        console.log(`${JSON.stringify(data)}\n${JSON.stringify(sensorIntoData)}\n\n`)
+        const sensorFromData = req.body.sensor  
+        console.log(`${JSON.stringify(data)}\n${JSON.stringify(sensorFromData)}\n\n`)
 
         await validateDataCreating(data)
-        await validateSensorUpdating(sensorIntoData)
+        await validateSensorUpdating(sensorFromData)
 
         data.sensorId = req.body.sensor.id 
         //data.createdAt = await getMainServerTime()
         
-        await updateSensorById(sensorIntoData)
+        await updateSensorById(sensorFromData)
         if(req.body.data.value.sendPush){
             const user = await findUserById(req.payload.userId)
-            console.log(req.payload.userId)
             const content = `Датчик засора зафиксировал ${req.body.data.value.measurement}% заполненности трубы`
             const title = `Активность датчика засора`
             await sendPushRequest(user.token, title, content)
