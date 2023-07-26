@@ -27,7 +27,7 @@ async function create(req, res, next) {
         await updateSensorById(sensorFromData)
         if(req.body.data.value.sendPush){
             const user = await findUserById(req.payload.userId)
-            const content = `Датчик засора зафиксировал ${req.body.data.value.measurement}% заполненности трубы`
+            const content = `Датчик засора зафиксировал ${req.body.data.value.measurement}% заполнения трубы`
             const title = `Активность датчика засора`
             await sendPushRequest(user.token, title, content)
         }
