@@ -7,7 +7,9 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "prod": "prisma migrate deploy && npm run start",
-    "test": "jest"
+    "pm2_start_dev": "pm2 start ecosystem.config.js --env development",
+    "pm2_start_prod": "pm2 start ecosystem.config.js --env production"
+
   },
   "keywords": [],
   "author": "",
