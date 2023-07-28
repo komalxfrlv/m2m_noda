@@ -14,7 +14,12 @@ async function getDataInterval(dateFrom, dateTo, sensorId) {
                         lte: dateTo
             },
             sensorId: sensorId
-    }
+    },
+    orderBy: [
+        {
+            createdAt:'desc'
+        }
+    ]
     });
 }
 

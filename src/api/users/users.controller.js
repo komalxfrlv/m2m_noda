@@ -141,7 +141,12 @@ async function setPushToken(req, res, next){
         const token = req.body.token
         if(!token) throw new Error("Can't find token")
         let user = await findUserById(req.payload.userId)
-        user.token.push(token) 
+        if(!user.token.find(exToken => exToken == token)){
+            user.token.push(token)
+        }
+        else{
+            throw new Error('token already seted')
+        }
         await updateUserById(user)
         res.json("DONE!")
     }
