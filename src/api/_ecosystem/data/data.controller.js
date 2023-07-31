@@ -25,12 +25,26 @@ async function create(req, res, next) {
         //data.createdAt = await getMainServerTime()
         
         await updateSensorById(sensorFromData)
+        const sensor = await findSensorById(sensorFromData.id, false, true)
+        const user = await findUserById(req.payload.userId)
+
         if(req.body.data.value.sendPush){
-            const user = await findUserById(req.payload.userId)
             const title = `Активность датчика засора`
             const content = `Датчик засора зафиксировал ${req.body.data.value.measurement}% заполнения трубы`
-            await sendPushRequest(user.token, title, content)
+            sendPushRequest(user.token, title, content)
         }
+
+
+        const options = sensor.settings.options
+        const measurement = req.body.data.value.measurement
+        const units = req.body.data.value.units
+        const measurementTime = req.body.data.value.time //в секундах
+        if (options[measurement] < measurementTime){
+            const title = sensor.settings.name
+            const content = `значение ${measurement}${units} сохраняется в течении ${Math.floor(measurementTime/60)} минут`
+            sendPushRequest(user.token, title, content)
+        }
+
         res.json(await createData(data));
 
     } catch (err) {
