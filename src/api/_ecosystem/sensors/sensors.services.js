@@ -14,7 +14,8 @@ async function createSensor(sensor, settings, stationId) {
     });
 
     settings.sensorId = created_sensor.id;
-
+    settings.options = {}
+    settings.schedule = {}
     await db.sensorSettings.create({
         data: settings,
     });
@@ -57,8 +58,8 @@ async function deleteSensorById(id) {
     SETTINGS SERVICES
 */
 async function updateSettingsById(sensorId, settings) {
-    settings["pushStart"] = new Date(settings.pushStart)
-    settings["pushEnd"] = new Date(settings.pushEnd)
+    settings.pushStart ? settings["pushStart"] = new Date(settings.pushStart):""
+    settings.pushStart ? settings["pushEnd"] = new Date(settings.pushEnd):""
     let updated_settings = await db.SensorSettings.update({
         where: {
             sensorId: sensorId,
