@@ -171,5 +171,6 @@ module.exports = {
     getStationById,
     getAllStations,
     editSettings,
-    deleteStation
+    deleteStation,
+    createGateway
 }
