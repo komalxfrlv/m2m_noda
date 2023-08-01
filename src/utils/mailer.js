@@ -5,7 +5,7 @@ var querystring = require('querystring');
 async function postEmailReq(email, content, html = undefined, next) {
     try{
     // Build the post string from an object
-    console.log(html)
+    //console.log(html)
     var post_data = querystring.stringify({
         email   :   email,
         content :   content,

@@ -160,8 +160,93 @@ async function confirmUserEmail(req, res, next){
         const {userEmail} = req.params
         const user = await findUserByEmail(userEmail)
         user.verified = true
-        await updateUserById(user) 
-        res.json('DONE!')
+        await updateUserById(user)
+        const html = `<!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <title>Registarion Success</title>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <link
+              href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+              rel="stylesheet"
+            />
+            <style>
+              .header {
+                padding: 16px;
+                background-color: #9830fa;
+                color: white;
+              }
+              .block_head {
+                color: #000000;
+                margin: 40px 0px 20px 0px;
+                text-align: center;
+                font-family: Open Sans;
+                /* font-weight: bold; */
+                font-size: 36px;
+              }
+              .hr {
+                width: 150px;
+              }
+              .block_body {
+                color: #000000;
+                margin: 20px 0px 20px 0px;
+                text-align: center;
+                font-family: Open Sans;
+                font-size: 15px;
+                font-weight: 400px;
+              }
+              .button_block {
+                margin: 30px 0px 20px 0px;
+                display: flex;
+                justify-content: center;
+              }
+              .button {
+                flex: 1;
+                max-width: 300px;
+                border-radius: 50px;
+                background-color: #9830fa;
+                font-family: Open Sans;
+                font-size: 15px;
+                color: white;
+                text-align: center;
+                border-width: 0;
+                padding-top: 14px;
+                padding-bottom: 14px;
+                cursor: pointer;
+                text-transform: uppercase;
+              }
+              .button:hover {
+                background-color: #7806e3;
+              }
+              .button:active {
+                  background-color: #5704A5;
+              }
+        
+              body {
+                margin: 0;
+                background: white;
+              }
+            </style>
+          </head>
+        
+          <body>
+            <div class="header"></div>
+        
+            <div class="block_head">
+              <span>Регистрация прошла успешно</span>
+            </div>
+            <hr class="hr">
+        
+            <div class="block_body">
+                <span>
+                Поздравляем, вы успешно подтвердили ваш аккаунт в приложении M2M&nbspТелеком
+                </span>
+            </div>
+          </body>
+        </html>
+        ` 
+        res.send(html)
     }
     catch(err){
         next(err)
