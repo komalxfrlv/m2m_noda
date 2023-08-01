@@ -39,7 +39,7 @@ async function create(req, res, next) {
         const measurement = req.body.data.value.measurement
         const units = req.body.data.value.units
         const measurementTime = req.body.data.value.time //в секундах
-        if (options[measurement] < measurementTime){
+        if (options[measurement] & options[measurement] < measurementTime){
             const title = sensor.settings.name
             const content = `значение ${measurement}${units} сохраняется в течении ${Math.floor(measurementTime/60)} минут`
             sendPushRequest(user.token, title, content)
