@@ -100,8 +100,9 @@ model Version {
 }
 
 model Station {
-  id  String @id @unique @default(uuid())
-  mac String @db.VarChar(99)
+  id        String  @id @unique @default(uuid())
+  mac       String? @db.VarChar(99)
+  gatewayId String? @db.VarChar(99)
 
   settings  StationSettings?
   shelldues ShellduesOnStations[]
@@ -110,7 +111,7 @@ model Station {
   deviceId   String
   device     DeviceType @relation(fields: [deviceId], references: [id])
   contractId String?
-  contract   Contract?   @relation(fields: [contractId], references: [id])
+  contract   Contract?  @relation(fields: [contractId], references: [id])
   userId     String
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -133,14 +134,14 @@ model Sensor {
   id  String @id @unique @default(uuid())
   mac String @db.VarChar(99)
 
-  data     Data[]
-  settings SensorSettings?
+  data      Data[]
+  settings  SensorSettings?
   charge    Int?
   uptime    BigInt?
   deviceId  String
-  device    DeviceType @relation(fields: [deviceId], references: [id])
+  device    DeviceType      @relation(fields: [deviceId], references: [id])
   stationId String
-  station   Station    @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  station   Station         @relation(fields: [stationId], references: [id], onDelete: Cascade)
 }
 
 model SensorSettings {
@@ -150,7 +151,7 @@ model SensorSettings {
   sleep BigInt? @default(10)
   alert Boolean @default(false)
   lost  Boolean @default(false)
-  
+
   triggerMin Float?
   triggerMax Float?
   schedule   Json?
@@ -209,30 +210,30 @@ model UserToUserGroups {
 }
 
 model Shelldue {
-  id             String                @id @unique @default(uuid())
-  active         Boolean
-  name           String
+  id     String  @id @unique @default(uuid())
+  active Boolean
+  name   String
 
-  hash           String?
+  hash String?
 
   shelldueScript Json
 
-  deviceTypes    String[]
+  deviceTypes String[]
 
-  stations       ShellduesOnStations[]
+  stations ShellduesOnStations[]
 
-  userId         String
-  user           User                  @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model ShellduesOnStations {
-  id         String   @id @unique @default(uuid())
-  
+  id String @id @unique @default(uuid())
+
   shelldue   Shelldue @relation(fields: [shelldueId], references: [id], onDelete: Cascade)
   shelldueId String
-  
-  station    Station  @relation(fields: [stationId], references: [id], onDelete: Cascade)
-  stationId  String
+
+  station   Station @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  stationId String
 }
 
 enum UserStatus {

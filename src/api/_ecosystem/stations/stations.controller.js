@@ -13,6 +13,28 @@ const {
     deleteStationById
 } = require('./stations.services');
 
+// Create a new station (Zigbee Gateway)
+async function createGateway(req, res, next) {
+    try {
+        const { userId } = req.payload;
+
+        let newStation = req.body.station;
+        let newSettings = req.body.settings;
+
+        /*
+            Parse(newStation.mac) get device type here and return.
+        */
+
+        newStation.deviceId = 'Parse(newStation.mac)';
+
+        let station = await createStation(newStation, newSettings, userId);
+        
+        res.json(station);
+    } catch (err) {
+        next(err);
+    }
+}
+
 async function getAllStations(req, res, next) {
     try {
         const { userId } = req.payload;
@@ -53,7 +75,7 @@ async function createNewStation(req, res, next) {
             throw new Error(`Can't find version`);
         }
         */
-       
+
         /*
         if (version.deviceId != newStation.deviceId) {
             let versionDeviceType = await findDevicebyId(version.deviceId)
