@@ -6,6 +6,9 @@ const {
 
 const {
     sendPushRequest,
+    getPushFromDBByCode,
+    addPushInDB,
+    getAllPushesFromDB
 } = require("./pushes.services")
 
 const {
@@ -115,11 +118,41 @@ async function sendPushForMyself(req, res, next){
     }
 }
 
+async function getPushByCode(req, res, next){
+    try{
+        res.json(await getPushFromDBByCode(Number(req.params.code)))
+    }
+    catch(err){
+        next(err)
+    }
+}
+
+async function getAllPushes(req, res, next){
+    try{
+        res.json(await getAllPushesFromDB())
+    }
+    catch(err){
+        next(err)
+    }
+}
+
+async function addPush(req, res, next){
+    try{
+        res.json(await addPushInDB(req.body.push))
+    }
+    catch(err){
+        next(err)
+    }
+}
+
 module.exports = {
     sendOnePush,
     sendPushForAll,
-    sendPushForFroup: sendPushForGroup,
+    sendPushForGroup,
     sendOnePushByUserEmail,
     sendOnePushByUserId,
-    sendPushForMyself
+    sendPushForMyself,
+    getPushByCode,
+    addPush,
+    getAllPushes
 };
