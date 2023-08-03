@@ -1,5 +1,14 @@
 const { db } = require('../../../utils/db');
 
+async function parseMacDeviceType(mac) {
+    let deviceType = mac.split('-')[0];
+    return db.deviceType.findUnique({
+        where: {
+            code: deviceType
+        }
+    })
+}
+
 async function createStation(station, settings, userId) {
 
     station.userId = userId
@@ -106,4 +115,5 @@ module.exports = {
     updateStationById,
     deleteStationById,
     updateSettingsById,
+    parseMacDeviceType
 }
