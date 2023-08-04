@@ -10,7 +10,8 @@ const {
     findStationById,
     findAllStation,
     updateSettingsById,
-    deleteStationById
+    deleteStationById,
+    parseMacDeviceType
 } = require('./stations.services');
 
 // Create a new station (Zigbee Gateway)
@@ -20,12 +21,10 @@ async function createGateway(req, res, next) {
 
         let newStation = req.body.station;
         let newSettings = req.body.settings;
-
-        /*
-            Parse(newStation.mac) get device type here and return.
-        */
-
-        newStation.deviceId = 'Parse(newStation.mac)';
+        
+        let deviceType = await parseMacDeviceType(newStation.mac)
+        
+        newStation.deviceId = deviceType.id;
 
         let station = await createStation(newStation, newSettings, userId);
         
