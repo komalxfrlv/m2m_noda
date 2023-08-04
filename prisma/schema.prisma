@@ -79,7 +79,7 @@ model Contract {
 model DeviceType {
   id   String @id @unique @default(uuid())
   name String @db.VarChar(255)
-  code String @unique
+  code String? @unique
 
   sensors  Sensor[]
   stations Station[]
