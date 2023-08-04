@@ -1,4 +1,4 @@
-const {validateDataCreating,
+const { validateDataCreating,
         validateSensorUpdating} = require('./data.validators');
 const { createData,
         getDataInterval } = require('./data.services');
@@ -6,11 +6,12 @@ const { updateSensorById,
         findSensorById } = require('../sensors/sensors.services');
 
 const { findStationById } = require('../stations/stations.services');
-const {findUserById} = require('../../users/users.services')
+const { findUserById} = require('../../users/users.services')
 const {
     getMainServerTime
 } = require('../../../utils/time.js');
-const { sendPushRequest } = require('../../pushes/pushes.services')
+const { sendPushRequest,
+        getPushFromDBByCode } = require('../../pushes/pushes.services')
 
 async function create(req, res, next) {
     try {
@@ -80,6 +81,23 @@ async function getInterval(req, res, next) {
     } catch (err) {
         next(err);
     }
+}
+
+async function formPushMessage(code, name, value, units){//code-код пуша из дб. name-имя датчика. value-значение датчика units-ед. изм
+    const push ={
+        title,
+        content
+    } 
+    switch (code) {
+        case 0:
+            break;
+    
+        default:
+        push.title = name 
+        push.content = `Датчик зафиксировал ${value}${units}. Возможно вам стоит проверить его`      
+            break;
+    }
+    return push
 }
 
 module.exports = {
