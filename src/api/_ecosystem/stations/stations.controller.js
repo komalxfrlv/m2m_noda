@@ -23,7 +23,7 @@ async function createGateway(req, res, next) {
         let newSettings = req.body.settings;
         
         let deviceType = await parseMacDeviceType(newStation.mac)
-        
+        await validateStationsSettings(newSettings)
         newStation.deviceId = deviceType.id;
 
         let station = await createStation(newStation, newSettings, userId);

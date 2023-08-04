@@ -1,4 +1,7 @@
 const Ajv = require("ajv");
+const {
+    findVersionById
+} = require('../versions/versions.services')
 const ajv = new Ajv();
 
 /*
@@ -31,6 +34,9 @@ async function validateStation(data) {
 */
 
 async function validateStationsSettings(data) {
+    if(!await findVersionById(data.versionId)){
+        throw new Error("Can't find version by id")
+    }
     const schema = {
         type: "object",
         properties: {
