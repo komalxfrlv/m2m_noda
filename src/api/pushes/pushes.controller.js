@@ -60,17 +60,17 @@ async function sendPushForAll(req, res, next){
         let tokenArr = []
         const usersTokens = await getAllUsersToken()
         for (let i = 0; i < usersTokens.length; i++) {
-            const userToken = usersTokens[i]
-            userToken.token ? tokenArr.push(userToken.token):'';
-            if (tokenArr.length == 100){
-                await sendPushRequest(tokenArr, push.title, push.content)
+            const userTokens = usersTokens[i]
+                userTokens.token ? userTokens.token.forEach( (token) => tokenArr.push(token) ):""
+                if (tokenArr.length == 100){
+                sendPushRequest(tokenArr, push.title, push.content)
+                console.log(tokenArr)
                 tokenArr = []
-            }
-            
+                }
         }
-        if(tokenArr){
+        if(tokenArr.length){
+            sendPushRequest(tokenArr, push.title, push.content)
             console.log(tokenArr)
-            await sendPushRequest(tokenArr, push.title, push.content)
         }
         res.json('DONE!')
     }
@@ -88,15 +88,15 @@ async function sendPushForGroup(req, res, next){
         for (let i= 0; i < groupTokens[0].pushGroups.length; i ++) {
             const userId = groupTokens[0].pushGroups[i].userId
             const user = await findUserById(userId) 
-            user.token ? tokenArr.push(user.token):'';
+            user.token.length ? user.token.forEach((token) => tokenArr.push(token)):'';
             if (tokenArr.length == 100){
-                await sendPushRequest(tokenArr, push.title, push.content)
+                sendPushRequest(tokenArr, push.title, push.content)
                 tokenArr = []
             }
         }
         if(tokenArr.length > 0){
             console.log(tokenArr)
-            await sendPushRequest(tokenArr, push.title, push.content)
+            sendPushRequest(tokenArr, push.title, push.content)
         }
         res.json('DONE!')
     }
