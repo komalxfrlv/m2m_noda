@@ -83,21 +83,23 @@ async function getInterval(req, res, next) {
     }
 }
 
-async function formPushMessage(code, name, value, units){//code-код пуша из дб. name-имя датчика. value-значение датчика units-ед. изм
-    const push ={
-        title,
-        content
+async function formPushMessage(code, name, value, units, time){
+    //code-код пуша из дб. name-имя датчика. value-значение датчика units-ед. изм
+    let push = await getPushFromDBByCode(code)
+    if (push){
+        switch (code) {
+            case 1337:        
+            break;
+        }
+        return push
     } 
-    switch (code) {
-        case 0:
-            break;
-    
-        default:
-        push.title = name 
-        push.content = `Датчик зафиксировал ${value}${units}. Возможно вам стоит проверить его`      
-            break;
+    else{
+        const push = {
+            title: name,
+            content: `Датчик фиксирует ${value}${units} на протяжении ${time/60} минут. Возможно вам стоит проверить его`
+        }
+        return push
     }
-    return push
 }
 
 module.exports = {
