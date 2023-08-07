@@ -1,7 +1,8 @@
 const { validateDataCreating,
         validateSensorUpdating} = require('./data.validators');
 const { createData,
-        getDataInterval } = require('./data.services');
+        getDataInterval,
+        updateLastData } = require('./data.services');
 const { updateSensorById,
         findSensorById } = require('../sensors/sensors.services');
 
@@ -29,10 +30,14 @@ async function create(req, res, next) {
         const sensor = await findSensorById(sensorFromData.id, false, true)
         const user = await findUserById(req.payload.userId)
 
-        if(req.body.data.value.sendPush){
+        if(req.body.data.value.changed){
             const title = `Активность датчика засора`
             const content = `Датчик засора зафиксировал ${req.body.data.value.measurement}% заполнения трубы`
             sendPushRequest(user.token, title, content)
+            await createData(data)
+        }
+        else{
+            updateLastData(data)
         }
 
 
@@ -46,7 +51,7 @@ async function create(req, res, next) {
             sendPushRequest(user.token, title, content)
         }
 
-        res.json(await createData(data));
+        res.json(data);
 
     } catch (err) {
         next(err);

@@ -23,7 +23,29 @@ async function getDataInterval(dateFrom, dateTo, sensorId) {
     });
 }
 
+async function updateLastData(data){
+    const lastData = await db.data.findFirst({
+        where:{
+            sensorId: data.sensorId
+        },
+        orderBy:[{
+            createdAt:"desc"
+        }]
+    })
+    const now = new Date()
+    now.setHours(now.getHours()+5)
+    return await db.data.update({
+        where: {
+            id: lastData.id
+        },
+        data:{
+            updatedAt: now.toISOString()
+        }
+    })
+}
+
 module.exports = {
     createData,
-    getDataInterval
+    getDataInterval,
+    updateLastData
 }
