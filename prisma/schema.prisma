@@ -33,6 +33,9 @@ model User {
   auto_updating Boolean @default(true)
   auto_paying   Boolean @default(true)
 
+  get_push  Boolean @default(true)
+  get_email Boolean @default(true)
+
   hash_rst       String? @db.VarChar(255)
   hash_vrf       String? @db.VarChar(255)
   remainingTries Int     @default(0)

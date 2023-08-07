@@ -43,7 +43,7 @@ async function register(req, res, next) {
         const { accessToken, refreshToken } = generateTokens(user, jti);
         await addRefreshTokenToWhitelist({ jti, refreshToken, userId: user.id });
         const link = `http://${process.env.APP_HOST}:${process.env.APP_PORT}/api/users/verify/${user.email}`
-        await postEmailReq(user.email, link, "registration")
+        await postEmailReq(user, link, "registration")
         res.json({
             accessToken,
             refreshToken

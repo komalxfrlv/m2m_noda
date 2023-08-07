@@ -33,7 +33,7 @@ async function sendRefreshCodeAtMail(req, res, next) {                  //Тут
         const code = Math.floor(Math.random()*899999)+100000 //случайное число от 100000 до 999999
 
         console.log(code) //логируем в консоль
-        await postEmailReq(user.email, code)    //Отправка на почтовый сервер
+        postEmailReq(user, code)    //Отправка на почтовый сервер
         const hash_rst = crypto.createHash('sha512').update(''+code).digest('hex')
         user.hash_rst = hash_rst
         user.remainingTries = 10
@@ -101,7 +101,7 @@ async function resetForgotenPassword(req, res, next) {
         // отправляем на почту пароль
         const message = `Ваш новый пароль - <br><br>${newPass}
         <br>>Мы рекомендуем его сменить как можно раньше`
-        await postEmailReq(user.email, message)
+        postEmailReq(user, message)
         console.log(newPass)
         //меняем пароль на сгенерированный
         user.password = bcrypt.hashSync(newPass, 12)
@@ -253,6 +253,25 @@ async function confirmUserEmail(req, res, next){
     }
 }
 
+async function changeNotificationSettings(req, res, next){
+    try{
+        const user = await findUserById(req.payload.userId)
+        if(typeof req.body.get_push == "boolean"){
+            user.get_push = req.body.get_push
+        }
+        if(typeof req.body.get_email == "boolean") {
+
+            user.get_email = req.body.get_email
+        }
+        await updateUserById(user)
+        console.log(user)
+        res.json("DONE!")
+    }
+    catch(err){
+        next(err)
+    }
+}
+
 module.exports ={
     profile,
     sendRefreshCodeAtMail,
@@ -260,5 +279,6 @@ module.exports ={
     resetForgotenPassword,
     changeUserSettings,
     setPushToken,
-    confirmUserEmail
+    confirmUserEmail,
+    changeNotificationSettings
 }

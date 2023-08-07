@@ -11,5 +11,6 @@ router.post('/sendCode', isAuthenticated, users.sendRefreshCodeAtMail);
 router.post('/resetPassword',isAuthenticated, users.ChangePasswordByResetCode);
 router.post('/forgotenPassword', users.resetForgotenPassword);
 router.post('/setPushToken', isAuthenticated, users.setPushToken);
+router.post('/setNotificationSettings', isAuthenticated, users.changeNotificationSettings);
 
 module.exports = router;
