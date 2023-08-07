@@ -19,7 +19,7 @@ const {
 async function sendOnePush(req, res, next) {
     try{
     const push = req.body.push
-    await sendPushRequest(push.token, push.title, push.content)
+    sendPushRequest(push.token, push.title, push.content)
     res.json('DONE!')
     }
     catch(err){
@@ -32,7 +32,7 @@ async function sendOnePushByUserId(req, res, next) {
     try{
     const push = req.body.push
     const user = await findUserById(req.body.userId)
-    await sendPushRequest(user.token, push.title, push.content)
+    user.get_push? sendPushRequest(user.token, push.title, push.content):""
     res.json('DONE!')
     }
     catch(err){
@@ -45,7 +45,7 @@ async function sendOnePushByUserEmail(req, res, next) {
     try{
     const push = req.body.push
     const user = await findUserByEmail(req.body.email)
-    await sendPushRequest(user.token, push.title, push.content)
+    user.get_push? sendPushRequest(user.token, push.title, push.content):""
     res.json('DONE!')
     }
     catch(err){
