@@ -2,9 +2,16 @@ const {
     validateStation,
     validateStationsSettings,
 } = require('./stations.validators');
+
+const {
+    validateSensor,
+    validateSensorSettings,
+} = require('./../sensors/sensors.validators');
+
 const currentUser = require('../../../utils/getUser');
 const { findVersionById } = require('../versions/versions.services');
 const { findDevicebyId } = require('../devices/devices.services');
+
 const {
     createStation,
     findStationById,
@@ -14,21 +21,34 @@ const {
     parseMacDeviceType
 } = require('./stations.services');
 
-// Create a new station (Zigbee Gateway)
+const {
+    createSensor,
+} = require('./../sensors/sensors.services');
+
+// Create a new station (K-Telecom Gateway)
 async function createGateway(req, res, next) {
     try {
         const { userId } = req.payload;
 
         let newStation = req.body.station;
-        let newSettings = req.body.settings;
-        
-        let deviceType = await parseMacDeviceType(newStation.mac)
-        await validateStationsSettings(newSettings)
-        newStation.deviceId = deviceType.id;
+        let newStationSettings = req.body.stationSettings;
 
-        let station = await createStation(newStation, newSettings, userId);
+        let newSensor = req.body.sensor;
+        let newSensorSettings = req.body.sensorSettings;
         
-        res.json(station);
+        let deviceType = await parseMacDeviceType(newStation.mac);
+
+        await validateStationsSettings(newStationSettings);
+        await validateSensorSettings(newSensorSettings);
+
+        newStation.deviceId = deviceType.id;
+        newSensor.deviceId = deviceType.id;
+
+        let stationId = await createStation(newStation, newStationSettings, userId);
+
+        let sensorId = await createSensor(newSensor, newSensorSettings, stationId);
+        
+        res.json({stationId: stationId, sensor: sensorId});
     } catch (err) {
         next(err);
     }

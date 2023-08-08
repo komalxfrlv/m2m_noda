@@ -10,7 +10,7 @@ async function validateSensor(data) {
         type: "object",
         properties: {
             mac: { type: "string" },
-            deviceId: { type: "string"},
+            deviceId: { type: "string" },
         },
         required: ["mac", "deviceId"],
         additionalProperties: false
@@ -22,7 +22,7 @@ async function validateSensor(data) {
     if (!valid) {
         const valErr = validate.errors;
         throw new Error(`${valErr[0]["instancePath"]} ${valErr[0]["message"]}`);
-}
+    }
 }
 
 /*
