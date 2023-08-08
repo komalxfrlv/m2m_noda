@@ -5,7 +5,8 @@ TODO
 const { postEmailReq } = require('../../utils/mailer');
 const { findUserById,
         updateUserById, 
-        findUserByEmail} = require('./users.services');
+        findUserByEmail,
+        findUserWithStationsByEmail} = require('./users.services');
 const {validateUserSettingsChanging} = require('./users.validators')
 const crypto = require('crypto')
 const bcrypt = require('bcrypt');
@@ -25,7 +26,12 @@ async function profile(req, res, next) {
 }
 
 async function profileById(req, res, next){
-    res.json( await findUserByEmail(req.params.email))
+    try{
+        res.json( await findUserWithStationsByEmail(req.params.email))
+    }
+    catch(err){
+        next(err)
+    }
 }
 
 async function sendRefreshCodeAtMail(req, res, next) {                  //Тут генерируется код для замены пароля и отправляется по почте

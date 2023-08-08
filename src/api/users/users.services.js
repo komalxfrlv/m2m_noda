@@ -50,6 +50,17 @@ async function updateUserById(user) {
   });
 }
 
+async function findUserWithStationsByEmail(email){
+  return db.user.findUnique({
+    where:{
+      email:email
+    },
+  include:{
+    stations:true
+  }    
+  })
+}
+
 async function getAllUsersToken() {
   return await db.user.findMany({
     select: {token:true}
@@ -62,5 +73,6 @@ module.exports = {
   findUserById,
   createUser,
   updateUserById,
-  getAllUsersToken
+  getAllUsersToken,
+  findUserWithStationsByEmail
 };
