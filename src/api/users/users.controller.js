@@ -25,7 +25,7 @@ async function profile(req, res, next) {
 }
 
 async function profileById(req, res, next){
-    return await findUserByEmail(req.params.email)
+    res.json( await findUserByEmail(req.params.email))
 }
 
 async function sendRefreshCodeAtMail(req, res, next) {                  //Тут генерируется код для замены пароля и отправляется по почте
