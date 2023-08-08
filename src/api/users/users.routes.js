@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const users = require("./users.controller");
 const { isAuthenticated } = require('../../middlewares/auth.middleware');
+const {isAdmin} = require('../../middlewares/role.middleware')
 
 router.get('/profile', isAuthenticated, users.profile);
+router.get('/profile/:email', isAuthenticated, isAdmin, users.profile);
 router.get('/verify/:userEmail', users.confirmUserEmail);
 
 
