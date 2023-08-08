@@ -284,5 +284,6 @@ module.exports ={
     changeUserSettings,
     setPushToken,
     confirmUserEmail,
-    changeNotificationSettings
+    changeNotificationSettings,
+    profileById
 }

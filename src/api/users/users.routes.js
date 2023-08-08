@@ -4,7 +4,7 @@ const { isAuthenticated } = require('../../middlewares/auth.middleware');
 const {isAdmin} = require('../../middlewares/role.middleware')
 
 router.get('/profile', isAuthenticated, users.profile);
-router.get('/profile/:email', isAuthenticated, isAdmin, users.profile);
+router.get('/profile/:email', isAuthenticated, isAdmin, users.profileById);
 router.get('/verify/:userEmail', users.confirmUserEmail);
 
 
