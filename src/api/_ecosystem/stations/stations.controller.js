@@ -25,7 +25,7 @@ const {
     createSensor,
 } = require('./../sensors/sensors.services');
 
-// Create a new station (K-Telecom Gateway)
+// Create a new station (Teremok Gateway)
 async function createGateway(req, res, next) {
     try {
         const { userId } = req.payload;
@@ -43,6 +43,7 @@ async function createGateway(req, res, next) {
 
         newStation.deviceId = deviceType.id;
         newSensor.deviceId = deviceType.id;
+        newSensor.elementId = newStation.gatewayId;
 
         let stationId = await createStation(newStation, newStationSettings, userId);
 
