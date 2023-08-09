@@ -80,8 +80,8 @@ model Contract {
 }
 
 model DeviceType {
-  id   String @id @unique @default(uuid())
-  name String @db.VarChar(255)
+  id   String  @id @unique @default(uuid())
+  name String  @db.VarChar(255)
   code String? @unique
 
   sensors  Sensor[]
@@ -135,8 +135,9 @@ model StationSettings {
 }
 
 model Sensor {
-  id  String @id @unique @default(uuid())
-  mac String @db.VarChar(99)
+  id        String  @id @unique @default(uuid())
+  mac       String  @db.VarChar(99)
+  elementId String? @unique @db.VarChar(99)
 
   data      Data[]
   settings  SensorSettings?
@@ -176,9 +177,9 @@ model Data {
   value Json
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  sensorId String
-  sensor   Sensor @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  updatedAt DateTime @default(now()) @updatedAt
+  sensorId  String
+  sensor    Sensor   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
 }
 
 model Activity {
