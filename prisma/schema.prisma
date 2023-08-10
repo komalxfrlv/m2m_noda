@@ -143,6 +143,7 @@ model Sensor {
   settings  SensorSettings?
   charge    Int?
   uptime    BigInt?
+  
   deviceId  String
   device    DeviceType      @relation(fields: [deviceId], references: [id])
   stationId String

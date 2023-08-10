@@ -28,6 +28,9 @@ const {
 // Create a new station (Teremok Gateway)
 async function createGateway(req, res, next) {
     try {
+        console.log('Creating station: ' + req.body.station);
+        console.log('Creating sensor: ' + req.body.sensor);
+        
         const { userId } = req.payload;
 
         let newStation = req.body.station;
@@ -40,7 +43,7 @@ async function createGateway(req, res, next) {
 
         await validateStationsSettings(newStationSettings);
         await validateSensorSettings(newSensorSettings);
-
+        
         newStation.deviceId = deviceType.id;
         newSensor.deviceId = deviceType.id;
         newSensor.elementId = newStation.gatewayId;
