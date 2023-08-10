@@ -29,7 +29,7 @@ const {
 async function createGateway(req, res, next) {
     try {
         console.log('Creating body: ' + req.body);
-
+        /*
         const { userId } = req.payload;
 
         let newStation = req.body.station;
@@ -52,6 +52,8 @@ async function createGateway(req, res, next) {
         let sensorId = await createSensor(newSensor, newSensorSettings, stationId);
         
         res.json({stationId: stationId, sensor: sensorId});
+        */
+        res.json({'pizdata': 'hui'})
     } catch (err) {
         next(err);
     }
