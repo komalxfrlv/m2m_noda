@@ -3,7 +3,6 @@ module.exports = {
       {
         name: "m2m-node-monolith",
         script: "./app.js",
-        instances: 1,
         max_memory_restart: "900M",
         port: 5000,
         /*
