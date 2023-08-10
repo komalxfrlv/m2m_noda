@@ -137,7 +137,7 @@ model StationSettings {
 model Sensor {
   id        String  @id @unique @default(uuid())
   mac       String  @db.VarChar(99)
-  elementId String? @unique @db.VarChar(99)
+  elementId String? @db.VarChar(99)
 
   data      Data[]
   settings  SensorSettings?

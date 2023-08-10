@@ -11,8 +11,9 @@ async function validateSensor(data) {
         properties: {
             mac: { type: "string" },
             deviceId: { type: "string" },
+            elementId: { type: "string" },
         },
-        required: ["mac", "deviceId"],
+        required: ["mac", "deviceId", "elementId"],
         additionalProperties: false
     };
 
