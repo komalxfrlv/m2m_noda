@@ -3,17 +3,20 @@ module.exports = {
       {
         name: "m2m-node-monolith",
         script: "./app.js",
-        instances: 4,
+        instances: 1,
         max_memory_restart: "900M",
-  
+        port: 5000,
+        /*
         // Logging
         out_file: "./out.log",
         error_file: "./error.log",
         merge_logs: true,
         log_date_format: "DD-MM HH:mm:ss Z",
         log_type: "json",
-  
+        */
+
         // Env Specific Config
+        /*
         env_production: {
           NODE_ENV: "production",
           PORT: 5000,
@@ -35,6 +38,7 @@ module.exports = {
             "./src"
           ],
         },
+        */
       },
     ],
     deploy : {
