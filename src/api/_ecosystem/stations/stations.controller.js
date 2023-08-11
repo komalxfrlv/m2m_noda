@@ -59,6 +59,29 @@ async function createGateway(req, res, next) {
     }
 }
 
+// Create a new station (Zigbee Gateway)
+async function createZigbee(req, res, next) {
+    try {
+        console.log('Creating body: ' + req.body);
+
+        const { userId } = req.payload;
+
+        let newStation = req.body.station;
+        let newStationSettings = req.body.stationSettings;
+
+        await validateStationsSettings(newStationSettings);
+        
+        newStation.deviceId = deviceType.id;
+
+        let stationId = await createStation(newStation, newStationSettings, userId);
+
+        res.json({stationId: stationId});
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 async function getAllStations(req, res, next) {
     try {
         const { userId } = req.payload;
@@ -196,5 +219,6 @@ module.exports = {
     getAllStations,
     editSettings,
     deleteStation,
-    createGateway
+    createGateway,
+    createZigbee
 }

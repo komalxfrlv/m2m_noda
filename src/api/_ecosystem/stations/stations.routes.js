@@ -6,6 +6,7 @@ router.get('/', station.getStationById);
 router.put('/settings', station.editSettings);
 router.delete('/', station.deleteStation);
 router.get('/all', station.getAllStations);
-router.post('/gateway', station.createGateway)
+router.post('/gateway', station.createGateway);
+router.post('/zigbee', station.createZigbee);
 
 module.exports = router
