@@ -62,15 +62,14 @@ async function createGateway(req, res, next) {
 // Create a new station (Zigbee Gateway)
 async function createZigbee(req, res, next) {
     try {
-        console.log(req.body);
+        let data = req.body;
         
         const { userId } = req.payload;
 
-        let newStation = req.body.station;
-        let newStationSettings = req.body.stationSettings;
+        let newStation = data.station;
+        let newStationSettings = data.stationSettings;
 
-        сonsole.log(req.body.station);
-        console.log(req.body.stationSettings);
+        сonsole.log(newStation);
 
         await validateStationsSettings(newStationSettings);
         
