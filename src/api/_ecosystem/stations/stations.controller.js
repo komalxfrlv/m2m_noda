@@ -69,12 +69,11 @@ async function createZigbee(req, res, next) {
         let newStation = data.station;
         let newStationSettings = data.stationSettings;
 
-        сonsole.log(newStation);
-
-        await validateStationsSettings(newStationSettings);
-        
         newStation.deviceId = "1caf932d-3c51-4afd-b4b2-ed1a7425689f";
 
+        await validateStation(newStation)
+        await validateStationsSettings(newStationSettings);
+        
         let stationId = await createStation(newStation, newStationSettings, userId);
 
         res.json({stationId: stationId});
