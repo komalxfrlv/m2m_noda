@@ -16,7 +16,7 @@ async function validateStation(data) {
             deviceId: { type: "string"},
         },
         required: ["mac", "deviceId"],
-        additionalProperties: false
+        additionalProperties: true
     };
 
     const validate = ajv.compile(schema);
