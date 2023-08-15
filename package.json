@@ -9,7 +9,6 @@
     "prod": "prisma migrate deploy && npm run start",
     "pm2_start_dev": "pm2 start ecosystem.config.js --env development",
     "pm2_start_prod": "pm2 start ecosystem.config.js --env production"
-
   },
   "keywords": [],
   "author": "",
@@ -19,6 +18,7 @@
     "ajv": "^8.12.0",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "expo": "^44.0.6",
     "expo-device": "~5.2.1",
