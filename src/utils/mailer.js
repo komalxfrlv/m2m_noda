@@ -6,8 +6,10 @@ async function postEmailReq(user, content, html = undefined, next) {
     try{
     // Build the post string from an object
     //console.log(html)
+    delete user.password
+    delete user.phone
     var post_data = querystring.stringify({
-        user    :   user,
+        user   :   JSON.stringify(user),
         content :   content,
         html    :   html
     });
