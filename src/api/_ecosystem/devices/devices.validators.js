@@ -7,8 +7,9 @@ async function validateDevice(data) {
         type: "object",
         properties: {
             name: { type: "string" },
+            code: { type: "string" },
         },
-        required: ["name"],
+        required: ["name", "code"],
         additionalProperties: false
     };
 
