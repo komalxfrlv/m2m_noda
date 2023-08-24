@@ -51,6 +51,7 @@ model User {
   stations      Station[]
   userGroups    UserToUserGroups[]
   contracts     Contract[]
+  EventsLog     EventLog[]
 
   cityId String
   city   City   @relation(fields: [cityId], references: [id])
@@ -119,6 +120,7 @@ model Station {
   contract   Contract?  @relation(fields: [contractId], references: [id])
   userId     String
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  EventsLog  EventLog[]
 }
 
 model StationSettings {
@@ -140,15 +142,16 @@ model Sensor {
   mac       String  @db.VarChar(99)
   elementId String? @db.VarChar(99)
 
-  data      Data[]
-  settings  SensorSettings?
-  charge    Int?
-  uptime    BigInt?
-  
+  data     Data[]
+  settings SensorSettings?
+  charge   Int?
+  uptime   BigInt?
+
   deviceId  String
-  device    DeviceType      @relation(fields: [deviceId], references: [id])
+  device    DeviceType @relation(fields: [deviceId], references: [id])
   stationId String
-  station   Station         @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  station   Station    @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  EventsLog EventLog[]
 }
 
 model SensorSettings {
@@ -178,10 +181,11 @@ model Data {
 
   value Json
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
   sensorId  String
-  sensor    Sensor   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  sensor    Sensor     @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  eventLog  EventLog[]
 }
 
 model Activity {
@@ -249,6 +253,28 @@ model PushMessage {
   body      String
   condition String
   code      Int    @unique
+}
+
+model EventCode {
+  id          String     @id @unique @default(uuid())
+  description String
+  code        Int        @unique
+  EventLog    EventLog[]
+}
+
+model EventLog {
+  id String @id @unique @default(uuid())
+
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sensorId  String?
+  sensor    Sensor?   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  stationId String?
+  station   Station?  @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  dataId    String?
+  data      Data?     @relation(fields: [dataId], references: [id], onDelete: Cascade)
+  codeId    String
+  code      EventCode @relation(fields: [codeId], references: [id], onDelete: Cascade)
 }
 
 enum UserStatus {
