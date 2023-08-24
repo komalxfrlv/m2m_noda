@@ -101,6 +101,7 @@ model Version {
 
   deviceId String
   device   DeviceType @relation(fields: [deviceId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Station {

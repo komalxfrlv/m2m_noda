@@ -9,7 +9,7 @@ const {
 } = require('./../sensors/sensors.validators');
 
 const currentUser = require('../../../utils/getUser');
-const { findVersionById } = require('../versions/versions.services');
+const { findVersionById, findLatestVersionId } = require('../versions/versions.services');
 const { findDevicebyId } = require('../devices/devices.services');
 
 const {
@@ -39,7 +39,9 @@ async function createGateway(req, res, next) {
         let newSensorSettings = req.body.sensorSettings;
         
         let deviceType = await parseMacDeviceType(newStation.mac);
-
+        console.log(deviceType.id)
+        newSensorSettings.versionId = await findLatestVersionId(deviceType.id)
+        newStationSettings.versionId = await findLatestVersionId(deviceType.id)
         await validateStationsSettings(newStationSettings);
         await validateSensorSettings(newSensorSettings);
         

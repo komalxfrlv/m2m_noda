@@ -21,8 +21,21 @@ async function findVersionById(id) {
         }});
 }
 
+async function findLatestVersionId(deviceId){
+    const version = await db.version.findFirst({
+        where:{
+            deviceId:deviceId
+        },
+        orderBy: {
+            createdAt:"desc"
+        }
+    })
+    return version.id 
+}
+
 module.exports = {
     createVersion,
     findVersionById,
-    getAll
+    getAll,
+    findLatestVersionId
 }
