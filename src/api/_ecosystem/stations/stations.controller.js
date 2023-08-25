@@ -90,11 +90,24 @@ async function getAllStations(req, res, next) {
         const { userId } = req.payload;
 
         let stations = await findAllStation(userId);
-
+        console.log(stations.length)
+        for (let i = 0; i < stations.length; i++) {
+            const station = stations[i];
+            for(let i = 0; i < station.sensors.length; i++){
+                let lastDataTime
+                const sensor = station.sensors[i]
+                sensor.data[0]?     lastDataTime = sensor.data[0].updatedAt : ""
+                const sleepTime = Number(sensor.settings.sleep)
+                lastDataTime && lastDataTime.setSeconds(lastDataTime.getSeconds()+sleepTime*2 < new Date)?
+                    sensor.offline = true:""
+            }
+            //console.log(station.sensors)
+            
+        }
         if (!stations) {
             res.status(400);
             //console.log(stations)
-            throw new Error("Can't find station with this id");
+            throw new Error("Can't find stations");
         }
 
         res.json(stations);
