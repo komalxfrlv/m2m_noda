@@ -99,7 +99,8 @@ async function getAllStations(req, res, next) {
                 sensor.data[0]?     lastDataTime = sensor.data[0].updatedAt : ""
                 const sleepTime = Number(sensor.settings.sleep)
                 lastDataTime && lastDataTime.setSeconds(lastDataTime.getSeconds()+sleepTime*2 < new Date)?
-                    sensor.offline = true:""
+                    sensor.offline = true:
+                    sensor.offline = false
             }
             //console.log(station.sensors)
             
