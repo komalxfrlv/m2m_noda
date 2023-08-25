@@ -11,10 +11,12 @@ const {
 } = require('./sensors.services');
 
 const {
-    findStationById
+    findStationById,
+    parseMacDeviceType
 } = require('../stations/stations.services')
 
-const { findVersionById } = require('../versions/versions.services');
+const { findVersionById,
+        findLatestVersionId } = require('../versions/versions.services');
 const { findDevicebyId } = require('../devices/devices.services');
 
 
@@ -22,6 +24,7 @@ const { findDevicebyId } = require('../devices/devices.services');
     SENSOR CONTROLLERS
 */
 async function createNewSensor(req, res, next) {
+    // todo// доделать нахождение версии сенсора по маку 
     try {
         let newSensor = req.body.sensor;
         let newSettings = req.body.settings;
@@ -40,8 +43,11 @@ async function createNewSensor(req, res, next) {
             console.log(station)
             throw new Error("Can't find station with this id");
         }
-        let version = await findVersionById(newSettings.versionId)
-
+        const deviceType = await parseMacDeviceType(newSensor.mac)
+        const versionId = await findLatestVersionId(deviceType.id)
+        newSensor.deviceId = deviceType.id
+        newSettings.versionId = versionId
+        /*
         if(!version){
             console.log(`version: \n${JSON.stringify(version)}\n`)
             throw new Error(`Can't find version`);
@@ -56,7 +62,7 @@ async function createNewSensor(req, res, next) {
             station:\n${JSON.stringify(newSensor)}\n\n`)
             throw new Error(`This version for ${versionDeviceType.name}, not for ${sensorDeviceType.name}`);
         }
-
+        */
         //console.log(station.userId)
         if (station.userId !== userId) { 
             res.status(400);
