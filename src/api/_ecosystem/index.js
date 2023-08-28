@@ -7,7 +7,8 @@ const versions = require('./versions/versions.routes');
 const sensors = require('./sensors/sensors.routes');
 const stations = require('./stations/stations.routes');
 const data = require('./data/data.routes');
-const userGroups = require("./userGroups/userGroups.routes")
+const userGroups = require("./userGroups/userGroups.routes");
+const rooms = require('./rooms/rooms.routes');
 const { isAuthenticated } = require('../../middlewares/auth.middleware');
 const {
     isAdmin,
@@ -24,4 +25,6 @@ router.use('/sensors', sensors);
 router.use('/stations', stations);
 router.use('/data', data);
 router.use('/user-groups', userGroups);
+router.use('/rooms', rooms);
+
 module.exports = router;
