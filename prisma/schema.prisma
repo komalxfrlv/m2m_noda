@@ -52,6 +52,7 @@ model User {
   userGroups    UserToUserGroups[]
   contracts     Contract[]
   EventsLog     EventLog[]
+  rooms         Rooms[]
 
   cityId String
   city   City   @relation(fields: [cityId], references: [id])
@@ -100,9 +101,9 @@ model Version {
   sensors  SensorSettings[]
   stations StationSettings[]
 
-  deviceId String
-  device   DeviceType @relation(fields: [deviceId], references: [id])
-  createdAt DateTime @default(now())
+  deviceId  String
+  device    DeviceType @relation(fields: [deviceId], references: [id])
+  createdAt DateTime   @default(now())
 }
 
 model Station {
@@ -110,9 +111,11 @@ model Station {
   mac       String? @db.VarChar(99)
   gatewayId String? @db.VarChar(99)
 
-  settings  StationSettings?
+  settings StationSettings?
+
   shelldues ShellduesOnStations[]
   sensors   Sensor[]
+  EventsLog EventLog[]
 
   deviceId   String
   device     DeviceType @relation(fields: [deviceId], references: [id])
@@ -120,7 +123,8 @@ model Station {
   contract   Contract?  @relation(fields: [contractId], references: [id])
   userId     String
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  EventsLog  EventLog[]
+  roomsId    String?
+  room       Rooms?     @relation(fields: [roomsId], references: [id], onDelete: Cascade)
 }
 
 model StationSettings {
@@ -142,16 +146,19 @@ model Sensor {
   mac       String  @db.VarChar(99)
   elementId String? @db.VarChar(99)
 
-  data     Data[]
   settings SensorSettings?
   charge   Int?
   uptime   BigInt?
+
+  EventsLog EventLog[]
+  data      Data[]
 
   deviceId  String
   device    DeviceType @relation(fields: [deviceId], references: [id])
   stationId String
   station   Station    @relation(fields: [stationId], references: [id], onDelete: Cascade)
-  EventsLog EventLog[]
+  roomsId   String?
+  room      Rooms?     @relation(fields: [roomsId], references: [id], onDelete: Cascade)
 }
 
 model SensorSettings {
@@ -275,6 +282,21 @@ model EventLog {
   data      Data?     @relation(fields: [dataId], references: [id], onDelete: Cascade)
   codeId    String
   code      EventCode @relation(fields: [codeId], references: [id], onDelete: Cascade)
+}
+
+model Rooms {
+  id String @id @unique @default(uuid())
+
+  name String @db.VarChar(255)
+
+  sensors  Sensor[]
+  stations Station[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum UserStatus {
