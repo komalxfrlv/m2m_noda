@@ -10,15 +10,13 @@ async function createRoom(name, userId) {
     });
 }
 
-async function updateRoom(name, userId, roomId) {
+async function updateRoom(updatedRoom, userId, roomId) {
     return room = await db.rooms.update({
         where: {
             id: roomId,
             userId: userId
         },
-        data: {
-            name: name,
-        },
+        data: updatedRoom,
     });
 }
 
@@ -31,8 +29,17 @@ async function deleteRoom(userId, roomId) {
     });
 }
 
+async function getAllUsersRoom(userId) {
+    return room = await db.rooms.findMany({
+        where: {
+            userId: userId
+        }
+    });
+}
+
 module.exports = {
     createRoom,
     updateRoom,
-    deleteRoom
+    deleteRoom,
+    getAllUsersRoom
 }

@@ -1,5 +1,13 @@
 const router = require('express').Router();
 
+const { isAuthenticated } = require('../../middlewares/auth.middleware');
+const {
+  isAdmin,
+  isManager,
+  isDeveloper,
+  isSupport
+} = require('../../middlewares/role.middleware');
+
 const metrics = require('./metrics/metrics.routes');
 const cities = require('./cities/cities.routes');
 const devices = require('./devices/devices.routes');
@@ -9,13 +17,6 @@ const stations = require('./stations/stations.routes');
 const data = require('./data/data.routes');
 const userGroups = require("./userGroups/userGroups.routes");
 const rooms = require('./rooms/rooms.routes');
-const { isAuthenticated } = require('../../middlewares/auth.middleware');
-const {
-    isAdmin,
-    isManager,
-    isDeveloper,
-    isSupport
-  } = require('../../middlewares/role.middleware');
 
 router.use('/cities', cities);
 router.use('/metrics', metrics);
