@@ -17,6 +17,7 @@ const stations = require('./stations/stations.routes');
 const data = require('./data/data.routes');
 const userGroups = require("./userGroups/userGroups.routes");
 const rooms = require('./rooms/rooms.routes');
+const sensorGroups = require('./sensorGroups/sensorGroups.routes')
 
 router.use('/cities', cities);
 router.use('/metrics', metrics);
@@ -27,5 +28,6 @@ router.use('/stations', stations);
 router.use('/data', data);
 router.use('/user-groups', userGroups);
 router.use('/rooms', rooms);
+router.use('/sensor-groups', sensorGroups)
 
 module.exports = router;

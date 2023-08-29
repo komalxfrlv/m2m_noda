@@ -89,6 +89,7 @@ model DeviceType {
   sensors  Sensor[]
   stations Station[]
   versions Version[]
+  sensorGroups DeviceAtDeviceGroups[]
 }
 
 model Version {
@@ -298,6 +299,22 @@ model Rooms {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model deviceGroups {
+  id         String             @id @unique @default(uuid())
+  name       String
+  deviceGroups DeviceAtDeviceGroups[]
+}
+
+model DeviceAtDeviceGroups {
+  deviceGroupsId String
+  deviceGroups   deviceGroups @relation(fields: [deviceGroupsId], references: [id], onDelete: Cascade)
+  deviceId      String
+  sensor        DeviceType       @relation(fields: [deviceId], references: [id])
+
+  @@id([deviceGroupsId, deviceId])
+}
+
 
 enum UserStatus {
   active
