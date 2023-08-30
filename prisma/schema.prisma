@@ -90,6 +90,7 @@ model DeviceType {
   stations Station[]
   versions Version[]
   sensorGroups DeviceAtDeviceGroups[]
+  defaultScripts DefaultScripts[]
 }
 
 model Version {
@@ -310,11 +311,18 @@ model DeviceAtDeviceGroups {
   deviceGroupsId String
   deviceGroups   deviceGroups @relation(fields: [deviceGroupsId], references: [id], onDelete: Cascade)
   deviceId      String
-  sensor        DeviceType       @relation(fields: [deviceId], references: [id])
+  device        DeviceType       @relation(fields: [deviceId], references: [id])
 
   @@id([deviceGroupsId, deviceId])
 }
 
+model DefaultScripts{
+  id            String           @id @unique @default(uuid())
+  deviceId      String
+  device        DeviceType       @relation(fields: [deviceId], references: [id])
+  script        Json
+  description   String?
+}
 
 enum UserStatus {
   active
