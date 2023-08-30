@@ -86,10 +86,10 @@ model DeviceType {
   name String  @db.VarChar(255)
   code String? @unique
 
-  sensors  Sensor[]
-  stations Station[]
-  versions Version[]
-  sensorGroups DeviceAtDeviceGroups[]
+  sensors        Sensor[]
+  stations       Station[]
+  versions       Version[]
+  sensorGroups   DeviceAtDeviceGroups[]
   defaultScripts DefaultScripts[]
 }
 
@@ -125,8 +125,6 @@ model Station {
   contract   Contract?  @relation(fields: [contractId], references: [id])
   userId     String
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  roomsId    String?
-  room       Rooms?     @relation(fields: [roomsId], references: [id], onDelete: Cascade)
 }
 
 model StationSettings {
@@ -141,6 +139,8 @@ model StationSettings {
   version   Version @relation(fields: [versionId], references: [id])
   cityId    String?
   city      City?   @relation(fields: [cityId], references: [id])
+  roomsId    String?
+  room       Rooms?     @relation(fields: [roomsId], references: [id], onDelete: Cascade)
 }
 
 model Sensor {
@@ -159,8 +159,6 @@ model Sensor {
   device    DeviceType @relation(fields: [deviceId], references: [id])
   stationId String
   station   Station    @relation(fields: [stationId], references: [id], onDelete: Cascade)
-  roomsId   String?
-  room      Rooms?     @relation(fields: [roomsId], references: [id], onDelete: Cascade)
 }
 
 model SensorSettings {
@@ -183,6 +181,8 @@ model SensorSettings {
   sensor    Sensor  @relation(fields: [sensorId], references: [id], onDelete: Cascade)
   versionId String
   version   Version @relation(fields: [versionId], references: [id])
+  roomsId   String?
+  room      Rooms?  @relation(fields: [roomsId], references: [id], onDelete: Cascade)
 }
 
 model Data {
@@ -291,37 +291,37 @@ model Rooms {
 
   name String @db.VarChar(255)
 
-  sensors  Sensor[]
-  stations Station[]
+  sensors  SensorSettings[]
+  stations StationSettings[]
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 }
 
 model deviceGroups {
-  id         String             @id @unique @default(uuid())
-  name       String
+  id           String                 @id @unique @default(uuid())
+  name         String
   deviceGroups DeviceAtDeviceGroups[]
 }
 
 model DeviceAtDeviceGroups {
   deviceGroupsId String
   deviceGroups   deviceGroups @relation(fields: [deviceGroupsId], references: [id], onDelete: Cascade)
-  deviceId      String
-  device        DeviceType       @relation(fields: [deviceId], references: [id])
+  deviceId       String
+  device         DeviceType   @relation(fields: [deviceId], references: [id])
 
   @@id([deviceGroupsId, deviceId])
 }
 
-model DefaultScripts{
-  id            String           @id @unique @default(uuid())
-  deviceId      String
-  device        DeviceType       @relation(fields: [deviceId], references: [id])
-  script        Json
-  description   String?
+model DefaultScripts {
+  id          String     @id @unique @default(uuid())
+  deviceId    String
+  device      DeviceType @relation(fields: [deviceId], references: [id])
+  script      Json
+  description String?
 }
 
 enum UserStatus {
