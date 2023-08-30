@@ -29,7 +29,7 @@ async function deleteRoom(req, res, next) {
     const { userId } = req.payload;
 
     try {
-        const room = await roomsServices.deleteRoom(userId, req.body.id);
+        const room = await roomsServices.deleteRoom(userId, req.params.id);
         res.status(200).json(room);
     } catch (error) {
         next(error);
@@ -41,7 +41,7 @@ async function getUsersRooms(req, res, next) {
     const { userId } = req.payload;
 
     try {
-        const room = await roomsServices.getAllUsersRoom(userId, req.body.id);
+        const room = await roomsServices.getAllUsersRoom(userId);
         res.status(200).json(room);
     } catch (error) {
         next(error);
