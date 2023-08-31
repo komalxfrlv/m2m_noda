@@ -282,6 +282,31 @@ async function changeNotificationSettings(req, res, next){
     }
 }
 
+async function verifyCode(req, res, next) {
+    try {
+        // сверяем присланный емэйл и код
+        // если все ок то генерим новое 6ти значное число
+        // хэшируем его и записываем в хэш
+        // отправляем незахэшенное число в ответе
+        // иначе кидаем ошибку
+    } catch(err) {
+        next(err)
+    }
+}
+
+async function changePasswordByCode(req, res, next) {
+    try {
+        // сверяем присланный емэйл и код
+        // если все ок то
+        // меняем пароль
+        // чистим 
+        // отправляем в ответе что все ок
+        // иначе кидаем ошибку
+    } catch(err) {
+        next(err)
+    }
+}
+
 module.exports ={
     profile,
     sendRefreshCodeAtMail,
@@ -291,5 +316,7 @@ module.exports ={
     setPushToken,
     confirmUserEmail,
     changeNotificationSettings,
-    profileById
+    profileById,
+    verifyCode,
+    changePasswordByCode
 }
