@@ -102,19 +102,18 @@ async function resetForgotenPassword(req, res, next) {
         if(!user){
             throw new Error("Can't find user");
         } 
-        // генерируем пароль из 10 ascii символов
-        var newPass = ''
+        // генерируем код из 10 ascii символов
+        var code = ''
         for (let i = 0; i < 10; i++) {
             const randomChar = Math.floor(Math.random()*89)+33;
-            newPass+=String.fromCharCode(randomChar)
+            code+=String.fromCharCode(randomChar)
         }
-        // отправляем на почту пароль
-        const message = `Ваш новый пароль - <br><br>${newPass}
-        <br>>Мы рекомендуем его сменить как можно раньше`
+        // отправляем на почту код
+        const message = `Ваш код - ${code}`
         postEmailReq(user, message)
-        console.log(newPass)
+        console.log(code)
         //меняем пароль на сгенерированный
-        user.password = bcrypt.hashSync(newPass, 12)
+        user.hash_rst = bcrypt.hashSync(code, 12)
         await updateUserById(user)
         res.json("DONE!")
     } catch (err) {
@@ -284,10 +283,33 @@ async function changeNotificationSettings(req, res, next){
 
 async function verifyCode(req, res, next) {
     try {
-        // сверяем присланный емэйл и код
-        // если все ок то генерим новое 6ти значное число
-        // хэшируем его и записываем в хэш
-        // отправляем незахэшенное число в ответе
+        const {code, email} = req.body// сверяем присланный емэйл и код
+        const user = await findUserByEmail(email)
+        if(! user){
+            throw new Error("Can't find user")
+        }
+        if(user.remainingTries == 0){
+            throw new Error("too much tries")
+        }
+        const codeHash = bcrypt.hashSync(code, 12)
+        if(codeHash == user.hash_rst){
+            // если все ок то генерим новое 6ти значное число
+            // хэшируем его и записываем в хэш
+            // отправляем незахэшенное число в ответе
+            let newCode = ""
+            for (let i = 0; i < 10; i++) {
+                const randomChar = Math.floor(Math.random()*89)+33;
+                newCode+=String.fromCharCode(randomChar)
+            }
+            user.hash_rst = bcrypt.hashSync(newCode, 12)
+            res.json({
+                "email":email,
+                "code": newCode
+                })
+        }
+        else{
+            throw new Error("Wrong code")
+        }
         // иначе кидаем ошибку
     } catch(err) {
         next(err)
@@ -296,12 +318,29 @@ async function verifyCode(req, res, next) {
 
 async function changePasswordByCode(req, res, next) {
     try {
+        const{email, code, password} = req.body
         // сверяем присланный емэйл и код
+        const user = await findUserByEmail(email)
+        if(! user){
+            throw new Error("Can't find user")
+        }
+        if(user.remainingTries == 0){
+            throw new Error("too much tries")
+        }
+        const codeHash = bcrypt.hashSync(code, 12)
+        if(codeHash == user.hash_rst){
         // если все ок то
         // меняем пароль
+        user.password = bcrypt.hashSync(password, 12)
+        user.hash_rst = ""
+        user.remainingTries = 0
         // чистим 
         // отправляем в ответе что все ок
+        }
         // иначе кидаем ошибку
+        else{
+            throw new Error("Ты, залупа ебаная, не пытайся хакнуть наш бэк, иначе я мать твою выебу, сука!")
+        }
     } catch(err) {
         next(err)
     }
