@@ -111,6 +111,7 @@ async function resetForgotenPassword(req, res, next) {
         // отправляем на почту код
         const message = `Ваш код - ${code}`
         postEmailReq(user, message)
+        user.remainingTries = 10
         console.log(code)
         //меняем пароль на сгенерированный
         user.hash_rst = bcrypt.hashSync(code, 12)
@@ -308,6 +309,7 @@ async function verifyCode(req, res, next) {
                 })
         }
         else{
+            user.remainingTries -= 1
             throw new Error("Wrong code")
         }
         // иначе кидаем ошибку
@@ -339,6 +341,7 @@ async function changePasswordByCode(req, res, next) {
         }
         // иначе кидаем ошибку
         else{
+            user.remainingTries = 0
             throw new Error("Ты, залупа ебаная, не пытайся хакнуть наш бэк, иначе я мать твою выебу, сука!")
         }
     } catch(err) {
