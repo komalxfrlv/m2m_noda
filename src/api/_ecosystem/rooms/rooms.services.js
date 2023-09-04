@@ -33,6 +33,14 @@ async function getAllUsersRoom(userId) {
     return room = await db.rooms.findMany({
         where: {
             userId: userId
+        },
+        include: {
+            sensors: {
+
+            },
+            stations: {
+
+            }
         }
     });
 }
