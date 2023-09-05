@@ -27,7 +27,7 @@ router.use('/sensors', sensors);
 router.use('/stations', stations);
 router.use('/data', data);
 router.use('/user-groups', userGroups);
-router.use('/rooms', rooms);
+router.use('/rooms', isAuthenticated, rooms);
 router.use('/sensor-groups', sensorGroups)
 
 module.exports = router;

@@ -237,7 +237,7 @@ model Shelldue {
   hash String?
 
   shelldueScript Json
-
+  executing Boolean @default(false)
   deviceTypes String[]
 
   stations ShellduesOnStations[]
@@ -301,7 +301,7 @@ model Rooms {
   updatedAt      DateTime         @updatedAt
 }
 
-model deviceGroups {
+model DeviceGroups {
   id           String                 @id @unique @default(uuid())
   name         String
   deviceGroups DeviceAtDeviceGroups[]
@@ -309,7 +309,7 @@ model deviceGroups {
 
 model DeviceAtDeviceGroups {
   deviceGroupsId String
-  deviceGroups   deviceGroups @relation(fields: [deviceGroupsId], references: [id], onDelete: Cascade)
+  deviceGroups   DeviceGroups @relation(fields: [deviceGroupsId], references: [id], onDelete: Cascade)
   deviceId       String
   device         DeviceType   @relation(fields: [deviceId], references: [id])
 
