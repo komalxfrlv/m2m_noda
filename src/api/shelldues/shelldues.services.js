@@ -30,6 +30,15 @@ async function getShelldueById(id) {
   });
 }
 
+async function findShellduesByType(userId, type) {
+  return await db.shelldue.findMany({
+    where: {
+        userId: userId,
+        shelldueType: type
+    },
+  });
+}
+
 async function updateSheldueById(id, shelldue) {
   return await db.shelldue.update({
     where: {
@@ -45,6 +54,7 @@ async function createNewShelldue(shelldue, userId) {
       name: shelldue.name,
       active: shelldue.active,
       shelldueScript: shelldue.shelldueScript,
+      shelldueType: shelldue.shelldueType,
       deviceTypes: shelldue.deviceTypes,
       userId: userId
     }
@@ -77,5 +87,6 @@ module.exports = {
   getShelldueById,
   updateSheldueById,
   createNewShelldue,
-  deleteShelldueById
+  deleteShelldueById,
+  findShellduesByType
 };

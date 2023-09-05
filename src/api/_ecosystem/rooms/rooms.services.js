@@ -34,8 +34,35 @@ async function getAllUsersRoom(userId) {
         where: {
             userId: userId
         },
-        include:{
-            sensors: true
+        select: {
+            sensors: {
+                include: {
+                    sensor: {
+                        include: {
+                            device: {
+
+                            },
+                            data: {
+                                orderBy: {
+                                    createdAt: 'desc',
+                                },
+                                take: 1,
+                            }
+                        }
+                    }
+                }
+            },
+            stations: {
+                include: {
+                    station: {
+                        include: {
+                            device: {
+
+                            }
+                        }
+                    }
+                }
+            }
         }
     });
 }

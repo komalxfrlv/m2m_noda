@@ -237,6 +237,7 @@ model Shelldue {
   hash String?
 
   shelldueScript Json
+  shelldueType ShelldueType @default(condition)
   executing Boolean @default(false)
   deviceTypes String[]
 
@@ -341,4 +342,10 @@ enum UserRole {
   manager
   support
   user
+}
+
+enum ShelldueType{
+  time
+  condition
+  tip
 }

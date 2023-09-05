@@ -5,7 +5,8 @@ const {
     updateSheldueById,
     createNewShelldue,
     createShellduesForStations,
-    deleteShelldueById
+    deleteShelldueById,
+    findShellduesByType
 } = require('./shelldues.services');
 
 const {
@@ -47,6 +48,15 @@ async function getShelldue(req, res, next) {
 
         res.json(shelldue)
     } catch (err) {
+        next(err)
+    }
+}
+
+async function getShellduesByType(req, res, next){
+    try{
+        res.json(await findShellduesByType(req.payload.userId, req.params.type))
+    }
+    catch(err){
         next(err)
     }
 }
@@ -105,5 +115,6 @@ module.exports = {
     getShelldue,
     addNewShelldue,
     updateShelldue,
-    deleteShelldue
+    deleteShelldue,
+    getShellduesByType
 }
