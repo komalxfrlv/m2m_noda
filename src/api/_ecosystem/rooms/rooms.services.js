@@ -34,7 +34,7 @@ async function getAllUsersRoom(userId) {
         where: {
             userId: userId
         },
-        select: {
+        include: {
             sensors: {
                 include: {
                     sensor: {
