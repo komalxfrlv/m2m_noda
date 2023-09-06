@@ -14,6 +14,8 @@ const {
 
 const userValidator = require('../users/users.validators');
 
+const { createRoom } = require("../_ecosystem/rooms/rooms.services")
+
 const {
     addRefreshTokenToWhitelist,
     findRefreshTokenById,
@@ -39,6 +41,8 @@ async function register(req, res, next) {
         }
 
         const user = await createUser(newUser);
+        await createRoom("Без комнаты", user.id)
+
         const jti = uuidv4();
         const { accessToken, refreshToken } = generateTokens(user, jti);
         await addRefreshTokenToWhitelist({ jti, refreshToken, userId: user.id });
