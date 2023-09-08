@@ -87,7 +87,10 @@ model DeviceType {
   code String? @unique
 
   groupId  String?
-  group    DeviceGroups? @relation(fields: [groupId], references: [id])
+  group    DeviceGroup? @relation(fields: [groupId], references: [id])
+
+  iconId    String
+  icon      Icon @relation(fields: [iconId], references: [id])
 
   sensors        Sensor[]
   stations       Station[]
@@ -304,18 +307,33 @@ model Rooms {
   updatedAt      DateTime         @updatedAt
 }
 
-model DeviceGroups {
+model DeviceGroup {
   id           String                 @id @unique @default(uuid())
   name         String
-  deviceTypes  DeviceType[]
+
+  deviceType  DeviceType[]
+
+  iconId    String
+  icon      Icon @relation(fields: [iconId], references: [id])
 }
 
 model DefaultScripts {
   id          String     @id @unique @default(uuid())
+  script      Json
+
+  description String?
+
   deviceId    String
   device      DeviceType @relation(fields: [deviceId], references: [id])
-  script      Json
-  description String?
+}
+
+model Icon {
+  id    String @id @unique @default(uuid())
+  name  String
+  url   String
+
+  deviceGroup DeviceGroup[]
+  deviceType DeviceType[]
 }
 
 enum UserStatus {

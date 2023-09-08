@@ -1,6 +1,6 @@
 const { db } = require('../../../utils/db');
 
-async function createSensorGroup(name, userId) {
+async function createSensorGroup(name) {
 
     let created_group = await db.deviceGroups.create({
         data: {
@@ -10,25 +10,15 @@ async function createSensorGroup(name, userId) {
     return created_group.id;
 }
 async function getAllGroups() {
-    return await db.deviceGroups.findMany({
+    return await db.deviceGroup.findMany({
         include:{
-            deviceGroups:true
+            deviceType:true
         }
     });
 }
 
-async function addSensorToGroup(groupId, deviceId){
-    let sensors_at_groups = await db.DeviceAtDeviceGroups.create({
-        data: {
-            deviceGroupsId: groupId,
-            deviceId: deviceId
-        },
-    }); 
-    return sensors_at_groups.id
-}
 
 module.exports = {
     createSensorGroup,
     getAllGroups,
-    addSensorToGroup
 }
