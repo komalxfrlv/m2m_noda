@@ -86,10 +86,12 @@ model DeviceType {
   name String  @db.VarChar(255)
   code String? @unique
 
+  groupId  String?
+  group    DeviceGroups? @relation(fields: [groupId], references: [id])
+
   sensors        Sensor[]
   stations       Station[]
   versions       Version[]
-  sensorGroups   DeviceAtDeviceGroups[]
   defaultScripts DefaultScripts[]
 }
 
@@ -305,16 +307,7 @@ model Rooms {
 model DeviceGroups {
   id           String                 @id @unique @default(uuid())
   name         String
-  deviceGroups DeviceAtDeviceGroups[]
-}
-
-model DeviceAtDeviceGroups {
-  deviceGroupsId String
-  deviceGroups   DeviceGroups @relation(fields: [deviceGroupsId], references: [id], onDelete: Cascade)
-  deviceId       String
-  device         DeviceType   @relation(fields: [deviceId], references: [id])
-
-  @@id([deviceGroupsId, deviceId])
+  deviceTypes  DeviceType[]
 }
 
 model DefaultScripts {
@@ -344,7 +337,7 @@ enum UserRole {
   user
 }
 
-enum ShelldueType{
+enum ShelldueType {
   time
   condition
   tip
