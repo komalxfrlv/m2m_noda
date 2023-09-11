@@ -105,7 +105,7 @@ async function getSensorById(req, res, next) {
         //console.log(station+" "+userId)
         throw new Error('Not your sensor. ');
     }
-
+    sensor.topic = `${userId}/${station.gatewayId}/${sensor.elementId}`
 
     res.json(sensor);
     }

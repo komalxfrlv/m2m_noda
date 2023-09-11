@@ -27,6 +27,5 @@ async function getGroups(req, res, next){
 
 module.exports = {
 addGroup,
-getGroups,
-postSensorToGroup
+getGroups
 }
