@@ -94,11 +94,10 @@ async function ChangePasswordByResetCode(req, res, next) {
 async function resetForgotenPassword(req, res, next) {
     try {
         //ищем юзера по почте
-        const email = req.body.email
-        if(!email){
+        if(!req.body.email){
             throw new Error("You must provide all field");
         }
-        const user = await findUserByEmail(email)
+        const user = await findUserByEmail(req.body.email)
         if(!user){
             throw new Error("Can't find user");
         } 

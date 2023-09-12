@@ -188,6 +188,8 @@ model SensorSettings {
   version   Version @relation(fields: [versionId], references: [id])
   roomsId   String?
   room      Rooms?  @relation(fields: [roomsId], references: [id], onDelete: Cascade)
+  iconId    String?
+  icon      Icon? @relation(fields: [iconId], references: [id])
 }
 
 model Data {
@@ -334,6 +336,7 @@ model Icon {
 
   deviceGroup DeviceGroup[]
   deviceType DeviceType[]
+  sensors SensorSettings[]
 }
 
 enum UserStatus {
