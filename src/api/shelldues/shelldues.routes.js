@@ -9,7 +9,9 @@ router.get('/station/:stationId', shelldues.getShelldueForStation);
 router.get('/user', shelldues.getAllShellduesOfUser);
 router.get('/shelldue/:shelldueId', shelldues.getShelldue);
 router.get('/type/:type', shelldues.getShellduesByType)
+
 router.post('/', shelldues.addNewShelldue);
+router.post('/tip', shelldues.sendTipShelldues);
 
 router.put('/shelldue/:shelldueId', shelldues.updateShelldue);
 
