@@ -6,7 +6,8 @@ const {
     createNewShelldue,
     createShellduesForStations,
     deleteShelldueById,
-    findShellduesByType
+    findShellduesByType,
+    postShelldueAtMQTT
 } = require('./shelldues.services');
 
 const {
@@ -108,6 +109,19 @@ async function deleteShelldue(req, res, next) {
         next(err)
     }
 }
+async function sendTipShelldues(req, res, next){
+    try{
+
+        const shelldue = await getShelldueById(req.body.shelldueId)
+        if(shelldue.shelldueType != "tip"){
+            throw new Error("Wrong type of script")
+        }
+        res.json(await postShelldueAtMQTT(shelldue))
+    }
+    catch(err){
+        next(err)
+    }
+}
 
 module.exports = {
     getShelldueForStation,
@@ -116,5 +130,6 @@ module.exports = {
     addNewShelldue,
     updateShelldue,
     deleteShelldue,
-    getShellduesByType
+    getShellduesByType,
+    sendTipShelldues
 }

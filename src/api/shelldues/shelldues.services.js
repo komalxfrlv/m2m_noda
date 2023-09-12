@@ -80,6 +80,54 @@ async function deleteShelldueById(shelldueId){
   })
 }
 
+async function postShelldueAtMQTT(shelldue){
+  console.log(shelldue.executing)
+  shelldue.executing = !shelldue.executing
+  console.log(shelldue.executing)
+  for (let i = 0; i < shelldue.shelldueScript.actions.set.length; i++) {
+      const set = shelldue.shelldueScript.actions.set[i];
+      const sensor = await db.sensor.findFirst({
+        where:{
+          elementId: set.elementId
+        }
+      })
+      const station = await db.station.findFirst({
+        where:{
+          id: sensor.stationId
+        }
+      })
+      const topic = `${shelldue.userId}/${station.gatewayId}/${sensor.elementId}/set`
+      
+      const postData = {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          topic: topic,
+          shelldueScript: set
+        })
+      }
+      if(set.executing == shelldue.executing){
+        console.log(postData.body)
+        await fetch(`http://${process.env.SHELLDUE_HOST}:${process.env.SHELLDUE_PORT}/`, postData)
+        .then(async (res) => {
+          console.log(await res.json())
+        })
+        .catch(err => {throw new Error(err)})
+      }
+    }
+    await db.shelldue.update({
+      where:{
+        id: shelldue.id
+      },
+      data:{
+        executing: shelldue.executing
+      }
+    })
+}
+
 module.exports = {
   createShellduesForStations,
   getShelldueByStation,
@@ -88,5 +136,6 @@ module.exports = {
   updateSheldueById,
   createNewShelldue,
   deleteShelldueById,
-  findShellduesByType
+  findShellduesByType,
+  postShelldueAtMQTT
 };
