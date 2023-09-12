@@ -108,8 +108,8 @@ async function resetForgotenPassword(req, res, next) {
         postEmailReq(user, message)
         user.remainingTries = 10
         console.log(code)
-        //меняем пароль на сгенерированный
-        user.hash_rst = bcrypt.hashSync(code, 12)
+        //меняем code на сгенерированный
+        user.hash_rst = crypto.createHash('sha512').update(''+code).digest('hex')
         await updateUserById(user)
         res.json("DONE!")
     } catch (err) {
