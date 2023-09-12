@@ -79,7 +79,9 @@ async function ChangePasswordByResetCode(req, res, next) {
         }
         else{
             user.remainingTries -= 1 //иначе у пользователя на 1 попытку меньше
-            await updateUserById(user) 
+            console.log('Code hash:' + code_hash);
+            console.log('User hash:' + user.hash_rst);
+            await updateUserById(user)
             throw new Error('Wrong code');
         }
 
