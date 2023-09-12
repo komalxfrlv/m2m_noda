@@ -56,15 +56,13 @@ async function sendRefreshCodeAtMail(req, res, next) {                  //Тут
 
 async function ChangePasswordByResetCode(req, res, next) {
     try {
-        const { userId } = req.payload
-        const user = await findUserById(userId)         //Ищем юзера по токену
+        const user = await findUserByEmail(req.body.email)
         const code = req.body.code
         const password = req.body.password
         
         if(user.remainingTries == 0){
             throw new Error('Too much tries')
         }
-
 
         if (!password || !code) {
             throw new Error('You must provide an code and a password');

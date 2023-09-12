@@ -11,7 +11,7 @@ router.get('/verify/:userEmail', users.confirmUserEmail);
 router.post('/profile', isAuthenticated, users.changeUserSettings);
 router.post('/sendCode', isAuthenticated, users.sendRefreshCodeAtMail);
 router.post('/verifyCode', isAuthenticated, users.verifyCode);
-router.post('/resetPassword',isAuthenticated, users.ChangePasswordByResetCode);
+router.post('/resetPassword', users.ChangePasswordByResetCode);
 router.post('/forgotenPassword', users.resetForgotenPassword);
 router.post('/setPushToken', isAuthenticated, users.setPushToken);
 router.post('/setNotificationSettings', isAuthenticated, users.changeNotificationSettings);
