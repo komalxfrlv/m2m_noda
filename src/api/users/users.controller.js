@@ -103,7 +103,6 @@ async function resetForgotenPassword(req, res, next) {
         } 
         // генерируем код из 5 цифр
         var code = Math.floor(Math.random() * 90000) + 10000;
-
         // отправляем на почту код
         const message = `Ваш код - ${code}`
         postEmailReq(user, message)
