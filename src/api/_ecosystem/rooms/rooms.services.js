@@ -1,5 +1,4 @@
 const { db } = require('../../../utils/db');
-const { use } = require('./rooms.routes');
 
 async function createRoom(name, userId) {
     return room = await db.rooms.create({

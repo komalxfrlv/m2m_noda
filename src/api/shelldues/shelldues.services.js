@@ -81,9 +81,7 @@ async function deleteShelldueById(shelldueId){
 }
 
 async function postShelldueAtMQTT(shelldue){
-  console.log(shelldue.executing)
   shelldue.executing = !shelldue.executing
-  console.log(shelldue.executing)
   for (let i = 0; i < shelldue.shelldueScript.actions.set.length; i++) {
       const set = shelldue.shelldueScript.actions.set[i];
       const sensor = await db.sensor.findFirst({
@@ -111,14 +109,14 @@ async function postShelldueAtMQTT(shelldue){
       }
       if(set.executing == shelldue.executing){
         console.log(postData.body)
-        await fetch(`http://${process.env.SHELLDUE_HOST}:${process.env.SHELLDUE_PORT}/`, postData)
+        fetch(`http://${process.env.SHELLDUE_HOST}:${process.env.SHELLDUE_PORT}/`, postData)
         .then(async (res) => {
           console.log(await res.json())
         })
         .catch(err => {throw new Error(err)})
       }
     }
-    await db.shelldue.update({
+    return await db.shelldue.update({
       where:{
         id: shelldue.id
       },
