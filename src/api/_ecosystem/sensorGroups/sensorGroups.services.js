@@ -2,7 +2,7 @@ const { db } = require('../../../utils/db');
 
 async function createSensorGroup(name) {
 
-    let created_group = await db.deviceGroups.create({
+    let created_group = await db.deviceGroup.create({
         data: {
             name: name
         },
@@ -11,9 +11,6 @@ async function createSensorGroup(name) {
 }
 async function getAllGroups() {
     return await db.deviceGroup.findMany({
-        include:{
-            deviceType:true
-        }
     });
 }
 

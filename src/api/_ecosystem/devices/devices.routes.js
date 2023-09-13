@@ -5,5 +5,6 @@ const device = require('./devices.controller');
 
 router.get('/', isAuthenticated, device.getAllDevices);
 router.post('/', isAuthenticated, device.addDevice);
+router.post('/addToGroup', isAuthenticated, device.addDeviceToGroup)
 
 module.exports = router;
