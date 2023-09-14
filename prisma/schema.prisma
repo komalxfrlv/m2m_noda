@@ -86,8 +86,7 @@ model DeviceType {
   name String  @db.VarChar(255)
   code String? @unique
 
-  groupId  String?
-  group    DeviceGroup? @relation(fields: [groupId], references: [id])
+  group    DeviceTypesAtGroup []
 
   iconId    String?
   icon      Icon? @relation(fields: [iconId], references: [id])
@@ -96,6 +95,14 @@ model DeviceType {
   stations       Station[]
   versions       Version[]
   defaultScripts DefaultScripts[]
+}
+
+model DeviceTypesAtGroup{
+  groupId  String
+  group    DeviceGroup @relation(fields: [groupId], references: [id])
+  deviceId  String
+  deviceType    DeviceType @relation(fields: [deviceId], references: [id])
+  @@id([groupId, deviceId])
 }
 
 model Version {
@@ -310,10 +317,10 @@ model Rooms {
 }
 
 model DeviceGroup {
-  id           String                 @id @unique @default(uuid())
-  name         String
+  id            String                 @id @unique @default(uuid())
+  name          String
 
-  deviceType  DeviceType[]
+  deviceType    DeviceTypesAtGroup[]
 
   iconId    String?
   icon      Icon? @relation(fields: [iconId], references: [id])
