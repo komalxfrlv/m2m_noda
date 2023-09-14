@@ -33,7 +33,7 @@ async function postEmailReq(user, content, html = undefined, next) {
             console.log('Response: ' + chunk);
         });
     });
-  console.log(post_data)
+    console.log(post_data)
     // post the data
     post_req.write(post_data);
     post_req.end();
