@@ -18,7 +18,7 @@ const {
 const { findVersionById,
         findLatestVersionId } = require('../versions/versions.services');
 const { findDevicebyId } = require('../devices/devices.services');
-
+const { writeToLog } = require('../../../utils/eventLog')
 
 /*
     SENSOR CONTROLLERS
@@ -73,7 +73,12 @@ async function createNewSensor(req, res, next) {
         
         let a = await createSensor(newSensor, newSettings, stationId);
         
-        //console.log(a);
+        toLog = {
+            userId: userId,
+            sensorId: a,
+            stationId:stationId
+        }
+        writeToLog(toLog, 0)
 
         res.json(a);
     } catch (err) {

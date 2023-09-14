@@ -89,8 +89,8 @@ model DeviceType {
   groupId  String?
   group    DeviceGroup? @relation(fields: [groupId], references: [id])
 
-  iconId    String
-  icon      Icon @relation(fields: [iconId], references: [id])
+  iconId    String?
+  icon      Icon? @relation(fields: [iconId], references: [id])
 
   sensors        Sensor[]
   stations       Station[]
@@ -315,8 +315,8 @@ model DeviceGroup {
 
   deviceType  DeviceType[]
 
-  iconId    String
-  icon      Icon @relation(fields: [iconId], references: [id])
+  iconId    String?
+  icon      Icon? @relation(fields: [iconId], references: [id])
 }
 
 model DefaultScripts {

@@ -19,8 +19,20 @@ async function findDevicebyId(id) {
         }});
 }
 
+async function addToGroup(deviceId, groupId){
+    return await db.deviceType.update({
+        where:{
+            id: deviceId
+        },
+        data:{
+            groupId:groupId
+        }
+    })
+}
+
 module.exports = {
     getAll,
     findDevicebyId,
     createDevice,
+    addToGroup
 };
