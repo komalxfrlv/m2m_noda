@@ -111,11 +111,15 @@ async function deleteShelldue(req, res, next) {
 }
 async function sendTipShelldues(req, res, next){
     try{
-
         const shelldue = await getShelldueById(req.body.shelldueId)
+        
         if(shelldue.shelldueType != "tip"){
             throw new Error("Wrong type of script")
         }
+        if( req.payload.userId != shelldue.userId){
+            throw new Error("Not your shelldue")
+        }
+        
         res.json(await postShelldueAtMQTT(shelldue))
     }
     catch(err){
