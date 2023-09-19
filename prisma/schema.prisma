@@ -244,21 +244,22 @@ model UserToUserGroups {
 }
 
 model Shelldue {
-  id     String  @id @unique @default(uuid())
-  active Boolean
-  name   String
+  id             String  @id @unique @default(uuid())
+  active         Boolean
+  name           String
 
-  hash String?
+  hash           String?
 
   shelldueScript Json
-  shelldueType ShelldueType @default(condition)
-  executing Boolean @default(false)
-  deviceTypes String[]
+  shelldueType   ShelldueType @default(condition)
+  executing      Boolean @default(false)
+  deviceTypes    String[]
+  runtimeStart        DateTime? @db.Time()
+  runtimeEnd        DateTime? @db.Time()
+  stations       ShellduesOnStations[]
 
-  stations ShellduesOnStations[]
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  userId         String
+  user           User   @relation(fields: [userId], references: [id])
 }
 
 model ShellduesOnStations {
