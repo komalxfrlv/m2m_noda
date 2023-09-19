@@ -11,6 +11,9 @@ async function createSensorGroup(name) {
 }
 async function getAllGroups() {
     return await db.deviceGroup.findMany({
+        include:{
+            deviceType:true
+        }
     });
 }
 
