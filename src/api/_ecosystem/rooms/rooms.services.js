@@ -1,5 +1,13 @@
 const { db } = require('../../../utils/db');
 
+async function findRoomById(id) {
+    return await db.rooms.findUnique({
+        where: { 
+            id:id
+        }
+    });
+}
+
 async function createRoom(name, userId) {
     return room = await db.rooms.create({
         data: {
@@ -19,11 +27,10 @@ async function updateRoom(updatedRoom, userId, roomId) {
     });
 }
 
-async function deleteRoom(userId, roomId) {
+async function deleteRoom(roomId) {
     return room = await db.rooms.delete({
         where: {
             id: roomId,
-            userId: userId
         }
     });
 }
@@ -70,5 +77,6 @@ module.exports = {
     createRoom,
     updateRoom,
     deleteRoom,
-    getAllUsersRoom
+    getAllUsersRoom,
+    findRoomById
 }

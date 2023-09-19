@@ -1,4 +1,6 @@
 const roomsServices = require('./rooms.services');
+
+
 async function createNewRoom(req, res, next) {
     
     const { userId } = req.payload;
@@ -28,7 +30,12 @@ async function deleteRoom(req, res, next) {
     const { userId } = req.payload;
 
     try {
-        const room = await roomsServices.deleteRoom(userId, req.params.id);
+        const room = await roomsServices.findRoomById(req.params.id);
+        if (room.userId === userId) {
+            await roomsServices.deleteRoom(req.params.id);
+        } else {
+            res.status(401).json({"message":"Не твоя комната"})
+        }
         res.status(200).json(room);
     } catch (error) {
         next(error);
