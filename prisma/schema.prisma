@@ -86,8 +86,7 @@ model DeviceType {
   name String  @db.VarChar(255)
   code String? @unique
 
-  groupId  String?
-  group    DeviceGroup? @relation(fields: [groupId], references: [id])
+  group    DeviceTypesAtGroup []
 
   iconId    String?
   icon      Icon? @relation(fields: [iconId], references: [id])
@@ -96,6 +95,14 @@ model DeviceType {
   stations       Station[]
   versions       Version[]
   defaultScripts DefaultScripts[]
+}
+
+model DeviceTypesAtGroup{
+  groupId  String
+  group    DeviceGroup @relation(fields: [groupId], references: [id])
+  deviceId  String
+  deviceType    DeviceType @relation(fields: [deviceId], references: [id])
+  @@id([groupId, deviceId])
 }
 
 model Version {
@@ -237,21 +244,22 @@ model UserToUserGroups {
 }
 
 model Shelldue {
-  id     String  @id @unique @default(uuid())
-  active Boolean
-  name   String
+  id             String  @id @unique @default(uuid())
+  active         Boolean
+  name           String
 
-  hash String?
+  hash           String?
 
   shelldueScript Json
-  shelldueType ShelldueType @default(condition)
-  executing Boolean @default(false)
-  deviceTypes String[]
+  shelldueType   ShelldueType @default(condition)
+  executing      Boolean @default(false)
+  deviceTypes    String[]
+  runtimeStart        DateTime? @db.Time()
+  runtimeEnd        DateTime? @db.Time()
+  stations       ShellduesOnStations[]
 
-  stations ShellduesOnStations[]
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  userId         String
+  user           User   @relation(fields: [userId], references: [id])
 }
 
 model ShellduesOnStations {
@@ -310,10 +318,10 @@ model Rooms {
 }
 
 model DeviceGroup {
-  id           String                 @id @unique @default(uuid())
-  name         String
+  id            String                 @id @unique @default(uuid())
+  name          String
 
-  deviceType  DeviceType[]
+  deviceType    DeviceTypesAtGroup[]
 
   iconId    String?
   icon      Icon? @relation(fields: [iconId], references: [id])

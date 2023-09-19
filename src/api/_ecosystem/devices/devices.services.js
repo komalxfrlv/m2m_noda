@@ -20,11 +20,9 @@ async function findDevicebyId(id) {
 }
 
 async function addToGroup(deviceId, groupId){
-    return await db.deviceType.update({
-        where:{
-            id: deviceId
-        },
+    return await db.DeviceTypesAtGroup.create({
         data:{
+            deviceId:deviceId,
             groupId:groupId
         }
     })
