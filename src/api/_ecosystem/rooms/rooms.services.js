@@ -21,7 +21,6 @@ async function updateRoom(updatedRoom, userId, roomId) {
     return room = await db.rooms.update({
         where: {
             id: roomId,
-            userId: userId
         },
         data: updatedRoom,
     });
