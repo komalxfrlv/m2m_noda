@@ -91,6 +91,27 @@ async function ChangePasswordByResetCode(req, res, next) {
     }
 }
 
+async function checkCodeBeforeChangePwd(req, res, next) {
+    try {
+        const user = await findUserByEmail(req.body.email)
+        const code = req.body.code
+        
+        if(user.remainingTries == 0){
+            throw new Error('Too much tries')
+        }
+        
+        const code_hash = crypto.createHash('sha512').update(''+code).digest('hex') // Присланный код преобразуем в хэш
+        
+        if (code_hash != user.hash_rst){
+            throw new Error('Wrong code');
+        }
+
+        res.json("fine");
+    } catch (err) {
+        next(err);
+    }
+}
+
 async function resetForgotenPassword(req, res, next) {
     try {
         //ищем юзера по почте
@@ -355,5 +376,6 @@ module.exports ={
     changeNotificationSettings,
     profileById,
     verifyCode,
-    changePasswordByCode
+    changePasswordByCode,
+    checkCodeBeforeChangePwd
 }

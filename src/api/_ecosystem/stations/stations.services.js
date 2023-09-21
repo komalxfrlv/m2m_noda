@@ -1,6 +1,6 @@
 const { db } = require('../../../utils/db');
 
-async function parseMacDeviceType(mac) {
+async function qparseMacDeviceType(mac) {
     let deviceType = mac.split('-')[0];
     return db.deviceType.findUnique({
         where: {
