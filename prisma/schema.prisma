@@ -260,6 +260,7 @@ model Shelldue {
 
   userId         String
   user           User   @relation(fields: [userId], references: [id])
+  eventLog       EventLog[]
 }
 
 model ShellduesOnStations {
@@ -298,6 +299,8 @@ model EventLog {
   station   Station?  @relation(fields: [stationId], references: [id], onDelete: Cascade)
   dataId    String?
   data      Data?     @relation(fields: [dataId], references: [id], onDelete: Cascade)
+  shelldueId String?
+  shelldue  Shelldue? @relation(fields: [shelldueId], references: [id], onDelete: Cascade)
   codeId    String
   code      EventCode @relation(fields: [codeId], references: [id], onDelete: Cascade)
 }
