@@ -90,6 +90,7 @@ async function getAllStations(req, res, next) {
         const { userId } = req.payload;
 
         let stations = await findAllStation(userId);
+        /*
         console.log(stations.length)
         for (let i = 0; i < stations.length; i++) {
             const station = stations[i];
@@ -105,6 +106,7 @@ async function getAllStations(req, res, next) {
             //console.log(station.sensors)
             
         }
+        */
         if (!stations) {
             res.status(400);
             //console.log(stations)
