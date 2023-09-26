@@ -1,7 +1,7 @@
 const { db } = require('../../../utils/db');
 
 async function findAllByStation(userId, stationId) {
-    return await db.station.findMany({
+    return await db.eventLog.findMany({
         take: 50,
         where: {
             userId: userId,
@@ -25,7 +25,7 @@ async function findAllByStation(userId, stationId) {
 }
 
 async function findAllBySensor(userId, sensorId) {
-    return await db.station.findMany({
+    return await db.eventLog.findMany({
         take: 50,
         where: {
             userId: userId,
