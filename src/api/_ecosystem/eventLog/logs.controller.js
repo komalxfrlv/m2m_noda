@@ -3,7 +3,7 @@ const logsServices = require('./logs.services');
 async function getBySensor(req, res, next) {
 
     const { userId } = req.payload;
-    let sensorId = req.body.sensorId;
+    let sensorId = req.params.sensorId;
 
     try {
         res.json(await logsServices.findAllBySensor(userId, sensorId));
@@ -15,7 +15,7 @@ async function getBySensor(req, res, next) {
 async function getByStation(req, res, next) {
 
     const { userId } = req.payload;
-    let stationId = req.body.stationId;
+    let stationId = req.params.stationId;
 
     try {
         res.json(await logsServices.findAllByStation(userId, stationId));
