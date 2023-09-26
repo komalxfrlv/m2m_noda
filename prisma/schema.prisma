@@ -86,10 +86,10 @@ model DeviceType {
   name String  @db.VarChar(255)
   code String? @unique
 
-  group    DeviceTypesAtGroup []
+  group DeviceTypesAtGroup[]
 
-  iconId    String?
-  icon      Icon? @relation(fields: [iconId], references: [id])
+  iconId String?
+  icon   Icon?   @relation(fields: [iconId], references: [id])
 
   sensors        Sensor[]
   stations       Station[]
@@ -97,11 +97,12 @@ model DeviceType {
   defaultScripts DefaultScripts[]
 }
 
-model DeviceTypesAtGroup{
-  groupId  String
-  group    DeviceGroup @relation(fields: [groupId], references: [id])
-  deviceId  String
-  deviceType    DeviceType @relation(fields: [deviceId], references: [id])
+model DeviceTypesAtGroup {
+  groupId    String
+  group      DeviceGroup @relation(fields: [groupId], references: [id])
+  deviceId   String
+  deviceType DeviceType  @relation(fields: [deviceId], references: [id])
+
   @@id([groupId, deviceId])
 }
 
@@ -151,8 +152,8 @@ model StationSettings {
   version   Version @relation(fields: [versionId], references: [id])
   cityId    String?
   city      City?   @relation(fields: [cityId], references: [id])
-  roomsId    String?
-  room       Rooms?     @relation(fields: [roomsId], references: [id], onDelete: Cascade)
+  roomsId   String?
+  room      Rooms?  @relation(fields: [roomsId], references: [id], onDelete: Cascade)
 }
 
 model Sensor {
@@ -196,7 +197,7 @@ model SensorSettings {
   roomsId   String?
   room      Rooms?  @relation(fields: [roomsId], references: [id], onDelete: Cascade)
   iconId    String?
-  icon      Icon? @relation(fields: [iconId], references: [id])
+  icon      Icon?   @relation(fields: [iconId], references: [id])
 }
 
 model Data {
@@ -244,23 +245,23 @@ model UserToUserGroups {
 }
 
 model Shelldue {
-  id             String  @id @unique @default(uuid())
-  active         Boolean
-  name           String
+  id     String  @id @unique @default(uuid())
+  active Boolean
+  name   String
 
-  hash           String?
+  hash String?
 
   shelldueScript Json
-  shelldueType   ShelldueType @default(condition)
-  executing      Boolean @default(false)
+  shelldueType   ShelldueType          @default(condition)
+  executing      Boolean               @default(false)
   deviceTypes    String[]
-  runtimeStart        DateTime? @db.Time()
-  runtimeEnd        DateTime? @db.Time()
+  runtimeStart   DateTime?             @db.Time()
+  runtimeEnd     DateTime?             @db.Time()
   stations       ShellduesOnStations[]
 
-  userId         String
-  user           User   @relation(fields: [userId], references: [id])
-  eventLog       EventLog[]
+  userId   String
+  user     User       @relation(fields: [userId], references: [id])
+  eventLog EventLog[]
 }
 
 model ShellduesOnStations {
@@ -290,19 +291,19 @@ model EventCode {
 
 model EventLog {
   id String @id @unique @default(uuid())
-
-  userId    String
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sensorId  String?
-  sensor    Sensor?   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
-  stationId String?
-  station   Station?  @relation(fields: [stationId], references: [id], onDelete: Cascade)
-  dataId    String?
-  data      Data?     @relation(fields: [dataId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sensorId   String?
+  sensor     Sensor?   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  stationId  String?
+  station    Station?  @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  dataId     String?
+  data       Data?     @relation(fields: [dataId], references: [id], onDelete: Cascade)
   shelldueId String?
-  shelldue  Shelldue? @relation(fields: [shelldueId], references: [id], onDelete: Cascade)
-  codeId    String
-  code      EventCode @relation(fields: [codeId], references: [id], onDelete: Cascade)
+  shelldue   Shelldue? @relation(fields: [shelldueId], references: [id], onDelete: Cascade)
+  codeId     String
+  code       EventCode @relation(fields: [codeId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
 }
 
 model Rooms {
@@ -316,38 +317,38 @@ model Rooms {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model DeviceGroup {
-  id            String                 @id @unique @default(uuid())
-  name          String
+  id   String @id @unique @default(uuid())
+  name String
 
-  deviceType    DeviceTypesAtGroup[]
+  deviceType DeviceTypesAtGroup[]
 
-  iconId    String?
-  icon      Icon? @relation(fields: [iconId], references: [id])
+  iconId String?
+  icon   Icon?   @relation(fields: [iconId], references: [id])
 }
 
 model DefaultScripts {
-  id          String     @id @unique @default(uuid())
-  script      Json
+  id     String @id @unique @default(uuid())
+  script Json
 
   description String?
 
-  deviceId    String
-  device      DeviceType @relation(fields: [deviceId], references: [id])
+  deviceId String
+  device   DeviceType @relation(fields: [deviceId], references: [id])
 }
 
 model Icon {
-  id    String @id @unique @default(uuid())
-  name  String
-  url   String
+  id   String @id @unique @default(uuid())
+  name String
+  url  String
 
   deviceGroup DeviceGroup[]
-  deviceType DeviceType[]
-  sensors SensorSettings[]
+  deviceType  DeviceType[]
+  sensors     SensorSettings[]
 }
 
 enum UserStatus {
