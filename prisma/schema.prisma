@@ -90,7 +90,7 @@ model DeviceType {
 
   iconId String?
   icon   Icon?   @relation(fields: [iconId], references: [id])
-
+  category deviceCategory?
   sensors        Sensor[]
   stations       Station[]
   versions       Version[]
@@ -374,4 +374,10 @@ enum ShelldueType {
   time
   condition
   tip
+}
+
+enum deviceCategory{
+  State 
+  Action
+  K_Telecom
 }
