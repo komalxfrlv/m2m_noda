@@ -1,6 +1,7 @@
 const { getAll,
         createDevice,
-        addToGroup
+        addToGroup,
+        updateDeviceType
     } = require('./devices.services');
 
 const { validateDevice, 
@@ -44,8 +45,18 @@ async function addDeviceToGroup(req, res, next){
     }
 }
 
+async function changeDeviceType(req, res, next){
+    try{
+        res.json(await updateDeviceType(req.body.device))
+    }
+    catch(err){
+        next(err)
+    }
+}
+
 module.exports = {
     getAllDevices,
     addDevice,
-    addDeviceToGroup
+    addDeviceToGroup,
+    changeDeviceType
 }
