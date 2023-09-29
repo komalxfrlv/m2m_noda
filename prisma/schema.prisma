@@ -87,7 +87,7 @@ model DeviceType {
   code String? @unique
 
   group DeviceTypesAtGroup[]
-
+  frontView Json?
   iconId String?
   icon   Icon?   @relation(fields: [iconId], references: [id])
   category deviceCategory?
