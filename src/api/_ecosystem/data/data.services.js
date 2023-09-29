@@ -6,8 +6,8 @@ async function createData(data) {
     });
 }
 
-async function getDataInterval(dateFrom, dateTo, sensorId) {
-    return await db.data.findMany({
+async function getDataInterval(dateFrom, dateTo, sensorId, key) {
+    /*return await db.data.findMany({
         take: 50,
         distinct: ['value'],
         where: {
@@ -20,7 +20,20 @@ async function getDataInterval(dateFrom, dateTo, sensorId) {
         orderBy: [{
             createdAt:'desc'
         }]
-    });
+    });//*/
+    return await db.data.findMany({
+        where: {
+            createdAt:{
+                gte: dateFrom,
+                lte: dateTo
+            },
+            sensorId: sensorId
+        },
+        orderBy: [{
+            createdAt:'desc'
+        }],
+        take: 1000
+    })
 }
 
 async function updateLastData(data){

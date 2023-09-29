@@ -60,11 +60,8 @@ async function create(req, res, next) {
 
 async function getInterval(req, res, next) {
     try {
-        const dateFrom = req.query.dateFrom
-        const dateTo = req.query.dateTo
-        const sensorId = req.query.sensorId
+        const {dateFrom, dateTo, sensorId} = req.query
         if(!(dateFrom && dateTo && sensorId)) throw new Error(`here must be dateFrom, dateTo and sensorId. Check your data`);
-
 
         const { userId } = req.payload
 
