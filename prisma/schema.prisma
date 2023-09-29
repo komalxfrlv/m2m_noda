@@ -95,6 +95,7 @@ model DeviceType {
   stations       Station[]
   versions       Version[]
   defaultScripts DefaultScripts[]
+  commands  Json?
 }
 
 model DeviceTypesAtGroup {
