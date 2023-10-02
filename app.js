@@ -4,6 +4,7 @@ const createError = require('http-errors');
 const morgan = require('morgan');
 const router = require('./src/api');
 require('dotenv').config();
+const https = require('https');
 
 const app = express();
 app.use(express.json());
@@ -53,4 +54,6 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.APP_PORT || 5000;
 const HOST = process.env.APP_HOST || "localhost"
+
+const server = https.createServer(app);
 app.listen(PORT, HOST, () => console.log(`🚀 @ http://${HOST}:${PORT}`));

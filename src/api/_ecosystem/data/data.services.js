@@ -6,7 +6,7 @@ async function createData(data) {
     });
 }
 
-async function getDataInterval(dateFrom, dateTo, sensorId, key) {
+async function getDataInterval(dateFrom,dateTo,sensorId){
     /*return await db.data.findMany({
         take: 50,
         distinct: ['value'],

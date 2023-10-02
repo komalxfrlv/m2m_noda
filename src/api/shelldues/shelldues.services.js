@@ -49,6 +49,10 @@ async function updateSheldueById(id, shelldue) {
 }
 
 async function createNewShelldue(shelldue, userId) {
+  let successList = []
+  for (let i = 0; i < shelldue.shelldueScript.conditions.length; i++) {
+    successList.push(false)
+  }
   return await db.shelldue.create({
     data: {
       name: shelldue.name,
@@ -56,7 +60,9 @@ async function createNewShelldue(shelldue, userId) {
       shelldueScript: shelldue.shelldueScript,
       shelldueType: shelldue.shelldueType,
       deviceTypes: shelldue.deviceTypes,
-      userId: userId
+      userId: userId,
+      runtimeStart: shelldue.runtimeStart? shelldue.runtimeStart: null,
+      success: successList
     }
   });
 }

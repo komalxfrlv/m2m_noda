@@ -259,7 +259,7 @@ model Shelldue {
   runtimeStart   DateTime?             @db.Time()
   runtimeEnd     DateTime?             @db.Time()
   stations       ShellduesOnStations[]
-
+  success        Boolean[]
   userId   String
   user     User       @relation(fields: [userId], references: [id])
   eventLog EventLog[]
