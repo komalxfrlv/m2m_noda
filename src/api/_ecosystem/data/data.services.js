@@ -58,13 +58,17 @@ async function updateLastData(data) {
 }
 
 async function getDataTest(dateFrom, dateTo, sensorId) {
-    return await db.data.groupBy({
+    return await db.data.findMany({
         /*
         avg: {
             value: ['temperature']
         },
         */
         where: {
+            value: {
+                path: ['battery'],
+                equals: '78',
+            },
             createdAt: {
                 gte: dateFrom,
                 lte: dateTo
@@ -76,7 +80,7 @@ async function getDataTest(dateFrom, dateTo, sensorId) {
             createdAt:'desc'
         }],
         */
-        by: ['createdAtDate','value[\'battery\']']
+        by: ['createdAtDate', 'value[\'battery\']']
     })
 }
 
