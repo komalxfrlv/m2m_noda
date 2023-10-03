@@ -207,6 +207,7 @@ model Data {
   value Json
 
   createdAt DateTime   @default(now())
+  createdAtDate DateTime @default(now()) @db.Date()
   updatedAt DateTime   @default(now()) @updatedAt
   sensorId  String
   sensor    Sensor     @relation(fields: [sensorId], references: [id], onDelete: Cascade)

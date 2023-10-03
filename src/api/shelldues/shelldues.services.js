@@ -62,6 +62,7 @@ async function createNewShelldue(shelldue, userId) {
       deviceTypes: shelldue.deviceTypes,
       userId: userId,
       runtimeStart: shelldue.runtimeStart? shelldue.runtimeStart: null,
+      runtimeEnd: shelldue.runtimeEnd? shelldue.runtimeEnd: null,
       success: successList
     }
   });
