@@ -58,8 +58,8 @@ async function updateLastData(data) {
 }
 
 async function getDataTest(dateFrom, dateTo, sensorId) {
-    return await db.data.groupBy({
-        by: 
+    return await db.data.findMany({
+        groupBy: 
             ["createdAt"]
         ,
         select: {
