@@ -80,7 +80,7 @@ async function getDataTest(dateFrom, dateTo, sensorId) {
             createdAt:'desc'
         }],
         */
-        by: ['createdAtDate', 'value[\'battery\']']
+        //by: ['createdAtDate', 'value[\'battery\']']
     })
 }
 
