@@ -66,8 +66,8 @@ async function getDataTest(dateFrom, dateTo, sensorId) {
         */
         where: {
             value: {
-                path: ['battery'],
-                equals: '78',
+                path: ['linkquality'],
+                equals: 149,
             },
             createdAt: {
                 gte: dateFrom,
