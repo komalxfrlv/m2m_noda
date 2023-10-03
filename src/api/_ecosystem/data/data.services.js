@@ -65,7 +65,7 @@ async function getDataTest(dateFrom, dateTo, sensorId) {
                 gte: dateFrom,
                 lte: dateTo
             },
-            sensorId: sensorId
+            //sensorId: sensorId
         },
     })
 }
