@@ -65,7 +65,7 @@ async function getDataTest(dateFrom, dateTo, sensorId) {
             value: true,
             sensorId: true,
             createdAt: true,
-            createAtDate: true
+            createdAtDate: true
         },
         where: {
             createdAt: {
