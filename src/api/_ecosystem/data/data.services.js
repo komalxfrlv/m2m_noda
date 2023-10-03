@@ -69,7 +69,7 @@ async function getDataTest(dateFrom,dateTo,sensorId){
         orderBy: [{
             createdAt:'desc'
         }],
-        groupBy: {
+        By: {
             createdAt: {
                 'day': 1
             }
