@@ -77,7 +77,7 @@ async function getDataTest(dateFrom, dateTo, sensorId) {
         orderBy: [{
             createdAt:'desc'
         }],
-        by: ['createdAtDate', 'value']
+        by: ['createdAtDate', 'value', 'createdAt']
     })
 }
 
