@@ -59,6 +59,11 @@ async function updateLastData(data){
 
 async function getDataTest(dateFrom,dateTo,sensorId){
     return await db.data.groupBy({
+        by: {
+            createdAt: {
+                'day': 1
+            }
+        },
         where: {
             createdAt: {
                 gte: dateFrom,
@@ -69,11 +74,6 @@ async function getDataTest(dateFrom,dateTo,sensorId){
         orderBy: [{
             createdAt:'desc'
         }],
-        by: {
-            createdAt: {
-                'day': 1
-            }
-        },
         take: 3000
     })
 }
