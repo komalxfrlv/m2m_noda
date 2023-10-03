@@ -58,10 +58,7 @@ async function updateLastData(data) {
 }
 
 async function getDataTest(dateFrom, dateTo, sensorId) {
-    return await db.data.aggregate({
-        select: {
-            createdAtDate: true
-        },
+    return await db.data.groupBy({
         /*
         avg: {
             value: ['temperature']
@@ -78,7 +75,7 @@ async function getDataTest(dateFrom, dateTo, sensorId) {
             createdAt:'desc'
         }],
         */
-        groupBy: 'createdAtDate'
+        by: ['createdAtDate']
     })
 }
 
