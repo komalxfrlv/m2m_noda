@@ -60,6 +60,11 @@ async function updateLastData(data) {
 async function getDataTest(dateFrom, dateTo, sensorId) {
     return await db.data.groupBy({
         by: ['createdAtDate'],//hui
+        having: {
+            value: {
+
+            }
+        },
         where: {
             createdAt: {
                 gte: dateFrom,
