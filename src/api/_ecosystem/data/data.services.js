@@ -57,8 +57,30 @@ async function updateLastData(data){
     })
 }
 
+async function getDataTest(dateFrom,dateTo,sensorId){
+    return await db.data.findMany({
+        where: {
+            createdAt: {
+                gte: dateFrom,
+                lte: dateTo
+            },
+            sensorId: sensorId
+        },
+        orderBy: [{
+            createdAt:'desc'
+        }],
+        groupBy: {
+            createdAt: {
+                'day': 1
+            }
+        },
+        take: 3000
+    })
+}
+
 module.exports = {
     createData,
     getDataInterval,
-    updateLastData
+    updateLastData,
+    getDataTest
 }

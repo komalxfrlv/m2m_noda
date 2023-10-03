@@ -6,4 +6,6 @@ router.post('/', data.create);
 
 router.get('/', isAuthenticated, data.getInterval);
 
+router.get('/test', data.getTest);
+
 module.exports = router;

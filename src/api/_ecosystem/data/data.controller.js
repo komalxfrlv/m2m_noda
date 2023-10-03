@@ -104,7 +104,23 @@ async function formPushMessage(code, name, value, units, time){
     }
 }
 
+async function getTest(req, res, next) {
+    try {
+        const {dateFrom, dateTo, sensorId} = req.query
+
+        let allData = await getDataTest(dateFrom, dateTo, sensorId);
+
+        
+
+        res.json(allData);
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     create,
-    getInterval
+    getInterval,
+    getTest
 }
