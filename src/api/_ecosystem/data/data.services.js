@@ -62,6 +62,9 @@ async function getDataTest(dateFrom, dateTo, sensorId) {
         by: 
             ["createdAt"]
         ,
+        select: {
+            value: true,
+        },
         where: {
             createdAt: {
                 gte: dateFrom,
