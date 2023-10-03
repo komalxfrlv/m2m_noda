@@ -2,7 +2,8 @@ const { validateDataCreating,
         validateSensorUpdating} = require('./data.validators');
 const { createData,
         getDataInterval,
-        updateLastData } = require('./data.services');
+        updateLastData,
+        getDataTest } = require('./data.services');
 const { updateSensorById,
         findSensorById } = require('../sensors/sensors.services');
 
@@ -110,7 +111,7 @@ async function getTest(req, res, next) {
 
         let allData = await getDataTest(dateFrom, dateTo, sensorId);
 
-        
+
 
         res.json(allData);
 
