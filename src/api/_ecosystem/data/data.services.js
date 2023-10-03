@@ -65,15 +65,15 @@ async function getDataTest(dateFrom, dateTo, sensorId) {
             }
         },
         select: {
-            where: {
-                createdAt: {
-                    gte: dateFrom,
-                    lte: dateTo
-                },
-                sensorId: sensorId
-            },
-        },
 
+        },
+        where: {
+            createdAt: {
+                gte: dateFrom,
+                lte: dateTo
+            },
+            sensorId: sensorId
+        },
         orderBy: [{
             createdAt: 'desc'
         }],
