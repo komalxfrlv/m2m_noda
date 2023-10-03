@@ -59,16 +59,13 @@ async function updateLastData(data) {
 
 async function getDataTest(dateFrom, dateTo, sensorId) {
     return await db.data.findMany({
-        /*
-        avg: {
-            value: ['temperature']
-        },
-        */
-        where: {
+        _avg: {
             value: {
                 path: ['linkquality'],
-                equals: 149,
-            },
+            }
+        },
+        where: {
+        
             createdAt: {
                 gte: dateFrom,
                 lte: dateTo
