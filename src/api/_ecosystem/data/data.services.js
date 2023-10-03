@@ -6,7 +6,7 @@ async function createData(data) {
     });
 }
 
-async function getDataInterval(dateFrom,dateTo,sensorId){
+async function getDataInterval(dateFrom, dateTo, sensorId) {
     /*return await db.data.findMany({
         take: 50,
         distinct: ['value'],
@@ -23,56 +23,59 @@ async function getDataInterval(dateFrom,dateTo,sensorId){
     });//*/
     return await db.data.findMany({
         where: {
-            createdAt:{
+            createdAt: {
                 gte: dateFrom,
                 lte: dateTo
             },
             sensorId: sensorId
         },
         orderBy: [{
-            createdAt:'desc'
+            createdAt: 'desc'
         }],
         take: 1000
     })
 }
 
-async function updateLastData(data){
+async function updateLastData(data) {
     const lastData = await db.data.findFirst({
-        where:{
+        where: {
             sensorId: data.sensorId
         },
-        orderBy:[{
-            createdAt:"desc"
+        orderBy: [{
+            createdAt: "desc"
         }]
     })
     const now = new Date()
-    now.setHours(now.getHours()+5)
+    now.setHours(now.getHours() + 5)
     return await db.data.update({
         where: {
             id: lastData.id
         },
-        data:{
+        data: {
             updatedAt: now.toISOString()
         }
     })
 }
 
-async function getDataTest(dateFrom,dateTo,sensorId){
+async function getDataTest(dateFrom, dateTo, sensorId) {
     return await db.data.groupBy({
         by: {
             createdAt: {
                 'day': 1
             }
         },
-        where: {
-            createdAt: {
-                gte: dateFrom,
-                lte: dateTo
+        select: {
+            where: {
+                createdAt: {
+                    gte: dateFrom,
+                    lte: dateTo
+                },
+                sensorId: sensorId
             },
-            sensorId: sensorId
         },
+
         orderBy: [{
-            createdAt:'desc'
+            createdAt: 'desc'
         }],
         take: 3000
     })
