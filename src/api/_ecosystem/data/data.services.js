@@ -64,6 +64,9 @@ async function getDataTest(dateFrom, dateTo, sensorId) {
             value: ['temperature']
         },
         */
+        select: {
+            value: true
+        },
         where: {
             createdAt: {
                 gte: dateFrom,
