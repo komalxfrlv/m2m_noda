@@ -3,7 +3,7 @@ const { validateDataCreating,
 const { createData,
         getDataInterval,
         updateLastData,
-        getDataTest } = require('./data.services');
+        findLongInterval } = require('./data.services');
 const { updateSensorById,
         findSensorById } = require('../sensors/sensors.services');
 
@@ -61,7 +61,7 @@ async function create(req, res, next) {
 
 async function getInterval(req, res, next) {
     try {
-        const {dateFrom, dateTo, sensorId} = req.query
+        const {dateFrom, dateTo, sensorId, key} = req.query
         if(!(dateFrom && dateTo && sensorId)) throw new Error(`here must be dateFrom, dateTo and sensorId. Check your data`);
 
         const { userId } = req.payload
@@ -77,7 +77,7 @@ async function getInterval(req, res, next) {
             console.log(userId)
             throw new Error(`Not your device`);
         }
-        let allData = await getDataInterval(dateFrom, dateTo, sensorId)
+        let allData = await getDataInterval(dateFrom, dateTo, sensorId, key)
 
         res.json(allData);
 
@@ -105,11 +105,25 @@ async function formPushMessage(code, name, value, units, time){
     }
 }
 
-async function getTest(req, res, next) {
+async function getLongInterval(req, res, next) {
     try {
-        const {dateFrom, dateTo, sensorId} = req.query
+        const {dateFrom, dateTo, sensorId, key} = req.query
 
-        let allData = await getDataTest(dateFrom, dateTo, sensorId);
+        const { userId } = req.payload
+
+        const sensor = await findSensorById(sensorId)
+        if(!sensor) throw new Error(`Can't find sensor with this id`); 
+        
+        const station = await findStationById(sensor.stationId)
+        if(!station) throw new Error(`Can't find station with this id`); 
+        
+        if (userId != station.userId){
+            console.log(station)
+            console.log(userId)
+            throw new Error(`Not your device`);
+        }
+
+        let allData = await findLongInterval(dateFrom, dateTo, sensorId, key);
 
 
 
@@ -123,5 +137,5 @@ async function getTest(req, res, next) {
 module.exports = {
     create,
     getInterval,
-    getTest
+    getLongInterval
 }

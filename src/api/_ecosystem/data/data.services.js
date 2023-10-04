@@ -57,27 +57,19 @@ async function updateLastData(data) {
     })
 }
 
-async function getDataTest(dateFrom, dateTo, sensorId) {
-    return await db.data.groupBy({
-        by: ['createdAtDate'],//hui
-        having: {
-            value: {
-
-            }
-        },
-        where: {
-            createdAt: {
-                gte: dateFrom,
-                lte: dateTo
-            },
-            //sensorId: sensorId
-        },
-    })
-}
+async function findLongInterval(dateFrom, dateTo, sensorId, key) {
+    return await db.$queryRaw`
+    SELECT "createdAtDate", AVG(CAST(value->>${key} AS DECIMAL)) AS average
+    FROM "Data"
+    where "sensorId" = ${sensorId}
+    GROUP BY DATE("createdAtDate")
+  `;  
+  }
+  
 
 module.exports = {
     createData,
     getDataInterval,
     updateLastData,
-    getDataTest
+    findLongInterval
 }
