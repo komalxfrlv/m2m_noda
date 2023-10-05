@@ -31,8 +31,7 @@ async function getDataInterval(dateFrom, dateTo, sensorId) {
         },
         orderBy: [{
             createdAt: 'desc'
-        }],
-        take: 1000
+        }]
     })
 }
 
