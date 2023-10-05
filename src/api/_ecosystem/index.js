@@ -22,7 +22,7 @@ const eventLog = require('./eventLog/logs.routes')
 
 router.use('/cities', cities);
 router.use('/metrics', metrics);
-router.use('/devices', isDeveloper, devices);
+router.use('/devices', isAdmin, devices);
 router.use('/versions', versions);
 router.use('/sensors', sensors);
 router.use('/stations', stations);
