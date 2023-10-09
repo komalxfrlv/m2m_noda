@@ -294,6 +294,7 @@ model EventCode {
 model EventLog {
   id String @id @unique @default(uuid())
   userId     String
+  message    String?   @db.VarChar(4096)
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   sensorId   String?
   sensor     Sensor?   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
