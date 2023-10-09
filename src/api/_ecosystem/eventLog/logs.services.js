@@ -48,9 +48,24 @@ async function findAllBySensor(userId, sensorId) {
     });
 }
 
+async function createNewLogMessage(log){
+    return await db.eventCode.create({
+        data:log
+    })
+}
 
+async function updateLogMessage(log){
+    return await db.eventCode.update({
+        where:{
+            id:log.id
+        },
+        data:log
+    })
+}
 
 module.exports = {
     findAllByStation,
-    findAllBySensor
+    findAllBySensor,
+    createNewLogMessage,
+    updateLogMessage
 }

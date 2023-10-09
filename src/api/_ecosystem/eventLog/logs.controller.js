@@ -24,7 +24,27 @@ async function getByStation(req, res, next) {
     }
 }
 
+async function postNewLogMessage(req, res, next){
+    try{
+        res.json(await logsServices.createNewLogMessage(req.body.log))
+    }
+    catch(err){
+        next(err)
+    }
+}
+
+async function putLogMessage(req, res, next){
+    try{
+        res.json(await logsServices.updateLogMessage(req.body.log))
+    }
+    catch(err){
+        next(err)
+    }
+}
+
 module.exports = {
     getBySensor,
-    getByStation
+    getByStation,
+    postNewLogMessage,
+    putLogMessage
 };
