@@ -2,7 +2,7 @@ const {
     validateSensor,
     validateSensorSettings,
 } = require('./sensors.validators');
-
+const {findFirstRoom} = require('../rooms/rooms.services')
 const {
     createSensor,
     findSensorById,
@@ -26,16 +26,14 @@ const { writeToLog } = require('../../../utils/eventLog')
 */
 async function createNewSensor(req, res, next) {
     try {
-        let newSensor = req.body.sensor;
-        let newSettings = req.body.settings;
-        let stationId = req.body.stationId;
+        let {sensor, settings, stationId} = req.body
 
-        if(! (stationId && newSensor && newSettings) ){
+        if(! (stationId && sensor && settings) ){
             console.log('there must be sensor, settings and stationId')
             throw new Error('In request must be sensor, settings and stationId. ');
         }
         const { userId } = req.payload
-
+        
         const station = await findStationById(stationId)
         
         if(!station){
@@ -43,22 +41,24 @@ async function createNewSensor(req, res, next) {
             console.log(station)
             throw new Error("Can't find station with this id");
         }
-        if(await findDuplicateSensor(newSensor)){
+        if(await findDuplicateSensor(sensor)){
             throw new Error("This sensor already linked")
         }
-        const deviceType = await parseMacDeviceType(newSensor.mac)
+        const firstRoom = await findFirstRoom(userId)
+        const deviceType = await parseMacDeviceType(sensor.mac)
         const versionId = await findLatestVersionId(deviceType.id)
-        newSensor.deviceId = deviceType.id
-        newSettings.versionId = versionId
-
+        sensor.deviceId = deviceType.id
+        settings.versionId = versionId
+        settings.roomsId = firstRoom.id
         if (station.userId !== userId) { 
             res.status(400);
             throw new Error('Not your station. ');
         }
-        await validateSensor(newSensor);
-        await validateSensorSettings(newSettings);
+
+        //await validateSensor(sensor);
+        //await validateSensorSettings(settings);
         
-        let a = await createSensor(newSensor, newSettings, stationId);
+        let a = await createSensor(sensor, settings, stationId);
         
         toLog = {
             userId: userId,

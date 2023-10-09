@@ -34,12 +34,15 @@ async function deleteRoom(req, res, next) {
     const { userId } = req.payload;
 
     try {
-        const room = await roomsServices.findRoomById(req.params.id);
-        if (room.userId === userId) {
-            await roomsServices.deleteRoom(req.params.id);
-        } else {
+        const room = await roomsServices.findRoomById(req.params.roomId);
+        const newRoom = await roomsServices.findRoomById(req.params.newRoomId);
+        if (room.userId != userId) {
             throw new Error("not your room")
         }
+        if (room == newRoom) {
+            throw new Error("you can't replace sensors into deleted room")
+        }
+            await roomsServices.deleteRoom(room, newRoom);
         res.status(200).json(room);
     } catch (error) {
         next(error);

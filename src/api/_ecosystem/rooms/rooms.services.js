@@ -26,7 +26,23 @@ async function updateRoom(updatedRoom, userId, roomId) {
     });
 }
 
-async function deleteRoom(roomId) {
+async function deleteRoom(roomId, newRoomId) {
+    await db.sensor.updateMany({
+        where:{
+            roomsId:roomId
+        },
+        data:{
+            roomsId: newRoomId
+        }
+    })
+    await db.station.updateMany({
+        where:{
+            roomsId:roomId
+        },
+        data:{
+            roomsId: newRoomId
+        }
+    })
     return room = await db.rooms.delete({
         where: {
             id: roomId,
@@ -72,10 +88,24 @@ async function getAllUsersRoom(userId) {
     });
 }
 
+async function findFirstRoom(userId){
+    const firstRoom = await db.rooms.findMany({
+        where:{
+            userId: userId
+        },
+        orderBy:{
+            createdAt:"desc"
+        },
+        take:1
+    })
+    return firstRoom[0] 
+}
+
 module.exports = {
     createRoom,
     updateRoom,
     deleteRoom,
     getAllUsersRoom,
-    findRoomById
+    findRoomById,
+    findFirstRoom
 }
