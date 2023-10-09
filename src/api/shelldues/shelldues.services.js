@@ -50,8 +50,10 @@ async function updateSheldueById(id, shelldue) {
 
 async function createNewShelldue(shelldue, userId) {
   let successList = []
-  for (let i = 0; i < shelldue.shelldueScript.conditions.length; i++) {
-    successList.push(false)
+  if(shelldue.shelldueScript.conditions){
+    for (let i = 0; i < shelldue.shelldueScript.conditions.length; i++) {
+      successList.push(false)
+    }
   }
   return await db.shelldue.create({
     data: {
