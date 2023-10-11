@@ -50,6 +50,7 @@ async function createNewSensor(req, res, next) {
         sensor.deviceId = deviceType.id
         settings.versionId = versionId
         settings.roomsId = firstRoom.id
+        console.log(settings)
         if (station.userId !== userId) { 
             res.status(400);
             throw new Error('Not your station. ');

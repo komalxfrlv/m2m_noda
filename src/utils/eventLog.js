@@ -23,7 +23,7 @@ async function writeToLog(data, code){
     const eLog = await db.EventLog.create({
         data:data
     })
-    console.log(eLog)
+    //console.log(eLog)
     return eLog
 }
 
