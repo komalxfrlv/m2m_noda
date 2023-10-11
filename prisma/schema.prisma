@@ -261,6 +261,7 @@ model Shelldue {
   runtimeEnd     DateTime?             @db.Time()
   stations       ShellduesOnStations[]
   success        Boolean[]
+  lastSuccess    Boolean[]
   userId   String
   user     User       @relation(fields: [userId], references: [id])
   eventLog EventLog[]
@@ -383,4 +384,5 @@ enum deviceCategory{
   State 
   Action
   K_Telecom
+  Value
 }

@@ -14,6 +14,9 @@ const {
     findStationById
 } = require('../_ecosystem/stations/stations.services')
 
+const {writeToLog} = require('../../utils/eventLog')
+const {findSensorByElementId} = require('../_ecosystem/sensors/sensors.services')
+
 async function getShelldueForStation(req, res, next) {
     try {
         const { stationId } = req.params
@@ -119,7 +122,19 @@ async function sendTipShelldues(req, res, next){
         if( req.payload.userId != shelldue.userId){
             throw new Error("Not your shelldue")
         }
-        
+        console.log(shelldue.shelldueScript.actions.set)
+        /*shelldue.shelldueScript.actions.set.forEach(async set => {
+            const sensor = await findSensorByElementId(set.elementId)
+            const toLog = {
+                shelldueId: shelldue.id,
+                shelldueName: shelldue.name,
+                sensorId: sensor.id,
+                sensorName: sensor.settings.name,
+                stationId: sensor.stationId,
+                userId: shelldue.userId
+            }
+            await writeToLog(toLog, 1)
+        });//*/
         res.json(await postShelldueAtMQTT(shelldue))
     }
     catch(err){

@@ -26,26 +26,26 @@ async function updateRoom(updatedRoom, userId, roomId) {
     });
 }
 
-async function deleteRoom(roomId, newRoomId) {
+async function deleteRoom(room, newRoom) {
     await db.sensor.updateMany({
         where:{
-            roomsId:roomId
+            roomsId:room.id
         },
         data:{
-            roomsId: newRoomId
+            roomsId: newRoom.id
         }
     })
     await db.station.updateMany({
         where:{
-            roomsId:roomId
+            roomsId:room.id
         },
         data:{
-            roomsId: newRoomId
+            roomsId: newRoom.id
         }
     })
     return room = await db.rooms.delete({
         where: {
-            id: roomId,
+            id: room.id,
         }
     });
 }

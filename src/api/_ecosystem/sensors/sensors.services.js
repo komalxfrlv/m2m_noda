@@ -35,7 +35,16 @@ async function findSensorById(id, withData, withSettings) {
         }
     });
 }
-
+async function findSensorByElementId(elementId){
+    return await db.sensor.findFirst({
+        where:{
+            elementId:elementId
+        },
+        include:{
+            settings:true
+        }
+    })
+}
 async function findDuplicateSensor(sensor){
     return await db.sensor.findFirst({
         where:{
@@ -87,5 +96,6 @@ module.exports = {
     updateSensorById,
     deleteSensorById,
     updateSettingsById,
-    findDuplicateSensor
+    findDuplicateSensor,
+    findSensorByElementId
 }

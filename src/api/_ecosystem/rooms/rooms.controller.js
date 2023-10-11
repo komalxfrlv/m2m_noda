@@ -34,8 +34,8 @@ async function deleteRoom(req, res, next) {
     const { userId } = req.payload;
 
     try {
-        const room = await roomsServices.findRoomById(req.params.roomId);
-        const newRoom = await roomsServices.findRoomById(req.params.newRoomId);
+        const room = await roomsServices.findRoomById(req.body.roomId);
+        const newRoom = await roomsServices.findRoomById(req.body.newRoomId);
         if (room.userId != userId) {
             throw new Error("not your room")
         }
