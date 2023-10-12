@@ -27,7 +27,7 @@ async function updateRoom(updatedRoom, userId, roomId) {
 }
 
 async function deleteRoom(room, newRoom) {
-    await db.sensor.updateMany({
+    await db.sensorSettings.updateMany({
         where:{
             roomsId:room.id
         },
@@ -35,7 +35,7 @@ async function deleteRoom(room, newRoom) {
             roomsId: newRoom.id
         }
     })
-    await db.station.updateMany({
+    await db.stationSettings.updateMany({
         where:{
             roomsId:room.id
         },
