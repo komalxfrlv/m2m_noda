@@ -1,4 +1,6 @@
 const { db } = require('../../utils/db');
+const {writeToLog} = require('../../utils/eventLog')
+const {findSensorByElementId} = require('../_ecosystem/sensors/sensors.services')
 
 async function getShelldueByStation(id) {
   return await db.shelldue.findMany({
@@ -118,6 +120,16 @@ async function postShelldueAtMQTT(shelldue){
       }
       if(set.executing == shelldue.executing){
         console.log(postData.body)
+        const sensor = await findSensorByElementId(set.elementId)
+        const toLog = {
+            shelldueId: shelldue.id,
+            shelldueName: shelldue.name,
+            sensorId: sensor.id,
+            sensorName: sensor.settings.name,
+            stationId: sensor.stationId,
+            userId: shelldue.userId
+        }
+        await writeToLog(toLog, 1)
         fetch(`http://${process.env.SHELLDUE_HOST}:${process.env.SHELLDUE_PORT}/`, postData)
         .then(async (res) => {
           console.log(await res.json())

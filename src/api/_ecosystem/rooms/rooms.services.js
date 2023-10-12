@@ -94,7 +94,7 @@ async function findFirstRoom(userId){
             userId: userId
         },
         orderBy:{
-            createdAt:"desc"
+            createdAt:"asc"
         },
         take:1
     })
