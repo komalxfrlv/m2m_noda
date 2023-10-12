@@ -123,18 +123,6 @@ async function sendTipShelldues(req, res, next){
             throw new Error("Not your shelldue")
         }
         console.log(shelldue.shelldueScript.actions.set)
-        /*shelldue.shelldueScript.actions.set.forEach(async set => {
-            const sensor = await findSensorByElementId(set.elementId)
-            const toLog = {
-                shelldueId: shelldue.id,
-                shelldueName: shelldue.name,
-                sensorId: sensor.id,
-                sensorName: sensor.settings.name,
-                stationId: sensor.stationId,
-                userId: shelldue.userId
-            }
-            await writeToLog(toLog, 1)
-        });//*/
         res.json(await postShelldueAtMQTT(shelldue))
     }
     catch(err){

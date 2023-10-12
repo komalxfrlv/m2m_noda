@@ -1,5 +1,4 @@
 const { db } = require('./db');
-const {findSensorById} = require('../api/_ecosystem/sensors/sensors.services')
 async function writeToLog(data, code){
 
     const logCode = await db.EventCode.findUnique({
@@ -7,6 +6,7 @@ async function writeToLog(data, code){
             code: code
         }
     })
+    data.message = logCode.description
     if (logCode.description.indexOf('{sensorName}') && data.sensorName !== undefined){
         data.message = logCode.description.replace('{sensorName}', data.sensorName);
         logCode.description = data.message

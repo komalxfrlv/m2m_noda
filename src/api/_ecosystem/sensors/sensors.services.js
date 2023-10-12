@@ -1,4 +1,6 @@
 const { db } = require('../../../utils/db');
+const { writeToLog } = require('../../../utils/eventLog');
+const { findStationById } = require('../stations/stations.services');
 
 
 
@@ -64,6 +66,21 @@ async function updateSensorById(sensor) {
 }
 
 async function deleteSensorById(id) {
+    const sensor = await db.sensor.findUnique({
+        where:{
+            id:id
+        },
+        include:{
+            settings:true
+        }
+    }) 
+    const station = await findStationById(sensor.stationId)
+    toLog = {
+        userId: station.userId,
+        stationId: station.id,
+        sensorName: sensor.settings.name
+    }
+    writeToLog(toLog, 2)
     return await db.sensor.delete({
         where: {
             id:id,
