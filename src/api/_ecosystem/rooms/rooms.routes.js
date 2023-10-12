@@ -4,7 +4,7 @@ const rooms = require('./rooms.controller');
 
 router.post('/', rooms.createNewRoom);
 router.put('/', rooms.updateRoom);
-router.delete('/:id', rooms.deleteRoom);
+router.delete('/', rooms.deleteRoom);
 router.get('/', rooms.getUsersRooms);
 
 module.exports = router
