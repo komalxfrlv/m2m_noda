@@ -19,7 +19,7 @@ const userGroups = require("./userGroups/userGroups.routes");
 const rooms = require('./rooms/rooms.routes');
 const sensorGroups = require('./sensorGroups/sensorGroups.routes')
 const eventLog = require('./eventLog/logs.routes')
-
+const icons = require('./icons/icons.routes')
 router.use('/cities', cities);
 router.use('/metrics', metrics);
 router.use('/devices', isAdmin, devices);
@@ -31,5 +31,6 @@ router.use('/user-groups', userGroups);
 router.use('/rooms', isAuthenticated, rooms);
 router.use('/sensor-groups', sensorGroups)
 router.use('/eventLog', eventLog)
+router.use('/icons', icons)
 
 module.exports = router;
