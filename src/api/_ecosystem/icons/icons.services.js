@@ -43,7 +43,7 @@ async function updateIcon(data){
 async function deleteIcon(icon){
     return await db.icon.delete({
         where:{
-            id:icon
+            id:icon.id
         }
     })
 }
