@@ -25,7 +25,6 @@ model User {
   phone      BigInt
   password   String
   verified   Boolean @default(false)
-  icons Icon[]
   status UserStatus
   client UserClient
   role   UserRole
@@ -53,6 +52,7 @@ model User {
   contracts     Contract[]
   EventsLog     EventLog[]
   rooms         Rooms[]
+  icons         Icon[]
 
   cityId String
   city   City   @relation(fields: [cityId], references: [id])
@@ -346,11 +346,11 @@ model DefaultScripts {
 }
 
 model Icon {
-  id   String @id @unique @default(uuid())
-  name String
-  url  String
-  userId String
-  user  User? @relation(fields: [userId], references: [id])
+  id          String @id @unique @default(uuid())
+  name        String
+  url         String
+  userId      String?
+  user        User? @relation(fields: [userId], references: [id])
   deviceGroup DeviceGroup[]
   deviceType  DeviceType[]
   sensors     SensorSettings[]

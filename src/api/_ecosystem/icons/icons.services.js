@@ -18,9 +18,9 @@ async function getIconById(id){
 
 async function getStandartIcons(){
     return await db.icon.findMany({
-        where:{
-            userId: null
-        }
+        where: {
+          userId: null
+        }      
     })
 }
 
