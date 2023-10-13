@@ -8,7 +8,7 @@ router.get('/', isAuthenticated, icon.getStandartIcons);
 router.get('/user', isAuthenticated, icon.getIncons);
 
 router.post('/', isAuthenticated, icon.postNewIcon);
-router.post('/stasndart', isAuthenticated, icon.getStandartIcons);
+router.post('/stasndart', isAuthenticated, isAdmin, icon.postNewStandartIcon);
 
 router.put('/', isAuthenticated, icon.updateUserIcon);
 router.delete('/', isAuthenticated, icon.deleteIcon)
