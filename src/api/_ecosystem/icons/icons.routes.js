@@ -11,6 +11,9 @@ router.post('/', isAuthenticated, icon.postNewIcon);
 router.post('/stasndart', isAuthenticated, isAdmin, icon.postNewStandartIcon);
 
 router.put('/', isAuthenticated, icon.updateUserIcon);
+router.put('/standart', isAuthenticated, isAdmin, icon.updateStandartIcon);
+
 router.delete('/', isAuthenticated, icon.deleteIcon)
+router.delete('/standart', isAuthenticated, isAdmin, icon.deleteStandartIcon)
 
 module.exports = router;
