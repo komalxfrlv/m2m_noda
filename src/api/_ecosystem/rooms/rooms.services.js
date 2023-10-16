@@ -60,6 +60,11 @@ async function getAllUsersRoom(userId) {
                 include: {
                     sensor: {
                         include: {
+                            settings:{
+                                include:{
+                                    icon:true
+                                }
+                            },
                             device: {
 
                             },
@@ -83,7 +88,7 @@ async function getAllUsersRoom(userId) {
                         }
                     }
                 }
-            }
+            },
         }
     });
 }
