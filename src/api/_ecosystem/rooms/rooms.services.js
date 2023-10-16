@@ -66,7 +66,9 @@ async function getAllUsersRoom(userId) {
                                 }
                             },
                             device: {
-
+                                include:{
+                                    icon:true
+                                }
                             },
                             data: {
                                 orderBy: {
