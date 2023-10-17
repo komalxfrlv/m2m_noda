@@ -55,7 +55,7 @@ async function updateStandartIcon(req, res, next){
     try{
         const {icon} = req.body
         const updatedIcon = await iconServices.getIconById(icon.id)
-        if(!updatedIcon.userId) throw new Error('its someone icon')
+        if(updatedIcon.userId) throw new Error('its someone icon')
         res.json(await iconServices.updateIcon(icon))
     }
     catch(err){
@@ -80,7 +80,7 @@ async function deleteStandartIcon(req, res, next){
     try{
         const {icon} = req.body
         const updatedIcon = await iconServices.getIconById(icon.id)
-        if(!updatedIcon.userId) throw new Error('its someone icon')
+        if(updatedIcon.userId) throw new Error('its someone icon')
         res.json(await iconServices.deleteIcon(icon))
     }
     catch(err){
