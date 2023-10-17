@@ -60,7 +60,6 @@ async function findLongInterval(dateFrom, dateTo, sensorId, key) {
     dateTo = new Date(dateTo)
     dateFrom = new Date(dateFrom)
     dateFrom.setHours(dateFrom.getHours()-24)                //17.10.23  todo    игнорируется равенство нижней границе
-    console.log(dateFrom)
     return await db.$queryRaw`
     SELECT "createdAtDate", AVG(CAST(value->>${key} AS DECIMAL)) AS average
     FROM "Data"
