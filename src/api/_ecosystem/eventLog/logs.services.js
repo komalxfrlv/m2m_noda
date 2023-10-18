@@ -27,6 +27,9 @@ async function findAllByStation(userId, stationId) {
         where: {
             userId: userId,
             stationId: stationId,
+            NOT:{
+                message: null
+            }
         },
         select: {
             code: {},
@@ -47,6 +50,9 @@ async function findAllBySensor(userId, sensorId) {
         where: {
             userId: userId,
             sensorId: sensorId,
+            NOT:{
+                message: null
+            }
         },
         select: {
             code: {},
