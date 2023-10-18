@@ -94,7 +94,7 @@ model DeviceType {
   sensors        Sensor[]
   stations       Station[]
   versions       Version[]
-  defaultScripts DefaultScripts[]
+  deviceTypesAtDefaultScripts DeviceTypesAtDefaultScripts[]
   commands  Json?
 }
 
@@ -341,8 +341,15 @@ model DefaultScripts {
 
   description String?
 
-  deviceId String
-  device   DeviceType @relation(fields: [deviceId], references: [id])
+  deviceTypesAtDefaultScript   DeviceTypesAtDefaultScripts[]
+}
+
+model DeviceTypesAtDefaultScripts{
+  id     String @id @unique @default(uuid())
+  deviceTypeId  String
+  deviceType  DeviceType @relation(fields: [deviceTypeId], references: [id])
+  defaultScriptId  String
+  defaultScript DefaultScripts @relation(fields: [defaultScriptId], references: [id])
 }
 
 model Icon {
