@@ -1,5 +1,26 @@
 const { db } = require('../../../utils/db');
 
+async function findAllLogs(){
+    return await db.eventLog.findMany({
+    })
+}
+
+async function findAllUserLogs(userId){
+    return await db.eventLog.findMany({
+        where:{
+            userId:userId
+        }
+    })
+}
+
+async function findAllLogCodes(){
+    return await db.eventCode.findMany({
+        orderBy:[{
+            code:"asc"
+        }]
+    })
+}
+
 async function findAllByStation(userId, stationId) {
     return await db.eventLog.findMany({
         take: 50,
@@ -67,5 +88,8 @@ module.exports = {
     findAllByStation,
     findAllBySensor,
     createNewLogMessage,
-    updateLogMessage
+    updateLogMessage,
+    findAllLogs,
+    findAllLogCodes,
+    findAllUserLogs
 }

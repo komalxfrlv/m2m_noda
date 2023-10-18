@@ -12,6 +12,42 @@ async function getBySensor(req, res, next) {
     }
 }
 
+async function getAllLogs(req, res, next){
+    try{
+        res.json(await logsServices.findAllLogs())
+    }
+    catch(err){
+        next(err)
+    }
+}
+
+async function getAllLogCodes(req, res, next){
+    try{
+        res.json(await logsServices.findAllLogCodes())
+    }
+    catch(err){
+        next(err)
+    }
+}
+
+async function getAllUserLogs(req, res, next){
+    try{
+        res.json(await logsServices.findAllUserLogs(req.payload.userId))
+    }
+    catch(err){
+        next(err)
+    }
+}
+
+async function getAnyUserLogs(req, res, next){
+    try{
+        res.json(await logsServices.findAllUserLogs(req.params.userId))
+    }
+    catch(err){
+        next(err)
+    }
+}
+
 async function getByStation(req, res, next) {
 
     const { userId } = req.payload;
@@ -46,5 +82,9 @@ module.exports = {
     getBySensor,
     getByStation,
     postNewLogMessage,
-    putLogMessage
+    putLogMessage,
+    getAllLogs,
+    getAllLogCodes,
+    getAllUserLogs,
+    getAnyUserLogs
 };
