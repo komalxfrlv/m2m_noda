@@ -32,7 +32,8 @@ async function findAllByStation(userId, stationId) {
             code: {},
             data: {},
             shelldue: {},
-            message:{}
+            message:{},
+            createdAt:{}
         },
         orderBy: [{
             createdAt:'desc'
@@ -51,7 +52,8 @@ async function findAllBySensor(userId, sensorId) {
             code: {},
             data: {},
             shelldue: {},
-            message:{}
+            message:{},
+            createdAt:{}
         },
         orderBy: [{
             createdAt:'desc'
