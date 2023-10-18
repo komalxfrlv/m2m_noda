@@ -29,15 +29,10 @@ async function findAllByStation(userId, stationId) {
             stationId: stationId,
         },
         select: {
-            code: {
-                
-            },
-            data: {
-
-            },
-            shelldue: {
-                
-            }
+            code: {},
+            data: {},
+            shelldue: {},
+            message:{}
         },
         orderBy: [{
             createdAt:'desc'
@@ -53,15 +48,10 @@ async function findAllBySensor(userId, sensorId) {
             sensorId: sensorId,
         },
         select: {
-            code: {
-                
-            },
-            data: {
-
-            },
-            shelldue: {
-
-            }
+            code: {},
+            data: {},
+            shelldue: {},
+            message:{}
         },
         orderBy: [{
             createdAt:'desc'
