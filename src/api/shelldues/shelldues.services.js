@@ -42,7 +42,12 @@ async function findShellduesByType(userId, type) {
 }
 
 async function updateSheldueById(id, shelldue) {
-  for (let i = 0; i < shelldue.shelldueScript.conditions.length; i++) {
+  const previosShellsue = await db.shelldue.findUnique({
+    where:{
+      id:id
+    }
+  })
+  for (let i = 0; i < previosShellsue.shelldueScript.conditions.length; i++) {
     let newList
     newList[i] = false    
   }
