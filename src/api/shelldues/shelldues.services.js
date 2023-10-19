@@ -42,6 +42,12 @@ async function findShellduesByType(userId, type) {
 }
 
 async function updateSheldueById(id, shelldue) {
+  for (let i = 0; i < shelldue.shelldueScript.conditions.set.length; i++) {
+    let newList
+    newList[i] = false    
+  }
+  shelldue.success = newList
+  shelldue.lastSuccess = newList
   return await db.shelldue.update({
     where: {
       id: id,
