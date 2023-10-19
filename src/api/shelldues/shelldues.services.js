@@ -47,6 +47,7 @@ async function updateSheldueById(id, shelldue) {
       id:id
     }
   })
+  console.dir(previosShelldue)
   let newList = []
   for (let i = 0; i < previosShelldue.shelldueScript.conditions.length; i++) {
     newList[i] = false
