@@ -25,6 +25,8 @@ const {
     createSensor,
 } = require('./../sensors/sensors.services');
 
+const {writeToLog} = require('../../../utils/eventLog')
+
 // Create a new station (Teremok Gateway)
 async function createGateway(req, res, next) {
     try {
@@ -53,6 +55,14 @@ async function createGateway(req, res, next) {
 
         let sensorId = await createSensor(newSensor, newSensorSettings, stationId);
         
+        toLog = {
+            userId: userId,
+            sensorId: sensorId,
+            stationId:stationId
+        }
+        console.log(writeToLog)
+        await writeToLog(toLog, 0)
+
         res.json({stationId: stationId, sensor: sensorId});
 
         //res.json({'pizdata': 'hui'})

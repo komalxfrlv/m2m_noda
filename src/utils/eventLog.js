@@ -1,30 +1,24 @@
 const { db } = require('./db');
 async function writeToLog(data, code){
-
-    const logCode = await db.EventCode.findUnique({
-        where:{
-            code: code
-        }
-    })
-    data.message = logCode.description
-    if (logCode.description.indexOf('{sensorName}') && data.sensorName !== undefined){
-        data.message = logCode.description.replace('{sensorName}', data.sensorName);
-        logCode.description = data.message
-        delete data.sensorName
+    try{
+      const url = `http://${process.env.LOGGER_HOST || "localhost"}:${process.env.LOGGER_PORT || "5282"}/${code}` 
+      const postData = {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          data: data
+        })
+      }
+      await fetch(url, postData)
+      .then(console.log(`${data.shelldueName} change status. Log req sended.\n User with id:${data.userId} can see it soon`))
+      .catch(err => {throw new Error(err)})
     }
-    if (logCode.description.indexOf('{shelldueName}') && data.shelldueName !== undefined){
-        data.message = logCode.description.replace('{shelldueName}', data.shelldueName);
-        logCode.description = data.message
-        delete data.shelldueName
+    catch(err){
+      console.log(err)
     }
-    // и так далее
-
-    data.codeId = logCode.id
-    const eLog = await db.EventLog.create({
-        data:data
-    })
-    //console.log(eLog)
-    return eLog
 }
 
 module.exports = {
