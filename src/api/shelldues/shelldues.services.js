@@ -42,7 +42,7 @@ async function findShellduesByType(userId, type) {
 }
 
 async function updateSheldueById(id, shelldue) {
-  for (let i = 0; i < shelldue.shelldueScript.conditions.set.length; i++) {
+  for (let i = 0; i < shelldue.shelldueScript.conditions.length; i++) {
     let newList
     newList[i] = false    
   }
