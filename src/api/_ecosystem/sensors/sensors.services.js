@@ -22,7 +22,7 @@ async function createSensor(sensor, settings, stationId) {
         data: settings,
     });
 
-    return created_sensor.id;
+    return created_sensor;
 }
 
 async function findSensorById(id, withData, withSettings) {

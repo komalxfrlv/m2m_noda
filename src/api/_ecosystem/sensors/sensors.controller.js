@@ -63,7 +63,7 @@ async function createNewSensor(req, res, next) {
         
         toLog = {
             userId: userId,
-            sensorId: a,
+            sensorId: a.id,
             stationId:stationId
         }
         writeToLog(toLog, 0)
