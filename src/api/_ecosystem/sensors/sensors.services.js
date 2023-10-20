@@ -27,7 +27,8 @@ async function createSensor(sensor, settings, stationId) {
             id: created_sensor.id
         },
         include:{
-            settings:true
+            settings:true,
+            device:true
         }
     });
 }
