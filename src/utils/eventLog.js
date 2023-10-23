@@ -12,8 +12,9 @@ async function writeToLog(data, code){
           data: data
         })
       }
+      data.shelldueName? console.log(`${data.shelldueName} change status. Log req sended.\n User with id:${data.userId} can see it soon`):""
       await fetch(url, postData)
-      .then(console.log(`${data.shelldueName} change status. Log req sended.\n User with id:${data.userId} can see it soon`))
+      .then(`log sended to logService`)
       .catch(err => {throw new Error(err)})
     }
     catch(err){
