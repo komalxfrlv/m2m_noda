@@ -70,6 +70,8 @@ async function createNewShelldue(shelldue, userId) {
       successList.push(false)
     }
   }
+  shelldue.runtimeStart && !shelldue.duration? shelldue.duration = Date.parse(shelldue.runtimeEnd)-Date.parse(shelldue.runtimeStart):""
+  console.log((shelldue.runtimeStart && !shelldue.duration))
   return await db.shelldue.create({
     data: {
       name: shelldue.name,
@@ -80,6 +82,7 @@ async function createNewShelldue(shelldue, userId) {
       userId: userId,
       runtimeStart: shelldue.runtimeStart? shelldue.runtimeStart: null,
       runtimeEnd: shelldue.runtimeEnd? shelldue.runtimeEnd: null,
+      duration: shelldue.duration,
       success: successList
     }
   });

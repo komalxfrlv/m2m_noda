@@ -202,16 +202,16 @@ model SensorSettings {
 }
 
 model Data {
-  id String @id @unique @default(uuid())
+  id            String @id @unique @default(uuid())
 
-  value Json
+  value         Json
 
-  createdAt DateTime   @default(now())
+  createdAt     DateTime   @default(now())
   createdAtDate DateTime @default(now()) @db.Date()
-  updatedAt DateTime   @default(now()) @updatedAt
-  sensorId  String
-  sensor    Sensor     @relation(fields: [sensorId], references: [id], onDelete: Cascade)
-  eventLog  EventLog[]
+  updatedAt     DateTime   @default(now()) @updatedAt
+  sensorId      String
+  sensor        Sensor     @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  eventLog      EventLog[]
 }
 
 model Activity {
@@ -259,6 +259,7 @@ model Shelldue {
   deviceTypes    String[]
   runtimeStart   DateTime?             @db.Time()
   runtimeEnd     DateTime?             @db.Time()
+  duration       BigInt?
   stations       ShellduesOnStations[]
   success        Boolean[]
   lastSuccess    Boolean[]
