@@ -266,6 +266,16 @@ model Shelldue {
   userId   String
   user     User       @relation(fields: [userId], references: [id])
   eventLog EventLog[]
+  shellduesChainLink ShellduesChainLink[]
+}
+
+model ShellduesChainLink{
+  id            String  @id @unique @default(uuid())
+  name          String
+  shelldueId    String
+  shelldue      Shelldue @relation(fields: [shelldueId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  action        Json
+  number        Int
 }
 
 model ShellduesOnStations {

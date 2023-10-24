@@ -21,6 +21,13 @@ async function getShellduesByUser(id) {
     where: {
       userId: id
     },
+    include:{
+      shellduesChainLink:{
+        orderBy:{
+          number:"asc"
+        }
+      }
+    }
   });
 }
 
@@ -51,10 +58,10 @@ async function updateSheldueById(id, shelldue) {
   let newList = []
   for (let i = 0; i < previosShelldue.shelldueScript.conditions.length; i++) {
     newList[i] = false
-    console.log()
     shelldue.success = newList
     shelldue.lastSuccess = newList  
   }
+  previosShelldue.chain? updateChainLink(shelldue):""
   return await db.shelldue.update({
     where: {
       id: id,
@@ -71,8 +78,7 @@ async function createNewShelldue(shelldue, userId) {
     }
   }
   shelldue.runtimeStart && !shelldue.duration? shelldue.duration = Date.parse(shelldue.runtimeEnd)-Date.parse(shelldue.runtimeStart):""
-  console.log((shelldue.runtimeStart && !shelldue.duration))
-  return await db.shelldue.create({
+  const createdShelldue = await db.shelldue.create({
     data: {
       name: shelldue.name,
       active: shelldue.active,
@@ -86,6 +92,8 @@ async function createNewShelldue(shelldue, userId) {
       success: successList
     }
   });
+  shelldue.chain? createChain(shelldue, createdShelldue.id):""
+  return createdShelldue 
 }
 
 async function createShellduesForStations(stations, shelldueId) {
@@ -105,6 +113,16 @@ async function deleteShelldueById(shelldueId){
       id:shelldueId
     }
   })
+}
+
+async function createChain(shelldue, shelldueId){
+  shelldue.chain.forEach(async (link, index) => {
+    link.shelldueId = shelldueId
+    link.number = index
+    await db.shellduesChainLink.create({
+      data:link
+    })
+  });
 }
 
 async function postShelldueAtMQTT(shelldue){
