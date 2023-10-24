@@ -266,6 +266,8 @@ model Shelldue {
   userId   String
   user     User       @relation(fields: [userId], references: [id])
   eventLog EventLog[]
+  stage   Int @default(0)
+  activeDays  Int[]
   shellduesChainLink ShellduesChainLink[]
 }
 
