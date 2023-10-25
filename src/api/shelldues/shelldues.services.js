@@ -45,6 +45,13 @@ async function findShellduesByType(userId, type) {
         userId: userId,
         shelldueType: type
     },
+    include:{
+      shellduesChainLink:{
+        orderBy:{
+          number:"asc"
+        }
+      }
+    }
   });
 }
 
