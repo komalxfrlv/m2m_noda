@@ -68,7 +68,6 @@ async function updateSheldueById(id, shelldue) {
     shelldue.success = newList
     shelldue.lastSuccess = newList  
   }
-  previosShelldue.chain? updateChainLink(shelldue):""
   return await db.shelldue.update({
     where: {
       id: id,
@@ -96,7 +95,8 @@ async function createNewShelldue(shelldue, userId) {
       runtimeStart: shelldue.runtimeStart? shelldue.runtimeStart: null,
       runtimeEnd: shelldue.runtimeEnd? shelldue.runtimeEnd: null,
       duration: shelldue.duration,
-      success: successList
+      success: successList,
+      activeDays: shelldue.activeDays
     }
   });
   shelldue.chain? createChain(shelldue, createdShelldue.id):""
