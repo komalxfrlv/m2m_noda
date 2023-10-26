@@ -122,7 +122,6 @@ async function sendTipShelldues(req, res, next){
         if( req.payload.userId != shelldue.userId){
             throw new Error("Not your shelldue")
         }
-        console.log(shelldue.shelldueScript.actions.set)
         res.json(await postShelldueAtMQTT(shelldue))
     }
     catch(err){

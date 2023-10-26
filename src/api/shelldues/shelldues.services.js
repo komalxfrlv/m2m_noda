@@ -36,6 +36,9 @@ async function getShelldueById(id) {
     where: {
       id: id
     },
+    include:{
+      ShellduesChainLink:true
+    }
   });
 }
 
@@ -141,51 +144,27 @@ async function createChain(shelldue, shelldueId){
 }
 
 async function postShelldueAtMQTT(shelldue){
-  shelldue.executing = !shelldue.executing
-  for (let i = 0; i < shelldue.shelldueScript.actions.set.length; i++) {
-      const set = shelldue.shelldueScript.actions.set[i];
-      const sensor = await db.sensor.findFirst({
-        where:{
-          elementId: set.elementId
-        }
+  try{
+
+    const postData = {
+      method: "POST",
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        shelldue:shelldue
       })
-      const station = await db.station.findFirst({
-        where:{
-          id: sensor.stationId
-        }
-      })
-      const topic = `${shelldue.userId}/${station.gatewayId}/${sensor.elementId}/set`
-      
-      const postData = {
-        method: "POST",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          topic: topic,
-          shelldueScript: set
-        })
-      }
-      if(set.executing == shelldue.executing){
-        console.log(postData.body)
-        const sensor = await findSensorByElementId(set.elementId)
-        const toLog = {
-            shelldueId: shelldue.id,
-            shelldueName: shelldue.name,
-            sensorId: sensor.id,
-            sensorName: sensor.settings.name,
-            stationId: sensor.stationId,
-            userId: shelldue.userId
-        }
-        await writeToLog(toLog, 1)
-        fetch(`http://${process.env.SHELLDUE_HOST}:${process.env.SHELLDUE_PORT}/`, postData)
-        .then(async (res) => {
-          console.log(await res.json())
-        })
-        .catch(err => {throw new Error(err)})
-      }
     }
+  fetch(`http://${process.env.SHELLDUE_CHAIN_HOST}:${process.env.SHELLDUE_CHAIN_PORT}/`, postData)
+      .then(async (res) => {
+      console.log(await res.json())
+      })
+      .catch(err => {throw new Error(err)})
+  }
+  catch(err){
+    console.log(err)
+  }
     return await db.shelldue.update({
       where:{
         id: shelldue.id
