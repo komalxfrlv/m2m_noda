@@ -59,6 +59,7 @@ async function findShellduesByType(userId, type) {
 }
 
 async function updateSheldueById(id, shelldue) {
+  console.log(shelldue)
   if(shelldue.chain.length){
     await updateChain(shelldue, id)
     delete shelldue.chain
