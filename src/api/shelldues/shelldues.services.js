@@ -57,8 +57,7 @@ async function findShellduesByType(userId, type) {
 
 async function updateSheldueById(id, shelldue) {
   if(shelldue.chain.length){
-    await deleteChain(shelldue)
-    await createChain(shelldue, shelldue.id)
+    await updateChain(shelldue, id)
     delete shelldue.chain
   }
   return await db.shelldue.update({
@@ -69,12 +68,21 @@ async function updateSheldueById(id, shelldue) {
   });
 }
 
-async function deleteChain(shelldue){
-  return await db.shellduesChainLink.deleteMany({
+async function updateChain(shelldue, shelldueId){
+  await db.shellduesChainLink.deleteMany({
     where:{
       shelldueId:shelldue.id
     }
-  }) 
+  })
+  
+  console.log(shelldue.chain)
+  shelldue.chain.forEach(async (link, index) => {
+    link.shelldueId = shelldueId
+    link.number = index
+    await db.shellduesChainLink.create({
+      data:link
+    })
+  });
 }
 
 async function createNewShelldue(shelldue, userId) {
@@ -84,7 +92,6 @@ async function createNewShelldue(shelldue, userId) {
       successList.push(false)
     }
   }
-  shelldue.runtimeStart && !shelldue.duration? shelldue.duration = Date.parse(shelldue.runtimeEnd)-Date.parse(shelldue.runtimeStart):""
   const createdShelldue = await db.shelldue.create({
     data: {
       name: shelldue.name,
