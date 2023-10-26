@@ -49,7 +49,7 @@ async function findShellduesByType(userId, type) {
         shelldueType: type
     },
     include:{
-      shellduesChainLink:{
+      ShellduesChainLink:{
         orderBy:{
           number:"asc"
         }
