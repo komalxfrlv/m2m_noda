@@ -56,12 +56,24 @@ async function findShellduesByType(userId, type) {
 }
 
 async function updateSheldueById(id, shelldue) {
+  if(shelldue.chain.length){
+    await deleteChain(shelldue)
+    await createChain(shelldue, shelldue.id)
+  }
   return await db.shelldue.update({
     where: {
       id: id,
     },
     data: shelldue
   });
+}
+
+async function deleteChain(shelldue){
+  return await db.shellduesChainLink.deleteMany({
+    where:{
+      shelldueId:shelldue.id
+    }
+  }) 
 }
 
 async function createNewShelldue(shelldue, userId) {
