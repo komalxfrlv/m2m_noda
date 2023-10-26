@@ -62,7 +62,7 @@ async function updateSheldueById(id, shelldue) {
     }
   })
   let newList = []
-  if(previosShelldue.shelldueScript.conditions){
+  if(previosShelldue.shelldueScript && previosShelldue.shelldueScript.conditions){
     for (let i = 0; i < previosShelldue.shelldueScript.conditions.length; i++) {
       newList[i] = false
       shelldue.success = newList
