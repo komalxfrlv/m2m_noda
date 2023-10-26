@@ -71,7 +71,7 @@ async function updateSheldueById(id, shelldue) {
 async function updateChain(shelldue, shelldueId){
   await db.shellduesChainLink.deleteMany({
     where:{
-      shelldueId:shelldue.id
+      shelldueId:shelldueId
     }
   })
   
