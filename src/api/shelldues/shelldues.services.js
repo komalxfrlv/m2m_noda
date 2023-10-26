@@ -61,12 +61,13 @@ async function updateSheldueById(id, shelldue) {
       id:id
     }
   })
-  console.dir(previosShelldue)
   let newList = []
-  for (let i = 0; i < previosShelldue.shelldueScript.conditions.length; i++) {
-    newList[i] = false
-    shelldue.success = newList
-    shelldue.lastSuccess = newList  
+  if(previosShelldue.shelldueScript.conditions){
+    for (let i = 0; i < previosShelldue.shelldueScript.conditions.length; i++) {
+      newList[i] = false
+      shelldue.success = newList
+      shelldue.lastSuccess = newList  
+    }
   }
   return await db.shelldue.update({
     where: {
