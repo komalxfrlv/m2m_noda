@@ -4,7 +4,7 @@ const { db } = require('../../../utils/db');
 async function getAll() {
     return await db.DeviceType.findMany({
         include:{
-            defaultScripts: true
+            deviceTypesAtDefaultScripts: true
         }
     });
 }
