@@ -59,6 +59,7 @@ async function updateSheldueById(id, shelldue) {
   if(shelldue.chain.length){
     await deleteChain(shelldue)
     await createChain(shelldue, shelldue.id)
+    delete shelldue.chain
   }
   return await db.shelldue.update({
     where: {
