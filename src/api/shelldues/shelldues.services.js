@@ -96,14 +96,6 @@ async function createNewShelldue(shelldue, userId) {
       successList.push(false)
     }
   }
-  shelldue.stations.forEach(async stationId => {
-    await db.shellduesOnStations.create({
-      where:{
-        stationId:stationId,
-        shelldueId: shelldue.id
-      }
-    })
-  });
   const createdShelldue = await db.shelldue.create({
     data: {
       name: shelldue.name,
@@ -118,6 +110,14 @@ async function createNewShelldue(shelldue, userId) {
       success: successList,
       activeDays: shelldue.activeDays
     }
+  });
+  shelldue.stations.forEach(async stationId => {
+    await db.shellduesOnStations.create({
+      where:{
+        stationId:stationId,
+        shelldueId: createdShelldue.id
+      }
+    })
   });
   shelldue.chain? createChain(shelldue, createdShelldue.id):""
   return createdShelldue 
