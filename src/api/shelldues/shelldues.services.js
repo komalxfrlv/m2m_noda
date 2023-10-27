@@ -60,7 +60,7 @@ async function findShellduesByType(userId, type) {
 
 async function updateSheldueById(id, shelldue) {
   console.log(shelldue)
-  if(shelldue.chain && shelldue.chain.length){
+  if(shelldue.chain &&shelldue.chain.length){
     await updateChain(shelldue, id)
     delete shelldue.chain
   }
@@ -96,6 +96,14 @@ async function createNewShelldue(shelldue, userId) {
       successList.push(false)
     }
   }
+  shelldue.stations.forEach(async stationId => {
+    await db.shellduesOnStations.create({
+      where:{
+        stationId:stationId,
+        shelldueId: shelldue.id
+      }
+    })
+  });
   const createdShelldue = await db.shelldue.create({
     data: {
       name: shelldue.name,
