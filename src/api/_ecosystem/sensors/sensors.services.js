@@ -27,8 +27,12 @@ async function createSensor(sensor, settings, stationId) {
             id: created_sensor.id
         },
         include:{
-            settings:true,
-            device:true
+            settings:{
+                include:{
+                    icon: true
+                }
+            },
+            device:true,
         }
     });
 }
