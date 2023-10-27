@@ -172,7 +172,7 @@ async function postShelldueAtMQTT(shelldue){
               'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            topic:`${sensor.station.userId}/${sensor.stationId}/${sensor.elementId}/set`,
+            topic:`${sensor.station.userId}/${sensor.station.gatewayId}/${sensor.elementId}/set`,
             shelldueScript:sets[i]
           })
         }
