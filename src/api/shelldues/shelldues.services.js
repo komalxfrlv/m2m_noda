@@ -22,7 +22,7 @@ async function getShellduesByUser(id) {
       userId: id
     },
     include:{
-      shellduesChainLink:{
+      ShellduesChainLink:{
         orderBy:{
           number:"asc"
         }
@@ -146,7 +146,7 @@ async function createChain(shelldue, shelldueId){
   shelldue.chain.forEach(async (link, index) => {
     link.shelldueId = shelldueId
     link.number = index
-    await db.shellduesChainLink.create({
+    await db.ShellduesChainLink.create({
       data:link
     })
   });
