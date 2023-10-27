@@ -165,7 +165,7 @@ async function postShelldueAtMQTT(shelldue){
         shelldue:shelldue
       })
     }
-  fetch(`http://${process.env.SHELLDUE_CHAIN_HOST}:${process.env.SHELLDUE_CHAIN_PORT}/`, postData)
+  fetch(`http://${process.env.SHELLDUE_HOST}:${process.env.SHELLDUE_PORT}/`, postData)
       .then(async (res) => {
       console.log(await res.json())
       })
