@@ -32,7 +32,11 @@ async function createSensor(sensor, settings, stationId) {
                     icon: true
                 }
             },
-            device:true,
+            device:{
+                include:{
+                    icon:true
+                }
+            },
         }
     });
 }
