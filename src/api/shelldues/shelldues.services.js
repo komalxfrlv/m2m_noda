@@ -154,22 +154,36 @@ async function createChain(shelldue, shelldueId){
 
 async function postShelldueAtMQTT(shelldue){
   try{
-
-    const postData = {
-      method: "POST",
-      headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        shelldue:shelldue
-      })
+    const sets = shelldue.shelldueScript.actions.set
+    for (let i = 0; i < sets.length; i++) {
+      if(sets[i].executing == shelldue.executing){
+        const sensor = await db.sensor.findFirst({
+          where:{
+            elementId:sets[i].elementId
+          },
+          include:{
+            station:true
+          }
+        })
+        const postData = {
+          method: "POST",
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            topic:`${sensor.station.userId}/${sensor.stationId}/${sensor.id}/set`,
+            shelldueScript:sets[i]
+          })
+        }
+    
+      fetch(`http://${process.env.SHELLDUE_HOST || "localhost"}:${process.env.SHELLDUE_PORT|| "5050"}/`, postData)
+          .then(async (res) => {
+          console.log(await res.json())
+          })
+          .catch(err => {throw new Error(err)})
+      }
     }
-  fetch(`http://${process.env.SHELLDUE_HOST || "localhost"}:${process.env.SHELLDUE_PORT|| "5050"}/`, postData)
-      .then(async (res) => {
-      console.log(await res.json())
-      })
-      .catch(err => {throw new Error(err)})
   }
   catch(err){
     console.log(err)
@@ -179,7 +193,7 @@ async function postShelldueAtMQTT(shelldue){
         id: shelldue.id
       },
       data:{
-        executing: shelldue.executing
+        executing: !shelldue.executing
       }
     })
 }
