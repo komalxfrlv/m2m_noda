@@ -113,7 +113,7 @@ async function createNewShelldue(shelldue, userId) {
   });
   shelldue.stations.forEach(async stationId => {
     await db.shellduesOnStations.create({
-      where:{
+      data:{
         stationId:stationId,
         shelldueId: createdShelldue.id
       }
