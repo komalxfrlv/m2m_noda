@@ -149,7 +149,7 @@ async function postShelldueAtMQTT(shelldue){
   try{
     const sets = shelldue.shelldueScript.actions.set
     for (let i = 0; i < sets.length; i++) {
-      if(sets[i].executing == shelldue.executing){
+      if(sets[i].executing !== shelldue.executing){
         const sensor = await db.sensor.findFirst({
           where:{
             elementId:sets[i].elementId
