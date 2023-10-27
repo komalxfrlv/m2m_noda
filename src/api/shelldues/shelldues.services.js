@@ -111,14 +111,7 @@ async function createNewShelldue(shelldue, userId) {
       activeDays: shelldue.activeDays
     }
   });
-  shelldue.stations.forEach(async stationId => {
-    await db.shellduesOnStations.create({
-      data:{
-        stationId:stationId,
-        shelldueId: createdShelldue.id
-      }
-    })
-  });
+  
   shelldue.chain? createChain(shelldue, createdShelldue.id):""
   return createdShelldue 
 }
