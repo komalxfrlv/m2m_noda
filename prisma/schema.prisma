@@ -362,4 +362,7 @@ enum deviceCategory {
   Action
   K_Telecom
   Value
+  Teremok
+  SmartBulb
+  Thermostat
 }

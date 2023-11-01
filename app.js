@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const router = require('./src/api');
 require('dotenv').config();
 const https = require('https');
+const fs = require('fs');
 
 const app = express();
 app.use(express.json());
@@ -56,5 +57,10 @@ app.use((err, req, res, next) => {
 const PORT = process.env.APP_PORT || 5000;
 const HOST = process.env.APP_HOST || "localhost"
 
-const server = https.createServer(app);
-app.listen(PORT, HOST, () => console.log(`🚀 @ http://${HOST}:${PORT}`));
+const options = {
+  key: fs.readFileSync('/etc/nginx/ssl/k-telecom.org.key'),
+  cert: fs.readFileSync('/etc/nginx/ssl/k-telecom.org.crt')
+};
+
+const server = https.createServer(options, app);
+server.listen(PORT, HOST, () => console.log(`🚀 @ http://${HOST}:${PORT}`));
